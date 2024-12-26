@@ -20,7 +20,7 @@ const UserRegister = new mongoose.Schema({
         required: true,
     },
     Phone: {
-        type: Number,
+        type: String,
         required: true
     },
     commercialRegister: {
@@ -30,8 +30,8 @@ const UserRegister = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ['supplier', 'company'],
-        required: true
+        required: true,
+        enum: ['supplier', 'company']
     },
     status: {
         type:String,
@@ -46,7 +46,7 @@ const UserRegister = new mongoose.Schema({
     },
     AdminEmail:{
         type: String,
-        default:"none"
+        default:""
     }
     
 });

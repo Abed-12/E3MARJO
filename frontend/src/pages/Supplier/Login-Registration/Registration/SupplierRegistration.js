@@ -16,7 +16,7 @@ function SupplierRegistration() {
         supplierPhone: '',
         supplierProduct: '',
         commercialRegister: '',
-        role:'supplier'
+        role: 'supplier'
     })
 
     // const [file, setFile] = useState(null);
@@ -43,19 +43,19 @@ function SupplierRegistration() {
     const handleKeyPress = (e) => {
         if (!/^[0-9]$/.test(e.key)) {
             e.preventDefault(); // منع الإدخال إذا لم يكن رقماً
-            handleError("Negative numbers are not allowed. Please enter a positive value");
+            handleError('Numbers only! Letters are not allowed');
         }
     };
 
     // Phone validation: Phone number must start with 077, 078, or 079 and be followed by 7 digits
     const handlePhoneValidation = (value) => {
         if (value.length !== 10) {
-            handleError('Phone number must be exactly 10 digits long.');
+            handleError('Phone number must be exactly 10 digits long');
             return false;
         }
     
         if (!/^(077|078|079)[0-9]{7}$/.test(value)) {
-            handleError('Phone number must start with 077, 078, or 079 and be followed by 7 digits.');
+            handleError('Phone number must start with 077, 078, or 079 and be followed by 7 digits');
             return false;
         }
     
@@ -101,6 +101,7 @@ function SupplierRegistration() {
                 body: JSON.stringify(registrationInfo) // formData
             });
             const result = await response.json();
+            console.log(result);
             const { success, message, error } = result;
             if (success) {
                 handleSuccess(message);

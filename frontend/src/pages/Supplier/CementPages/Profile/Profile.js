@@ -25,7 +25,7 @@ function Profile() {
     }    
 
     const handleEditPriceClick = () => {
-        navigate("/supplier/cement/profile/edit-price"); 
+        navigate("/supplier/cement/profile/edit-profile"); 
     };
 
     const fetchSupplierData = async () => {
@@ -67,11 +67,11 @@ function Profile() {
             <div className={styles.profileContainer}>
                 <div className={styles.profileRow}>
                     <h1 className={styles.profileH1}>{decodedData.supplierName} Profile</h1>
-                    <button className={styles.profileEditPriceButton} onClick={handleEditPriceClick}>Edit price</button>
+                    <button className={styles.profileEditPriceButton} onClick={handleEditPriceClick}>Edit Profile</button>
                     <p><strong>Supplier name:</strong> {decodedData.supplierName}</p>
                     <p><strong>Supplier ID:</strong> {decodedData.supplierID}</p>
                     <p><strong>Email:</strong> {decodedData.email}</p>
-                    <p><strong>Phone:</strong> {decodedData.supplierPhone}</p>
+                    <p><strong>Phone:</strong> {supplierData.supplierPhone}</p>
                     <p><strong>Product:</strong> {decodedData.supplierProduct}</p>
                     <p>
                         <strong>Commercial register: </strong> 

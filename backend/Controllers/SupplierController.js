@@ -7,40 +7,34 @@ import env from "dotenv";
 env.config();
 
 const registration = async (req, res) => {
-    // console.log(req.body);
-    // console.log(req.commercialRegister);
-    // console.log(req.body.commercialRegister);
     try {
-        const { supplierName, email, supplierID, supplierPhone, password, supplierProduct, commercialRegister } = req.body;
-        const checkSupplier = await SupplierModel.findOne({
-            $or: [{ supplierName }, { supplierID }]
+        const { supplierName, email, supplierID, supplierPhone, password, supplierProduct, commercialRegister, role } = req.body;
+        const checkSupplier = await RegisterModel.findOne({
+            $or: [{ Name: supplierName }, { Id: supplierID }]
         });
-        
-        if (checkSupplier) {
-            return res.status(409)
-                .json({ message: 'Supplier is already exist', success: false });
-        }
-        // console.log("after: " + commercialRegister)
 
-        const newUser = new RegisterModel({ supplierName, email, username, supplierPhone, password, supplierProduct, commercialRegister,role });
-        newUser.password = await bcrypt.hash(password, 10);
-        // supplierModel.commercialRegister = Buffer.from(commercialRegister, 'base64').toString('utf8');
-        
+        if (checkSupplier) {
+            return res.status(409).json({ message: 'Supplier already exists', success: false });
+        }
+
+        // Convert commercialRegister to binary if it's a file path or raw content
+        // const commercialRegisterBuffer = Buffer.from(commercialRegister, 'utf-8'); // Adjust this as needed
+
+        const newUser = new RegisterModel({Name: supplierName, email, Id: supplierID, Phone: supplierPhone, password: await bcrypt.hash(password, 10), supplierProduct, commercialRegister: commercialRegister, role });
 
         await newUser.save();
-        res.status(201)
-            .json({
-                message: "Registration successfully",
-                success: true
-            })
+
+        res.status(201).json({
+            message: "Registration successful",
+            success: true
+        });
     } catch (err) {
-        res.status(500)
-            .json({
-                message: "Internal server errror"+ err,
-                success: false
-            })
+        res.status(500).json({
+            message: "Internal server error: " + err.message,
+            success: false
+        });
     }
-}
+};
 
 const login = async (req, res) => {
     try {

@@ -14,7 +14,7 @@ function CompanyRegistration() {
         confirmPassword: '',
         companyPhone: '',
         commercialRegister: '',
-        role:'comapny'
+        role:'company'
     })
 
     const navigate = useNavigate();
@@ -38,12 +38,12 @@ function CompanyRegistration() {
     // Phone validation: Phone number must start with 077, 078, or 079 and be followed by 7 digits
     const handlePhoneValidation = (value) => {
         if (value.length !== 10) {
-            handleError('Phone number must be exactly 10 digits long.');
+            handleError('Phone number must be exactly 10 digits long');
             return false;
         }
     
         if (!/^(077|078|079)[0-9]{7}$/.test(value)) {
-            handleError('Phone number must start with 077, 078, or 079 and be followed by 7 digits.');
+            handleError('Phone number must start with 077, 078, or 079 and be followed by 7 digits');
             return false;
         }
     

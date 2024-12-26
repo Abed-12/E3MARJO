@@ -20,7 +20,7 @@ function RefrshHandler({ setIsAuthenticated, setRole, setSupplierProduct }) {
       // تعريف المسارات المسموحة لكل دور
       const allowedPaths = {
         supplier: {
-          cement: ['/supplier/cement/under-preparing-orders', '/supplier/cement/pending-orders', '/supplier/cement/old-orders', '/supplier/cement/profile', '/supplier/cement/profile/edit-price'],
+          cement: ['/supplier/cement/under-preparing-orders', '/supplier/cement/pending-orders', '/supplier/cement/old-orders', '/supplier/cement/profile', '/supplier/cement/profile/edit-profile'],
           concrete: ['/supplier/concrete/home'],
         },
         company: ['/company/home', '/company/home/cement-order', '/company/home/concrete-order', '/company/home/profile', '/company/home/under-preparing-orders', '/company/home/pending-orders', '/company/home/old-orders', '/company/home/cement-order/cement-bill'],

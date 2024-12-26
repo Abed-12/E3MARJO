@@ -1,7 +1,8 @@
 import express from "express";
+import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { registration, login } from "../Controllers/SupplierController.js";
-import { registrationValidation, loginValidation } from "../Middlewares/SupplierValidation.js";
+import { registrationValidation, loginValidation, updateValidation } from "../Middlewares/SupplierValidation.js";
 import ensureAuthenticated from "../Middlewares/Auth.js";
 import OrderModel from "../Models/Order.js";
 import SupplierModel from "../Models/Supplier.js";
@@ -12,21 +13,28 @@ const SupplierRouter = express.Router();
 // Login & Registration
 SupplierRouter.post('/login', loginValidation, login);
 SupplierRouter.post('/registration', registrationValidation, registration);
-// fetch register supplier data 
-SupplierRouter.get('/register', ensureAuthenticated, async (req, res) => {
-    try {
-        const suppliers = await SupplierModelRegister.find(); // Fetch all documents
-        res.status(200).json([suppliers]); // Send them as array 
-    } catch (error) {
-        res.status(500).json({ error: "Failed to fetch data" });
-    }
-});
+
+// ------------------------------Admin---------------------------------
 // fetch supplier data
 SupplierRouter.get('/supplierData', ensureAuthenticated, async (req, res) => {
-    try {
-        const suppliers = await SupplierModel.find(); // Fetch all documents
-        res.status(200).json([suppliers]); // Send them as array 
-    } catch (error) {
+    try 
+    {
+        const suppliers = await SupplierModel.find({},
+            {
+                _id: 1,
+                supplierName:1,
+                email: 1,
+                supplierID:1,
+                supplierPhone:1,
+                supplierProduct:1,
+                price:1,
+                commercialRegister: 1,
+                adminId: 1,
+            });
+        if(suppliers.length===0){            return res.json({ error: "No data found" });        }
+        res.json(suppliers);
+    } catch (error) 
+    {
         res.status(500).json({ error: "Failed to fetch data" });
     }
 });
@@ -36,50 +44,12 @@ SupplierRouter.delete("/delete/:id", ensureAuthenticated, async (req, res) => {
     try 
         {
             const supplierId = (req.params.id); 
-            console.log(supplierId)
             await SupplierModel.deleteOne({ supplierID: supplierId });
             res.status(200).json({ message: "supplier  deleted successfully" });
         }
             catch (error) 
         {
                 res.status(500).json({ error: "Failed to delete supplier" });
-        }
-});
-
-// reject the request for supplier registration
-SupplierRouter.patch("/request/reject/:id", async (req, res) => {
-    try 
-        {
-            const SupplierId = req.params.id; 
-            await SupplierModelRegister.updateOne
-            (
-                { _id: SupplierId },
-                {state:"reject"}
-            );
-        res.status(200).json({ message: `Supplier reject successfully` });
-        }
-            catch (error) 
-        {
-                res.status(500).json({ error: `Failed to  reject supplier` });
-        }
-});
-
-// approve the request for company registration
-SupplierRouter.patch("/approve/:id", async (req, res) => {
-    try 
-        {
-            const SupplierId = req.params.id; 
-            const SupplierData = await SupplierModelRegister.findById(SupplierId); // find the supplier by id
-            // remove state from data "state" is a field in supplier collection  and ...dataWithoutState is name u give and this what will we use "
-            const { state, ...dataWithoutState } = SupplierData.toObject();
-
-            await SupplierModelRegister.deleteOne({ _id: SupplierId });
-            await SupplierModel.create(dataWithoutState);
-            res.status(200).json({ message: `Supplier approve successfully` });
-        }
-            catch (error) 
-        {
-                res.status(500).json({ error: `Failed to  approve supplier` });
         }
 });
 
@@ -110,7 +80,8 @@ SupplierRouter.get('/supplier-data', ensureAuthenticated, async (req, res) => {
         if (!supplierData) return res.status(404).json({ message: 'Supplier not found', success: false });
         res.json({
             commercialRegister: supplierData.commercialRegister,
-            price: supplierData.price
+            price: supplierData.price,
+            supplierPhone: supplierData.supplierPhone,
         });
     } catch (error) {
         res.status(500).json({ message: "Internal server errror: " + error.message, success: false });
@@ -174,20 +145,31 @@ SupplierRouter.get('/order-data', ensureAuthenticated, async (req, res) => {
     }
 });
 
-// Define a route to handle PATCH requests for updating a cement price
-SupplierRouter.patch('/update-price', ensureAuthenticated, async (req, res) => {
+// Define a route to handle PATCH requests for updating a profile
+SupplierRouter.patch('/update-profile', updateValidation, ensureAuthenticated, async (req, res) => {
     try {
         const id = jwt.decode(req.headers.authorization)._id;
-        const { price } = req.body;
-        
-        const updateCementPrice = await SupplierModel.findByIdAndUpdate(id, { price: price });
+        const { price, supplierPhone, password} = req.body;
+        const hashPassword = await bcrypt.hash(password, 10);
+
+        const query = {};
+        if (price) query.price = price;
+        if (supplierPhone) query.supplierPhone = supplierPhone;
+        if (password) query.password = hashPassword;
+
+        if (Object.keys(query).length === 0) {
+            return res.json({ message: "No valid data provided to update. Allowed fields are: price, supplierPhone, and password"});
+        }
+
+            const updateCementPrice = await SupplierModel.findByIdAndUpdate(id, query);
+
         if (!updateCementPrice) {
             return res.status(404).json({ message: "Order not found", success: false });
         }
-        res.status(200).json({ message: "Price has been updated", success: true });
+        res.status(200).json({ message: "Profile has been updated", success: true });
     }
     catch (error) {
-        res.status(500).json({ message: "Internal server errror: " + error.message, success: false });
+        res.status(500).json({ message: "Internal server errror: " + error, success: false });
     }
 });
 

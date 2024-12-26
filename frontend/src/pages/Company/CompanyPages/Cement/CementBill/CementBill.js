@@ -64,12 +64,12 @@ function CementBill() {
     // Phone validation: Phone number must start with 077, 078, or 079 and be followed by 7 digits
     const handlePhoneValidation = (value) => {
         if (value.length !== 10) {
-            handleError('Phone number must be exactly 10 digits long.');
+            handleError('Phone number must be exactly 10 digits long');
             return false;
         }
     
         if (!/^(077|078|079)[0-9]{7}$/.test(value)) {
-            handleError('Phone number must start with 077, 078, or 079 and be followed by 7 digits.');
+            handleError('Phone number must start with 077, 078, or 079 and be followed by 7 digits');
             return false;
         }
     
@@ -88,7 +88,7 @@ function CementBill() {
             return handleError(`The following fields are required: ${missingFields.join(', ')}`);
         }
 
-       // التحقق من صحة رقم الهاتف
+        // التحقق من صحة رقم الهاتف
         if (!handlePhoneValidation(cementBillInfo.recipientPhone)) {
             return;
         }
