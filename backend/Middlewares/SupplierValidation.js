@@ -1,7 +1,7 @@
 import Joi from "joi";
 
 const registrationValidation = (req, res, next) => {
-    const schema = Joi.object({
+    const dataSchema = Joi.object({
         supplierName: Joi.string().required(),
         email: Joi.string().email().required(),
         supplierID: Joi.string().length(9).required(),
@@ -14,13 +14,16 @@ const registrationValidation = (req, res, next) => {
             {'any.only': 'Passwords do not match'}),
         supplierPhone: Joi.string().length(10).required(),
         supplierProduct: Joi.string().required(),
-        commercialRegister: Joi.string().required(),
         role: Joi.string()
     });
-    const { error } = schema.validate(req.body);
-    if (error) {
+    const fileSchema = Joi.object({
+        commercialRegister: Joi.binary().required().messages({'any.required': 'Commercial Register is required'})
+    });
+    const {dataError} = dataSchema.validate(JSON.parse(req.fields.body[0]));
+    const {fileError} = fileSchema.validate(req.files);
+    if (dataError || fileError) {
         return res.status(400)
-            .json({ message: "Bad request", error })
+            .json({message: "Bad request", dataError: dataError + fileError})
     }
     next();
 }

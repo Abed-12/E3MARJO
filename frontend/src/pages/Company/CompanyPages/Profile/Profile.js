@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import {jwtDecode} from "jwt-decode";
-import { handleError, handleSuccess } from '../../../../utils/utils';
-import { ToastContainer } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import {handleError, handleSuccess} from '../../../../utils/utils';
+import {ToastContainer} from 'react-toastify';
+import {useNavigate} from 'react-router-dom';
 import styles from './Profile.module.css';
 import Navbar from '../../../../components/navbar/Navbar';
 import Footer from '../../../../components/footer/Footer';
+import {saveAs} from 'file-saver';
 
 function Profile() {
     const token = localStorage.getItem("token");
     const decodedData = jwtDecode(token);
 
-    const [companyCommercialRegister, setCompanyCommercialRegister] = useState('');
     const navigate = useNavigate();
 
     const handleLogout = (e) => {
@@ -23,29 +23,27 @@ function Profile() {
         }, 500)
     }
 
-    useEffect(() => {
-        const fetchCommercialRegister = async () => {
-            try {
-                const url = `http://localhost:8080/auth/company/company-commercial-register`;
-                const headers = {
-                    headers: {
-                        'Authorization': localStorage.getItem('token'),
-                    }
-                }
-                const response = await fetch(url, headers);
-                const result = await response.json();
-                console.log(result);
-                setCompanyCommercialRegister(result);
-            } catch (err) {
-                handleError(err);
+    const downloadCommercialRegisterPdf = async () => {
+        try {
+            const url = `http://localhost:8080/auth/company/company-commercial-register`;
+            const options = {
+                method:'GET',
+                headers: { Authorization: localStorage.getItem('token') }
             }
+            const response = await fetch(url, options);
+            const contentDisposition = response.headers.get('content-disposition');
+            const filename = contentDisposition ? contentDisposition.split('filename=')[1].replace(/"/g, '') : 'file.pdf';
+            const file = await response.blob();
+            saveAs(file, filename)
+        } catch (err) {
+            handleError(err);
         }
-        fetchCommercialRegister();
-    }, []);
 
-    return(
+    }
+
+    return (
         <section className={styles.profileBody}>
-            <Navbar 
+            <Navbar
                 one="Home"
                 pathOne="/company/home"
                 two="Orders"
@@ -72,13 +70,13 @@ function Profile() {
                     <p><strong>Email:</strong> {decodedData.email}</p>
                     <p><strong>Phone:</strong> {decodedData.companyPhone}</p>
                     <p>
-                        <strong>Commercial register: </strong> 
-                        <a href={`http://localhost:5000/uploads/${companyCommercialRegister.commercialRegister}`} target="_blank" rel="noopener noreferrer">View PDF</a>
+                        <strong>Commercial register: </strong>
+                        <button onClick={downloadCommercialRegisterPdf}>Download PDF</button>
                     </p>
                 </div>
             </div>
 
-            <Footer 
+            <Footer
                 one="Home"
                 pathOne="/company/home"
                 two="Orders"
@@ -96,9 +94,9 @@ function Profile() {
                 pathFive="/company/home/profile"
                 logout={handleLogout}
             />
-            <ToastContainer />
+            <ToastContainer/>
         </section>
     );
 }
 
-export { Profile };
+export {Profile};

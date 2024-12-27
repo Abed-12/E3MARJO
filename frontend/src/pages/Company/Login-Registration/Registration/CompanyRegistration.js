@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { ToastContainer } from 'react-toastify';
-import { handleError, handleSuccess } from '../../../../utils/utils';
+import React, {useState} from 'react'
+import {Link, useNavigate} from 'react-router-dom'
+import {ToastContainer} from 'react-toastify';
+import {handleError, handleSuccess} from '../../../../utils/utils';
 import styles from './CompanyRegistration.module.css';
 
 function CompanyRegistration() {
@@ -13,16 +13,23 @@ function CompanyRegistration() {
         password: '',
         confirmPassword: '',
         companyPhone: '',
-        commercialRegister: '',
-        role:'company'
+        role: 'company'
     })
+
+    const [file, setFile] = useState(null);
+
+    const handleFileChange = async (e) => {
+        if (e.target.files) {
+            setFile(e.target.files[0]);
+        }
+    }
 
     const navigate = useNavigate();
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
+        const {name, value} = e.target;
         console.log(name, value);
-        const copyRegistrationInfo = { ...registrationInfo };
+        const copyRegistrationInfo = {...registrationInfo};
         copyRegistrationInfo[name] = value;
         setRegistrationInfo(copyRegistrationInfo);
     }
@@ -34,26 +41,26 @@ function CompanyRegistration() {
             handleError("Numbers only! Letters are not allowed");
         }
     };
-    
+
     // Phone validation: Phone number must start with 077, 078, or 079 and be followed by 7 digits
     const handlePhoneValidation = (value) => {
         if (value.length !== 10) {
             handleError('Phone number must be exactly 10 digits long');
             return false;
         }
-    
+
         if (!/^(077|078|079)[0-9]{7}$/.test(value)) {
             handleError('Phone number must start with 077, 078, or 079 and be followed by 7 digits');
             return false;
         }
-    
+
         return true;
     };
-    
+
     const handleRegistration = async (e) => {
         e.preventDefault();
         // تحديد الحقول المطلوبة
-        const requiredFields = ['companyName', 'email', 'companyID', 'password', 'confirmPassword', 'companyPhone', 'commercialRegister'];
+        const requiredFields = ['companyName', 'email', 'companyID', 'password', 'confirmPassword', 'companyPhone'];
 
         // التحقق من وجود الحقول المطلوبة
         const missingFields = requiredFields.filter(field => !registrationInfo[field]);
@@ -64,20 +71,23 @@ function CompanyRegistration() {
 
         // التحقق من صحة رقم الهاتف
         if (!handlePhoneValidation(registrationInfo.companyPhone)) {
-            return;
+            return handleError('Mobile number is invalid');
         }
 
         try {
             const url = `http://localhost:8080/auth/company/registration`;
+            const formData = new FormData();
+            formData.append('body', JSON.stringify(registrationInfo));
+
+            formData.append('commercialRegister', file);
+            console.log(Object.fromEntries(formData));
+
             const response = await fetch(url, {
                 method: "POST",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(registrationInfo)
+                body: formData
             });
             const result = await response.json();
-            const { success, message, error } = result;
+            const {success, message, error} = result;
             if (success) {
                 handleSuccess(message);
                 setTimeout(() => {
@@ -94,7 +104,7 @@ function CompanyRegistration() {
             handleError(err);
         }
     }
-    
+
     return (
         <section className={styles.companyBody}>
             <div className={styles.companyRegistrationContainer}>
@@ -131,7 +141,7 @@ function CompanyRegistration() {
                             onKeyPress={handleKeyPress}
                             type='companyID'
                             name='companyID'
-                            inputMode="numeric" 
+                            inputMode="numeric"
                             maxLength="9"
                             placeholder='Enter your company ID ...'
                             value={registrationInfo.companyID}
@@ -146,7 +156,7 @@ function CompanyRegistration() {
                             onBlur={(e) => handlePhoneValidation(e.target.value)}
                             type='tel'
                             name='companyPhone'
-                            inputMode="numeric" 
+                            inputMode="numeric"
                             maxLength="10"
                             placeholder='Enter your Company Phone...'
                             value={registrationInfo.companyPhone}
@@ -164,7 +174,8 @@ function CompanyRegistration() {
                         />
                     </div>
                     <div className={styles.companyRegistrationDiv}>
-                        <label className={styles.companyRegistrationLabel} htmlFor='confirmPassword'>Confirm Password</label>
+                        <label className={styles.companyRegistrationLabel} htmlFor='confirmPassword'>Confirm
+                            Password</label>
                         <input
                             className={styles.companyRegistrationInput}
                             onChange={handleChange}
@@ -175,14 +186,14 @@ function CompanyRegistration() {
                         />
                     </div>
                     <div className={styles.companyRegistrationDiv}>
-                        <label className={styles.companyRegistrationLabel} htmlFor='commercialRegister'>Commercial Register</label>
+                        <label className={styles.companyRegistrationLabel} htmlFor='commercialRegister'>Commercial
+                            Register</label>
                         <input
                             className={styles.companyCommercialRegister}
-                            onChange={handleChange}
+                            onChange={handleFileChange}
                             type='file'
                             name='commercialRegister'
-                            accept=".pdf"
-                            value={registrationInfo.commercialRegister}
+                            accept="application/pdf"
                         />
                     </div>
 
@@ -194,7 +205,7 @@ function CompanyRegistration() {
                         <Link className={styles.companyRegistrationLink} to="/supplier-registration"> Supplier</Link>
                     </span>
                 </form>
-                <ToastContainer />
+                <ToastContainer/>
             </div>
         </section>
     )
