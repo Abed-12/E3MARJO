@@ -7,7 +7,7 @@ const OrderFilter = (props) => {
     const [dataSuppliers, setdataSuppliers] = useState([]);
     const [supplierTypes, setSupplierTypes] = useState([]);
     const [type, setType] = useState('');
-    const [supplierId, setSupplier] = useState('');
+    const [supplierID, setSupplier] = useState('');
     const [fromDate, setFromDate] = useState('');
     const [toDate, setToDate] = useState('');
     const [selectedStatus, setSelectedStatus] = useState('');
@@ -45,7 +45,7 @@ const OrderFilter = (props) => {
         try{
             const unixFromDate = fromDate && moment(fromDate).isValid() ? moment(fromDate).unix() : '';
             const unixToDate = toDate && moment(toDate).isValid() ? moment(toDate).unix() : '';
-            await props.onFilter({ type, supplierId, fromDate: unixFromDate, toDate: unixToDate, selectedStatus });
+            await props.onFilter({ type, supplierID, fromDate: unixFromDate, toDate: unixToDate, selectedStatus });
         } catch (err) {
             handleError(err);
         }
@@ -86,11 +86,11 @@ const OrderFilter = (props) => {
                                 <select
                                     className={styles.orderFilterSelect}
                                     onChange={(e) => setSupplier(e.target.value)}
-                                    value={supplierId}
+                                    value={supplierID}
                                 >
                                     <option value="">All</option>
                                     {dataSuppliers.map((supplier, index) => (
-                                        <option key={index} value={supplier.supplierId}>
+                                        <option key={index} value={supplier.supplierID}>
                                             {supplier.supplierName}
                                         </option>
                                     ))}

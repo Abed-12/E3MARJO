@@ -4,12 +4,12 @@ import jwt from "jsonwebtoken";
 
 const cementOrder = async (req, res) => {
     try{
-        const {type, recipientName, recipientPhone, location, deliveryTime, orderRequestTime, cementQuantity, cementNumberBags, price, supplierName, supplierId, companyId} = req.body;
-        const cementOrderModel = new OrderModel({type, recipientName, recipientPhone, location, deliveryTime, orderRequestTime, cementQuantity, cementNumberBags, price, supplierId, companyId})
+        const {type, recipientName, recipientPhone, location, deliveryTime, orderRequestTime, cementQuantity, cementNumberBags, price, supplierName, supplierID, companyID} = req.body;
+        const cementOrderModel = new OrderModel({type, recipientName, recipientPhone, location, deliveryTime, orderRequestTime, cementQuantity, cementNumberBags, price, supplierID, companyID})
         const supplier = await SupplierModel.findOne({supplierName});
         // get the user id from the token
-        cementOrderModel.companyId = jwt.decode(req.headers.authorization)._id;
-        cementOrderModel.supplierId = supplier._id;
+        cementOrderModel.companyID = jwt.decode(req.headers.authorization)._id;
+        cementOrderModel.supplierID = supplier._id;
         await cementOrderModel.save();
         res.status(201)
             .json({

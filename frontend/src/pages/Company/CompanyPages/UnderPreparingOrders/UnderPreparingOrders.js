@@ -58,7 +58,7 @@ function UnderPreparingOrders() {
     const handleFilter = async (filterData) => {
         console.log(filterData)
         try {
-            const response = await fetch(`http://localhost:8080/auth/company/order-data?statuses=${filterData.selectedStatus}&type=${filterData.type}&supplierId=${filterData.supplierId}&fromDate=${filterData.fromDate}&toDate=${filterData.toDate}`, {
+            const response = await fetch(`http://localhost:8080/auth/company/order-data?statuses=${filterData.selectedStatus}&type=${filterData.type}&supplierID=${filterData.supplierID}&fromDate=${filterData.fromDate}&toDate=${filterData.toDate}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': localStorage.getItem('token'),

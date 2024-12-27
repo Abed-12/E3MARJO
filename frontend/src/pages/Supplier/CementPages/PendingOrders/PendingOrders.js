@@ -99,7 +99,7 @@ function PendingOrders() {
     const handleFilter = async (filterData) => {
         try {
             const statuses = "pending";
-            const response = await fetch(`http://localhost:8080/auth/supplier/order-data?statuses=${statuses}&type=${filterData.type}&supplierId=${filterData.supplierId}&fromDate=${filterData.fromDate}&toDate=${filterData.toDate}`, {
+            const response = await fetch(`http://localhost:8080/auth/supplier/order-data?statuses=${statuses}&type=${filterData.type}&supplierID=${filterData.supplierID}&fromDate=${filterData.fromDate}&toDate=${filterData.toDate}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': localStorage.getItem('token'),

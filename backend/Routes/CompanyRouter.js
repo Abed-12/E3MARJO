@@ -44,8 +44,8 @@ CompanyRouter.get('/companyData', ensureAuthenticated, async (req, res) => {
 CompanyRouter.delete("/delete/:id", ensureAuthenticated, async (req, res) => {
     try 
         {
-            const companyId = (req.params.id); 
-            await CompanyModel.deleteOne({ companyID: companyId });
+            const companyID = (req.params.id); 
+            await CompanyModel.deleteOne({ companyID: companyID });
             res.status(200).json({ message: "company  deleted successfully" });
         }
             catch (error) 
@@ -87,7 +87,7 @@ CompanyRouter.get('/data-supplier', ensureAuthenticated, async (req, res) => {
         if (!dataSupplier) return res.status(404).json({ message: 'Supplier not found', success: false });
         res.json(dataSupplier.map( item => {
             return {
-                supplierId: item._id,
+                supplierID: item._id,
                 supplierName: item.supplierName,
                 price: item.price,
                 type: item.supplierProduct
@@ -133,18 +133,18 @@ CompanyRouter.get('/order-data', ensureAuthenticated, async (req, res) => {
     try {
         const statuses = req.query.statuses.split(',');
         const type = req.query.type;
-        const supplierId = req.query.supplierId;
+        const supplierID = req.query.supplierID;
         const fromDate = req.query.fromDate;
         const toDate = req.query.toDate;
         const id = jwt.decode(req.headers.authorization)._id;
 
-        var query = { companyId: id, status:  statuses  }
+        var query = { companyID: id, status:  statuses  }
 
         if(type){
             query.type = type
         }
-        if(supplierId){
-            query.supplierId = supplierId
+        if(supplierID){
+            query.supplierID = supplierID
         }
         // إضافة فلتر التاريخ
         if (fromDate || toDate) {
@@ -161,13 +161,13 @@ CompanyRouter.get('/order-data', ensureAuthenticated, async (req, res) => {
         if (!dataOrders || dataOrders.length === 0) return res.json([]);;
         
         // جلب بيانات المورد والشركة من قاعدة البيانات
-        const supplierIds = dataOrders.map(item => item.supplierId);
-        const dataSupplier = await SupplierModel.find({ _id: { $in: supplierIds } });
+        const supplierIDs = dataOrders.map(item => item.supplierID);
+        const dataSupplier = await SupplierModel.find({ _id: { $in: supplierIDs } });
         const dataCompany = await CompanyModel.findById( id );
         
         // تحويل البيانات حسب الحاجة
         const result = dataOrders.map(item => {
-            const supplier = dataSupplier.find(s => s._id.toString() === item.supplierId.toString());
+            const supplier = dataSupplier.find(s => s._id.toString() === item.supplierID.toString());
                 if(item.type == 'cement'){
                     return {
                         id: item._id,

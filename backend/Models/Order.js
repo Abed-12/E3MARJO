@@ -54,11 +54,11 @@ const OrderSchema = new mongoose.Schema({
     // Special fields in concrete
 
     // others
-    supplierId:{
+    supplierID:{
         type:String,
         required:true
     },
-    companyId:{
+    companyID:{
         type:String,
         required:true
     }

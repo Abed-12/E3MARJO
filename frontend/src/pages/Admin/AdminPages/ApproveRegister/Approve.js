@@ -78,17 +78,17 @@ console.log("Companies Data:", companies);
                     return { supplierData: []} ;// Return an empty array in case of error
                 }
         };
-        async function deleteCompany(companyId) 
+        async function deleteCompany(companyID) 
         {
             try
             {
-                const response = await fetch(`http://localhost:8080/auth/company/delete/${companyId}`,
+                const response = await fetch(`http://localhost:8080/auth/company/delete/${companyID}`,
                     {
                         method: 'DELETE',
                         headers: { Authorization: localStorage.getItem('token') },
                     });
                     if (response.ok) {
-                        setCompanies(deleteCompany => deleteCompany.filter(company => company.companyID !== companyId));
+                        setCompanies(deleteCompany => deleteCompany.filter(company => company.companyID !== companyID));
                         handleSuccess('Company deleted successfully '); // Show success message
                     } else {
                         console.error('Failed to delete company:', response.statusText);
@@ -98,18 +98,18 @@ console.log("Companies Data:", companies);
                 console.error('Failed to delete company:', error);
             }
         };
-        async function deleteSupplier(supplierId) 
+        async function deleteSupplier(supplierID) 
         {
-            console.log(supplierId)
+            console.log(supplierID)
             try
             {
-                const response = await fetch(`http://localhost:8080/auth/supplier/delete/${supplierId}`,
+                const response = await fetch(`http://localhost:8080/auth/supplier/delete/${supplierID}`,
                     {
                         method: 'DELETE',
                         headers: { Authorization: localStorage.getItem('token') },
                     });
                     if (response.ok) {
-                        setSuppliers(deleteSupplier => deleteSupplier.filter(supplier => supplier.supplierID !== supplierId));
+                        setSuppliers(deleteSupplier => deleteSupplier.filter(supplier => supplier.supplierID !== supplierID));
                         handleSuccess('supplier deleted successfully '); // Show success message
                     } else {
                         console.error('Failed to delete supplier:', response.statusText);

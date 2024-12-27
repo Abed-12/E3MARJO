@@ -43,8 +43,8 @@ SupplierRouter.get('/supplierData', ensureAuthenticated, async (req, res) => {
 SupplierRouter.delete("/delete/:id", ensureAuthenticated, async (req, res) => {
     try 
         {
-            const supplierId = (req.params.id); 
-            await SupplierModel.deleteOne({ supplierID: supplierId });
+            const supplierID = (req.params.id); 
+            await SupplierModel.deleteOne({ supplierID: supplierID });
             res.status(200).json({ message: "supplier  deleted successfully" });
         }
             catch (error) 
@@ -61,7 +61,7 @@ SupplierRouter.delete("/delete/:id", ensureAuthenticated, async (req, res) => {
 SupplierRouter.patch('/update-order-status', ensureAuthenticated, async (req, res) => {
     try {
         const { id, status, rejectReason } = req.body;
-        const updateCementOrder = await OrderModel.findByIdAndUpdate(id, { status: status, message: rejectReason });
+        const updateCementOrder = await OrderModel.findByIdAndUpdate(id, { status: status, rejectionReason: rejectReason });
         if (!updateCementOrder) {
             return res.status(404).json({ message: "Order not found", success: false });
         }
@@ -96,7 +96,7 @@ SupplierRouter.get('/order-data', ensureAuthenticated, async (req, res) => {
         const toDate = req.query.toDate;
         const id = jwt.decode(req.headers.authorization)._id;
 
-        var query = { supplierId: id, status:  statuses  }
+        var query = { supplierID: id, status:  statuses  }
 
         // إضافة فلتر التاريخ
         if (fromDate || toDate) {
@@ -113,13 +113,13 @@ SupplierRouter.get('/order-data', ensureAuthenticated, async (req, res) => {
         if (!dataCementOrders || dataCementOrders.length === 0) return res.json([]);
         
         // جلب بيانات المورد والشركة من قاعدة البيانات
-        const companyIds = dataCementOrders.map(item => item.companyId);
+        const companyIDs = dataCementOrders.map(item => item.companyID);
         const dataSupplier = await SupplierModel.findById( id );
-        const dataCompanies = await CompanyModel.find({ _id: { $in: companyIds } });
+        const dataCompanies = await CompanyModel.find({ _id: { $in: companyIDs } });
         
         // تحويل البيانات حسب الحاجة
         const result = dataCementOrders.map(item => {
-            const company = dataCompanies.find(c => c._id.toString() === item.companyId.toString());
+            const company = dataCompanies.find(c => c._id.toString() === item.companyID.toString());
             return {
                 id: item._id,
                 type: item.type,
