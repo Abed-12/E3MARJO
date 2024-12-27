@@ -14,8 +14,7 @@ const registrationValidation = (req, res, next) => {
             }),
         confirmPassword: Joi.string().valid(Joi.ref('password')).required().messages(
             {'any.only': 'Passwords do not match'}),
-        companyPhone: Joi.string().length(10).required(),
-        role: Joi.string()
+        companyPhone: Joi.string().length(10).required()
     });
     const fileSchema = Joi.object({
         commercialRegister: Joi.binary().required().messages({'any.required': 'Commercial Register is required'})

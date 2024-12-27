@@ -9,7 +9,12 @@ const loginValidation = (req, res, next) => {
             'string.pattern.base': 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.',
             'any.required': 'Password is required.',}),
     });
+    const { error } = schema.validate(req.body);
+    if (error) {
+        return res.status(400).send({ message: error.details[0].message });
+    }
     next();
 }
+
 
 export { loginValidation };

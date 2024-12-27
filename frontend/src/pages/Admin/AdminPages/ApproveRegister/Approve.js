@@ -31,8 +31,7 @@ function ApproveRegister()
     }, []); // Runs once when the component mounts
 
     const handleLogout = (e) =>
-        {console.log("Suppliers Data:", suppliers);
-console.log("Companies Data:", companies);
+        {
 
             localStorage.removeItem('token');
             localStorage.removeItem('loggedInUser');
@@ -43,6 +42,7 @@ console.log("Companies Data:", companies);
                 navigate('/admin');
             }, 500)
         };
+
         async function fetchCompaniesData()
         {   
             try
@@ -54,7 +54,7 @@ console.log("Companies Data:", companies);
                     });
                     if (!companyResponse.ok)  {throw new Error('Failed to fetch company ');}
                     const companyData  = await companyResponse.json();
-                    return companyData;
+                    return await companyData;
             }catch (error)
             {
                 console.error('Failed to fetch company data:', error);
@@ -71,24 +71,26 @@ console.log("Companies Data:", companies);
                     });
                     if (!supplierResponse.ok) {throw new Error('Failed to fetch suppliers ');}
                     const supplierData = await supplierResponse.json();        
-                    return supplierData
+                    return await supplierData;
                 } catch (error) 
                 {
                     console.error(error.message);
                     return { supplierData: []} ;// Return an empty array in case of error
                 }
         };
-        async function deleteCompany(companyID) 
+        async function deleteCompany(companyId) 
         {
             try
             {
-                const response = await fetch(`http://localhost:8080/auth/company/delete/${companyID}`,
+                const confirmDrop = window.confirm('Are you sure you want to drop this user?');
+                if (!confirmDrop) return;
+                const response = await fetch(`http://localhost:8080/auth/company/delete/${companyId}`,
                     {
                         method: 'DELETE',
                         headers: { Authorization: localStorage.getItem('token') },
                     });
                     if (response.ok) {
-                        setCompanies(deleteCompany => deleteCompany.filter(company => company.companyID !== companyID));
+                        setCompanies(deleteCompany => deleteCompany.filter(company => company.companyID !== companyId));
                         handleSuccess('Company deleted successfully '); // Show success message
                     } else {
                         console.error('Failed to delete company:', response.statusText);
@@ -98,18 +100,19 @@ console.log("Companies Data:", companies);
                 console.error('Failed to delete company:', error);
             }
         };
-        async function deleteSupplier(supplierID) 
+        async function deleteSupplier(supplierId) 
         {
-            console.log(supplierID)
+            const confirmDrop = window.confirm('Are you sure you want to drop this user?');
+            if (!confirmDrop) return;
             try
             {
-                const response = await fetch(`http://localhost:8080/auth/supplier/delete/${supplierID}`,
+                const response = await fetch(`http://localhost:8080/auth/supplier/delete/${supplierId}`,
                     {
                         method: 'DELETE',
                         headers: { Authorization: localStorage.getItem('token') },
                     });
                     if (response.ok) {
-                        setSuppliers(deleteSupplier => deleteSupplier.filter(supplier => supplier.supplierID !== supplierID));
+                        setSuppliers(deleteSupplier => deleteSupplier.filter(supplier => supplier.supplierID !== supplierId));
                         handleSuccess('supplier deleted successfully '); // Show success message
                     } else {
                         console.error('Failed to delete supplier:', response.statusText);
@@ -119,23 +122,21 @@ console.log("Companies Data:", companies);
                 console.error('Failed to delete supplier:', error);
             }
         };
-
     
     return (
     <div>
-        <ToastContainer />
-        
+
         <Navbar
             three="Approved"
-            pathThree="/admin/approve-order"
+            pathThree="/admin/approve-user"
             four="Rejected"
-            pathFour="/admin/reject-order"
+            pathFour="/admin/reject-user"
 
             five="Pending"
-            pathFive="/admin/request-order"
+            pathFive="/admin/request-user"
 
             six="Add Admin"
-            pathSix="/admin/Add-admin"
+            pathSix="/admin/add-admin"
             logout={handleLogout}
         />
         <h2 className={styles.List}>Suppliers Approved List:</h2>
@@ -168,7 +169,7 @@ console.log("Companies Data:", companies);
                                     
                                 </p>
                                 <p>
-                                    <strong>Admin email:</strong> {field.adminId} 
+                                    <strong>Admin email:</strong> {field.adminEmail} 
                                 </p>
                                 <button
                                     className={styles.pendingButtonDrop}
@@ -185,7 +186,6 @@ console.log("Companies Data:", companies);
             </div>
         <h2 className={styles.List}>Companies Approved List:</h2>
         <div className={styles.profileContainer}>
-            {console.log(companies)}
                 {companies.length > 0 ? (
                     companies.map((field) => 
                         (
@@ -206,7 +206,7 @@ console.log("Companies Data:", companies);
                                     <strong>Commercial register:</strong> <a href={JSON.stringify(field.commercialRegister)}>view PDF</a> 
                                 </p>
                                 <p>
-                                    <strong>Admin email:</strong> {field.adminId} 
+                                    <strong>Admin email:</strong> {field.adminEmail} 
                                 </p>
                                 <button
                                         className={styles.pendingButtonDrop}
@@ -220,6 +220,8 @@ console.log("Companies Data:", companies);
                     <p>No companies found.</p>
                 )}
         </div>
+            <ToastContainer />
+
     </div>
     );
     

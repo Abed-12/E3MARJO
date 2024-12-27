@@ -51,18 +51,18 @@ const handleLogout = (e) =>
             console.log(err.message);
         }
     };
-    async function rejectUser(Id)
+    async function rejectUser(ID)
     {
         try
         {
-            const response = await fetch(`http://localhost:8080/auth/register/rejected/${Id}`,
+            const response = await fetch(`http://localhost:8080/auth/register/rejected/${ID}`,
             {
                 method:'PATCH',
                 headers: { Authorization: localStorage.getItem('token') }
             });
             if (response.ok) 
                 {
-                    setPending(rejectedUser => rejectedUser.filter(user => user.Id !== Id)); 
+                    setPending(rejectedUser => rejectedUser.filter(user => user.ID !== ID)); 
                     handleSuccess('User successfully rejected'); // Show success message
                 }
             else {console.error('Failed to delete user :', response.statusText); }
@@ -72,19 +72,18 @@ const handleLogout = (e) =>
             console.log("reject user faild " `${err}`)
         }
     };
-    async function approveUser(Id)
+    async function approveUser(ID)
     {
         try
         {
-            const response = await fetch(`http://localhost:8080/auth/register/approve/${Id}`,
+            const response = await fetch(`http://localhost:8080/auth/register/approve/${ID}`,
                 {
-                    
                     method:'PATCH',
                     headers: { Authorization: localStorage.getItem('token') }
                 });
             if (response.ok) 
             {
-                setPending(approvetUser => approvetUser.filter(user => user.Id !== Id)); 
+                setPending(approvetUser => approvetUser.filter(user => user.ID !== ID)); 
                 handleSuccess('User successfully approved'); // Show success message
             }
             else {console.error('Failed to approve user :', response.statusText); }
@@ -102,15 +101,15 @@ const handleLogout = (e) =>
             
             <Navbar
                 three="Approved"
-                pathThree="/admin/approve-order"
+                pathThree="/admin/approve-user"
                 four="Rejected"
-                pathFour="/admin/reject-order"
+                pathFour="/admin/reject-user"
 
                 five="Pending"
-                pathFive="/admin/=request-order"
+                pathFive="/admin/=request-user"
 
                 six="Add Admin"
-                pathSix="/admin/Add-admin"
+                pathSix="/admin/add-admin"
 
                 logout={handleLogout}
             />
@@ -125,10 +124,10 @@ const handleLogout = (e) =>
                 {
                     return (
                             <div className={styles.profileRow} key={field._id}>
-                                <p><strong>{field.role === "company" ? "Company" : "Supplier"} name:</strong> {field.Name}</p>
+                                <p><strong>{field.role === "company" ? "Company" : "Supplier"} name:</strong> {field.name}</p>
                                 <p><strong>{field.role === "company" ? "Company" : "Supplier"} email:</strong> {field.email}</p>
-                                <p><strong>{field.role === "company" ? "Company" : "Supplier"} ID:</strong> {field.Id}</p>
-                                <p><strong>{field.role === "company" ? "Company" : "Supplier"} phone:</strong> {field.Phone}</p>
+                                <p><strong>{field.role === "company" ? "Company" : "Supplier"} ID:</strong> {field.ID}</p>
+                                <p><strong>{field.role === "company" ? "Company" : "Supplier"} phone:</strong> {field.phone}</p>
                                 {field.role === "supplier" ? 
                                 (
                                     <p><strong>Supplier product:</strong> {field.supplierProduct}</p>
@@ -140,13 +139,13 @@ const handleLogout = (e) =>
 
                                 <button
                                     className={styles.pendingButtonAccept}
-                                    onClick={() => approveUser(field.Id)}
+                                    onClick={() => approveUser(field.ID)}
                                 >
                                     Approve
                                 </button>
                                 <button
                                     className={styles.pendingButtonReject}
-                                    onClick={() => rejectUser(field.Id)}
+                                    onClick={() => rejectUser(field.ID)}
                                 >
                                     Reject
                                 </button>

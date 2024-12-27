@@ -65,7 +65,7 @@ const handleLogout = (e) =>
             });
     
             if (response.ok) {
-                setRejected(deleteUser => deleteUser.filter(user => user.Id !== Id));
+                setRejected(deleteUser => deleteUser.filter(user => user.ID !== Id));
                 handleSuccess('User successfully dropped'); // Show success message
             } else {
                 console.error('Failed to delete user:', response.statusText);
@@ -82,15 +82,15 @@ const handleLogout = (e) =>
             <ToastContainer />
             <Navbar
                 three="Approved"
-                pathThree="/admin/approve-order"
+                pathThree="/admin/approve-user"
                 four="Rejected"
-                pathFour="/admin/reject-order"
+                pathFour="/admin/reject-user"
 
                 five="Pending"
-                pathFive="/admin/request-order"
+                pathFive="/admin/request-user"
 
                 six="Add Admin"
-                pathSix="/admin/Add-admin"
+                pathSix="/admin/add-admin"
 
                 logout={handleLogout}
             />
@@ -106,10 +106,10 @@ const handleLogout = (e) =>
                 {
                     return (
                             <div className={styles.profileRow} key={field._id}>
-                                <p><strong>{field.role === "company" ? "Company" : "Supplier"} name:</strong> {field.Name}</p>
+                                <p><strong>{field.role === "company" ? "Company" : "Supplier"} name:</strong> {field.name}</p>
                                 <p><strong>{field.role === "company" ? "Company" : "Supplier"} email:</strong> {field.email}</p>
-                                <p><strong>{field.role === "company" ? "Company" : "Supplier"} ID:</strong> {field.Id}</p>
-                                <p><strong>{field.role === "company" ? "Company" : "Supplier"} phone:</strong> {field.Phone}</p>
+                                <p><strong>{field.role === "company" ? "Company" : "Supplier"} ID:</strong> {field.ID}</p>
+                                <p><strong>{field.role === "company" ? "Company" : "Supplier"} phone:</strong> {field.phone}</p>
                                 {field.role === "supplier" ? 
                                 (
                                     <p><strong>Supplier product:</strong> {field.supplierProduct}</p>
@@ -118,10 +118,10 @@ const handleLogout = (e) =>
                                     )
                                 }
                             <p><strong>Commercial register:</strong> <a href={JSON.stringify(field.commercialRegister)}>view PDF</a> </p>                                
-                            <p><strong>Admin email:</strong> {field.AdminEmail} </p>
+                            <p><strong>Admin email:</strong> {field.adminEmail} </p>
                                 <button
                                     className={styles.pendingButtonDrop}
-                                    onClick={() => dropUser(field.Id)}
+                                    onClick={() => dropUser(field.ID)}
                                 >
                                     Drop
                                 </button>

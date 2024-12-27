@@ -71,6 +71,11 @@ function Navbar(props) {
                                 <Link className={styles.navLink} to={props.pathFive}>{props.five}</Link>
                             </li>
                         )}
+                        {props.six && (
+                            <li className={styles.navItem}> 
+                                <Link className={styles.navLink} to={props.pathSix}>{props.six}</Link>
+                            </li>
+                        )}
                         {props.logout && (
                             <li className={styles.navItem}>
                                 <button className={`${styles.navLink} ${styles.logout}`} onClick={props.logout}>Logout</button>

@@ -7,6 +7,7 @@ import ensureAuthenticated from "../Middlewares/Auth.js";
 import OrderModel from "../Models/Order.js";
 import SupplierModel from "../Models/Supplier.js";
 import CompanyModel from "../Models/Company.js";
+import AdminModel from "../Models/Admin.js";
 import {formidableTransformer} from "../Middlewares/FormidableTransformer.js";
 
 const SupplierRouter = express.Router();
@@ -14,41 +15,38 @@ const SupplierRouter = express.Router();
 // Login & Registration
 SupplierRouter.post('/login', loginValidation, login);
 SupplierRouter.post('/registration', formidableTransformer, registrationValidation, registration);
-
-// ------------------------------Admin---------------------------------
+// fetch register supplier data
+SupplierRouter.get('/register', ensureAuthenticated, async (req, res) => {
+    try {
+        const suppliers = await SupplierModelRegister.find(); // Fetch all documents
+        res.status(200).json([suppliers]); // Send them as array
+    } catch (error) {
+        res.status(500).json({ error: "Failed to fetch data" });
+    }
+});
 // fetch supplier data
 SupplierRouter.get('/supplierData', ensureAuthenticated, async (req, res) => {
     try {
-        const suppliers = await SupplierModel.find({},
-            {
-                _id: 1,
-                supplierName: 1,
-                email: 1,
-                supplierID: 1,
-                supplierPhone: 1,
-                supplierProduct: 1,
-                price: 1,
-                commercialRegister: 1,
-                adminId: 1,
-            });
-        if (suppliers.length === 0) {
-            return res.json({error: "No data found"});
-        }
-        res.json(suppliers);
+        const suppliers = await SupplierModel.find(); // Fetch all documents
+        res.status(200).json([suppliers]); // Send them as array
     } catch (error) {
-        res.status(500).json({error: "Failed to fetch data"});
+        res.status(500).json({ error: "Failed to fetch data" });
     }
 });
 
 // delete supplier from collection 
 SupplierRouter.delete("/delete/:id", ensureAuthenticated, async (req, res) => {
-    try {
-        const supplierID = (req.params.id);
-        await SupplierModel.deleteOne({supplierID: supplierID});
-        res.status(200).json({message: "supplier  deleted successfully"});
-    } catch (error) {
-        res.status(500).json({error: "Failed to delete supplier"});
-    }
+    try
+        {
+            const supplierId = (req.params.id);
+            console.log(supplierId)
+            await SupplierModel.deleteOne({ supplierID: supplierId });
+            res.status(200).json({ message: "supplier  deleted successfully" });
+        }
+            catch (error)
+        {
+                res.status(500).json({ error: "Failed to delete supplier" });
+        }
 });
 
 // ----------------------------- Concrete -----------------------------

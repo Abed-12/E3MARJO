@@ -161,19 +161,19 @@ function App() {
 
         {/* Admin */}
         <Route path="/admin" element={<AdminLogin />} /> 
-        <Route path="/admin/approve-order" element={<PrivateRoute
+        <Route path="/admin/approve-user" element={<PrivateRoute
                                                 isAuthenticated={isAuthenticated}
                                                 role={role}
                                                 allowedRoles={['admin']}
                                                 element={<ApproveRegister />}
                                               />}/>
-        <Route path="/admin/reject-order" element={<PrivateRoute
+        <Route path="/admin/reject-user" element={<PrivateRoute
                                                 isAuthenticated={isAuthenticated}
                                                 role={role}
                                                 allowedRoles={['admin']}
                                                 element={<RejectRegister />}
                                               />}/>                                                                                            
-        <Route path="/admin/request-order" element={<PrivateRoute
+        <Route path="/admin/request-user" element={<PrivateRoute
                                                 isAuthenticated={isAuthenticated}
                                                 role={role}
                                                 allowedRoles={['admin']}

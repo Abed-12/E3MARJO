@@ -76,15 +76,17 @@ function AddAdmin() {
     return (
         <div>
             <Navbar
-                two="Pending"
-                two1="Request"
-                pathTwo1="/admin/request-order"
-                two2="Approve"
-                pathTwo2="/admin/approve-order"
-                two3="Reject"
-                pathTwo3="/admin/reject-order"
-                three="Add Admin"
-                pathThree="/admin/Add-admin"
+                three="Approved"
+                pathThree="/admin/approve-user"
+                four="Rejected"
+                pathFour="/admin/reject-user"
+
+                five="Pending"
+                pathFive="/admin/request-user"
+
+                six="Add Admin"
+                pathSix="/admin/Add-admin"
+
                 logout={handleLogout}
             />
             <section className={styles.adminBody}>
@@ -117,7 +119,6 @@ function AddAdmin() {
                             />
                         </div>
                         <button className={styles.adminRegistrationButton} type='submit'>Add Admin</button>
-                        <ToastContainer />
                     </form>
                 </div>
             </section>

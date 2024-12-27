@@ -30,11 +30,12 @@ RegistrationRouter.get('/fetchRegistrationData', ensureAuthenticated, async (req
             return res.status(404).json({ error: "wrong status" });
         }
         const registration  = await RegisterModel.find({status : status});  // fetch data that match the status
-        
         if (registration.length === 0)
         {
-            return res.status(404).json({ error: "No data found for the given status" });
+            return res.json([]);
         } 
+        const adminId  = jwt.decode(req.headers.authorization)._id; // extract the id of admin who is accept the request
+        const { email: adminEmail } = await AdminModel.findById(adminId); 
 
         res.json
         (
@@ -44,14 +45,14 @@ RegistrationRouter.get('/fetchRegistrationData', ensureAuthenticated, async (req
                         {
                             return {
                                 _id:data._id, // return the id bc in for loop use for key " or i can use index 0 , 1, 2, etc"
-                                Name:data.Name,
+                                name:data.name,
                                 email:data.email,
-                                Id:data.Id,
-                                Phone:data.Phone,
+                                ID:data.ID,
+                                phone:data.phone,
                                 role:data.role,
                                 commercialRegister:data.commercialRegister,
                                 supplierProduct:data.supplierProduct,
-                                AdminEmail:data.AdminEmail
+                                adminEmail
                             };
                         }
                         
@@ -59,18 +60,19 @@ RegistrationRouter.get('/fetchRegistrationData', ensureAuthenticated, async (req
                         { 
                             return {
                             _id:data._id, // return the id bc in for loop use for key " or i can use index 0 , 1, 2, etc"
-                            Name:data.Name,
+                            name:data.name,
                             email:data.email,
-                            Id:data.Id,
-                            Phone:data.Phone,
+                            ID:data.ID,
+                            phone:data.phone,
                             role:data.role,
                             commercialRegister:data.commercialRegister,
-                            AdminEmail:data.AdminEmail
+                            adminEmail
                             };
                         }
 
                 })
 
+                
         );
     } catch (error) {
         res.status(500).json({ error: "Failed to fetch data" });
@@ -82,23 +84,21 @@ RegistrationRouter.patch("/approve/:id", ensureAuthenticated,  async (req, res) 
     try 
         {
             const userId = req.params.id; // get the id of the Registration
-            const registrationUser = await RegisterModel.findOne({Id:userId}); // find the user by id
+            const registrationUser = await RegisterModel.findOne({ID:userId}); // find the user by id
 
             const adminId  = jwt.decode(req.headers.authorization)._id; // extract the id of admin who is accept the request
-            const { email: adminEmail } = await AdminModel.findById(adminId);
-
             if ( registrationUser.role =="company")
             {
                 const newCompany = new CompanyModel(
                 {
-                    companyName:registrationUser.Name,
+                    companyName:registrationUser.name,
                     email:registrationUser.email,
-                    companyID:registrationUser.Id,
+                    companyID:registrationUser.ID,
                     password:registrationUser.password,
-                    companyPhone:registrationUser.Phone,
+                    companyPhone:registrationUser.phone,
                     commercialRegister:registrationUser.commercialRegister,
                     role:registrationUser.role,
-                    adminId: adminEmail , // Set the adminName field
+                    adminID: adminId , // Set the adminName field
                 });
                 newCompany.save();
             }
@@ -106,15 +106,15 @@ RegistrationRouter.patch("/approve/:id", ensureAuthenticated,  async (req, res) 
             {
                 const newSupplier = new SupplierModel(
                 {
-                    supplierName:registrationUser.Name,
+                    supplierName:registrationUser.name,
                     email:registrationUser.email,
-                    supplierID:registrationUser.Id,
+                    supplierID:registrationUser.ID,
                     password:registrationUser.password,
-                    supplierPhone:registrationUser.Phone,
+                    supplierPhone:registrationUser.phone,
                     supplierProduct:registrationUser.supplierProduct,
                     commercialRegister:registrationUser.commercialRegister,
                     role:registrationUser.role,
-                    adminId: adminEmail, // Set the adminName field
+                    adminID: adminId, // Set the adminName field
                 });
                 newSupplier.save();
             }
@@ -136,14 +136,13 @@ RegistrationRouter.patch("/rejected/:id", ensureAuthenticated, async (req, res) 
         {   
             const UserId = req.params.id; 
             const adminId  = jwt.decode(req.headers.authorization)._id; // extract the id of admin who is accept the request
-            const { email: adminEmail } = await AdminModel.findById(adminId);
             await RegisterModel.updateOne
             (
-                { Id: UserId },
+                { ID: UserId },
                 {$set:
                 {
                     status: "rejected",
-                    AdminEmail: adminEmail, 
+                    adminID: adminId, 
                 }}
             )
         res.status(200).json({ message: `user rejected successfully` });
@@ -160,7 +159,7 @@ RegistrationRouter.delete("/delete/:id", ensureAuthenticated, async (req, res) =
     try 
         {
             const userId = (req.params.id); 
-            await RegisterModel.deleteOne({ Id: userId });
+            await RegisterModel.deleteOne({ ID: userId });
             res.status(200).json({ message: "user  deleted successfully" });
         }
             catch (error) 

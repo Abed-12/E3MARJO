@@ -6,7 +6,6 @@ import env from "dotenv";
 import fs from "node:fs";
 
 env.config();
-
 const registration = async (req, res) => {
     try {
         const {
@@ -27,9 +26,6 @@ const registration = async (req, res) => {
         if (checkSupplier) {
             return res.status(409).json({message: 'Supplier already exists', success: false});
         }
-
-        // Convert commercialRegister to binary if it's a file path or raw content
-        // const commercialRegisterBuffer = Buffer.from(commercialRegister, 'utf-8'); // Adjust this as needed
 
         const newUser = new RegisterModel({
             Name: supplierName,
@@ -65,6 +61,7 @@ const login = async (req, res) => {
             return res.status(403)
                 .json({message: errorMsg, success: false});
         }
+
         const isPassEqual = await bcrypt.compare(password, supplier.password);
         if (!isPassEqual) {
             return res.status(403)

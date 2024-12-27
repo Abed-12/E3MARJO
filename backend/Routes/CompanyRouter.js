@@ -8,6 +8,7 @@ import jwt from "jsonwebtoken";
 import cementOrder from "../Controllers/OrderController.js";
 import SupplierModel from "../Models/Supplier.js";
 import OrderModel from "../Models/Order.js";
+import AdminModel from "../Models/Admin.js";
 import {formidableTransformer} from "../Middlewares/FormidableTransformer.js";
 
 const app = express();
@@ -18,7 +19,17 @@ const CompanyRouter = express.Router();
 CompanyRouter.post('/login', loginValidation, login);
 CompanyRouter.post('/registration', formidableTransformer, registrationValidation, registration);
 
-// --------------------------------Admin--------------------------------
+
+// fetch register company data
+CompanyRouter.get('/register', ensureAuthenticated, async (req, res) => {
+    try {
+        const companies = await CompanyModelRegister.find(); // Fetch all documents
+        res.status(200).json([companies]);
+    } catch (error) {
+        res.status(500).json({ error: "Failed to fetch data" });
+    }
+});
+
 // fetch company data
 CompanyRouter.get('/companyData', ensureAuthenticated, async (req, res) => {
     try {
@@ -30,11 +41,11 @@ CompanyRouter.get('/companyData', ensureAuthenticated, async (req, res) => {
                 companyID: 1,
                 companyPhone: 1,
                 commercialRegister: 1,
-                adminId: 1
+                adminID: 1
             });
 
         if (companies.length === 0) {
-            return res.json({error: "No data found"});
+            return res.status(404).json({error: "No data found"});
         }
         res.json(companies);
 
@@ -54,6 +65,46 @@ CompanyRouter.delete("/delete/:id", ensureAuthenticated, async (req, res) => {
     }
 });
 
+// reject the request for company registration
+CompanyRouter.patch("/request/reject/:id", async (req, res) => {
+    try
+        {
+            const ComapnyId = req.params.id;
+            await CompanyModelRegister.updateOne
+            (
+                { _id: ComapnyId },
+                {state:"reject"}
+            );
+        res.status(200).json({ message: `Company reject successfully` });
+        }
+            catch (error)
+        {
+                res.status(500).json({ error: `Failed to  reject Company` });
+        }
+});
+
+// approve the request for company registration
+CompanyRouter.patch("/approve/:id", async (req, res) => {
+    try
+        {
+            const companyId = req.params.id; // get the id of the company
+            const companyData = await CompanyModelRegister.findById(companyId); // find the company by id
+
+            // remove state from data "state" is a field in company collection  and ...dataWithoutState is name u give and this what will we use "
+            const { state, ...dataWithoutState } = companyData.toObject();
+
+            // for now we will update the state not delete " for now "
+            await CompanyModelRegister.deleteOne({ _id: companyId });
+            await CompanyModel.create(dataWithoutState);
+            res.status(200).json({ message: `Company approve successfully` });
+        }
+        catch (error)
+        {
+                res.status(500).json({ error: `Failed to  approve Company` });
+        }
+
+
+    });
 // ----------------------------- Concrete -----------------------------
 
 
@@ -72,7 +123,7 @@ CompanyRouter.get('/company-commercial-register', ensureAuthenticated, async (re
             'Content-Disposition': `attachment; filename=${company.companyName}.pdf`,
         }).send(company.commercialRegister)
     } catch (error) {
-        return res.status(500).json({message: "Internal server errror: " + error.message, success: false});
+        res.status(500).json({message: "Internal server errror: " + error.message, success: false});
     }
 });
 
