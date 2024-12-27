@@ -3,24 +3,35 @@ import jwt from "jsonwebtoken";
 import CompanyModel from "../Models/Company.js";
 import RegisterModel from "../Models/UserRegistration.js";
 import env from "dotenv";
+import * as fs from "node:fs";
 
 env.config();
 
 const registration = async (req, res) => {
     try {
-        const { companyName, email, companyID, password, companyPhone, commercialRegister, role } = req.body;
+        const {companyName, email, companyID, password, companyPhone, role} = JSON.parse(req.fields.body[0]);
+        const filePath = req.files.commercialRegister[0].filepath;
+        const commercialRegister = fs.readFileSync(filePath)
 
         // Check if the company already exists
         const checkCompany = await RegisterModel.findOne({
-            $or: [{ Name: companyName }, { Id: companyID }]
+            $or: [{Name: companyName}, {Id: companyID}]
         });
 
         if (checkCompany) {
             return res.status(406)
-                .json({ message: 'Company already exists', success: false });
+                .json({message: 'Company already exists', success: false});
         }
         // Create a new user object with proper field mappings
-        const newUser = new RegisterModel({Name: companyName, email, Id: companyID, password: await bcrypt.hash(password, 10), Phone: companyPhone, commercialRegister: Buffer.from(commercialRegister, 'utf-8'), role });
+        const newUser = new RegisterModel({
+            Name: companyName,
+            email: email,
+            Id: companyID,
+            password: await bcrypt.hash(password, 10),
+            Phone: companyPhone,
+            commercialRegister: commercialRegister,
+            role: role
+        });
 
         // Save the new user to the database
         await newUser.save();
@@ -39,22 +50,29 @@ const registration = async (req, res) => {
 
 const login = async (req, res) => {
     try {
-        const { companyID, password } = req.body;
-        const company = await CompanyModel.findOne({ companyID });
+        const {companyID, password} = req.body;
+        const company = await CompanyModel.findOne({companyID});
         const errorMsg = 'Auth failed companyID or password is wrong';
         if (!company) {
             return res.status(403)
-                .json({ message: errorMsg, success: false });
+                .json({message: errorMsg, success: false});
         }
         const isPassEqual = await bcrypt.compare(password, company.password);
         if (!isPassEqual) {
             return res.status(403)
-                .json({ message: errorMsg, success: false });
+                .json({message: errorMsg, success: false});
         }
-        const jwtToken = jwt.sign( 
-            { companyName: company.companyName, email: company.email, companyID: company.companyID, companyPhone: company.companyPhone, role: company.role, _id: company._id,}, // يحتوي على المعلومات التي تريد تضمينها
+        const jwtToken = jwt.sign(
+            {
+                companyName: company.companyName,
+                email: company.email,
+                companyID: company.companyID,
+                companyPhone: company.companyPhone,
+                role: company.role,
+                _id: company._id,
+            }, // يحتوي على المعلومات التي تريد تضمينها
             process.env.JWT_SECRET, // هو مفتاح سري يستخدم لتوقيع الرمز
-            { expiresIn: '24h' } // optional ---> الرمز سينتهي بعد 24 ساعه من انشائه
+            {expiresIn: '24h'} // optional ---> الرمز سينتهي بعد 24 ساعه من انشائه
         )
 
         res.status(200)
@@ -73,4 +91,4 @@ const login = async (req, res) => {
     }
 }
 
-export { registration, login };
+export {registration, login};
