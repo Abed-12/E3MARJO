@@ -24,7 +24,7 @@ function RefrshHandler({ setIsAuthenticated, setRole, setSupplierProduct }) {
           concrete: ['/supplier/concrete/home'],
         },
         company: ['/company/home', '/company/home/cement-order', '/company/home/concrete-order', '/company/home/profile', '/company/home/under-preparing-orders', '/company/home/pending-orders', '/company/home/old-orders', '/company/home/cement-order/cement-bill'],
-        admin: ['/admin/request-order', '/admin/approve-order', "/admin/reject-order","/admin/add-admin" ],
+        admin: ['/admin/request-user', '/admin/approve-user', "/admin/reject-user","/admin/add-admin" ],
       };
 
       // التحقق إذا كان المسار الحالي من المسارات المسموحة
@@ -38,7 +38,7 @@ function RefrshHandler({ setIsAuthenticated, setRole, setSupplierProduct }) {
         if (role === 'supplier' && supplierProduct) {
           navigate(`/${role}/${supplierProduct}/pending-orders`, { replace: false });
         } else if(role === 'admin'){
-          navigate(`/${role}/request-order`, { replace: false });
+          navigate(`/${role}/request-user`, { replace: false });
         } else {
           navigate(`/${role}/home`, { replace: false });
         }

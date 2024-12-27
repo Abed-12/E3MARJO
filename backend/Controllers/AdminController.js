@@ -61,7 +61,8 @@ const register = async (req, res) => {
             return res.status(409).json({ message: errorMsgEmailExists, success: false });
         }
 
-        const newAdmin = new AdminModel({ email, password });
+
+        const newAdmin = new AdminModel({ email, password: await bcrypt.hash(password, 10), });
         await newAdmin.save();
 
         res.status(201).json({

@@ -31,7 +31,7 @@ const CompanySchema = new mongoose.Schema({
         type: String,
         default: 'company'
     },    
-    adminId: {
+    adminID: {
         type: String,
         default: 'admin'
     },
