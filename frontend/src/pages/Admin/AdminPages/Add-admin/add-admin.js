@@ -77,15 +77,15 @@ function AddAdmin() {
         <div>
             <Navbar
                 three="Approved"
-                pathThree="/admin/home/approve-user"
+                pathThree="/admin/approve-user"
                 four="Rejected"
-                pathFour="/admin/home/reject-user"
+                pathFour="/admin/reject-user"
 
                 five="Pending"
-                pathFive="/admin/home/request-user"
+                pathFive="/admin/request-user"
 
                 six="Add Admin"
-                pathSix="/admin/add-admin"
+                pathSix="/admin/Add-admin"
 
                 logout={handleLogout}
             />
@@ -119,7 +119,6 @@ function AddAdmin() {
                             />
                         </div>
                         <button className={styles.adminRegistrationButton} type='submit'>Add Admin</button>
-                        <ToastContainer />
                     </form>
                 </div>
             </section>

@@ -78,17 +78,19 @@ function ApproveRegister()
                     return { supplierData: []} ;// Return an empty array in case of error
                 }
         };
-        async function deleteCompany(companyID) 
+        async function deleteCompany(companyId) 
         {
             try
             {
+                const confirmDrop = window.confirm('Are you sure you want to drop this user?');
+                if (!confirmDrop) return;
                 const response = await fetch(`http://localhost:8080/auth/company/delete/${companyId}`,
                     {
                         method: 'DELETE',
                         headers: { Authorization: localStorage.getItem('token') },
                     });
                     if (response.ok) {
-                        setCompanies(deleteCompany => deleteCompany.filter(company => company.companyID !== companyID));
+                        setCompanies(deleteCompany => deleteCompany.filter(company => company.companyID !== companyId));
                         handleSuccess('Company deleted successfully '); // Show success message
                     } else {
                         console.error('Failed to delete company:', response.statusText);
@@ -98,18 +100,19 @@ function ApproveRegister()
                 console.error('Failed to delete company:', error);
             }
         };
-        async function deleteSupplier(supplierID) 
+        async function deleteSupplier(supplierId) 
         {
-            console.log(supplierId)
+            const confirmDrop = window.confirm('Are you sure you want to drop this user?');
+            if (!confirmDrop) return;
             try
             {
-                const response = await fetch(`http://localhost:8080/auth/supplier/delete/${supplierID}`,
+                const response = await fetch(`http://localhost:8080/auth/supplier/delete/${supplierId}`,
                     {
                         method: 'DELETE',
                         headers: { Authorization: localStorage.getItem('token') },
                     });
                     if (response.ok) {
-                        setSuppliers(deleteSupplier => deleteSupplier.filter(supplier => supplier.supplierID !== supplierID));
+                        setSuppliers(deleteSupplier => deleteSupplier.filter(supplier => supplier.supplierID !== supplierId));
                         handleSuccess('supplier deleted successfully '); // Show success message
                     } else {
                         console.error('Failed to delete supplier:', response.statusText);
