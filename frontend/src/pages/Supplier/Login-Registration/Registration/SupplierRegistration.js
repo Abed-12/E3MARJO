@@ -15,11 +15,16 @@ function SupplierRegistration() {
         confirmPassword: '',
         supplierPhone: '',
         supplierProduct: '',
-        commercialRegister: '',
         role: 'supplier'
     })
 
-    // const [file, setFile] = useState(null);
+    const [file, setFile] = useState(null);
+
+    const handleFileChange = async (e) => {
+        if (e.target.files) {
+            setFile(e.target.files[0]);
+        }
+    }
 
     const navigate = useNavigate();
 
@@ -30,14 +35,6 @@ function SupplierRegistration() {
         copyRegistrationInfo[name] = value;
         setRegistrationInfo(copyRegistrationInfo);
     }
-
-    // const handleFileChange = async (e) => {
-    //     console.log(e.target.name);
-    //     console.log(e.target.files);
-    //     if (e.target.files) {
-    //         setFile(e.target.files[0]);
-    //     }
-    // }
 
     // Phone منع ادخال احرف مثلا في ال 
     const handleKeyPress = (e) => {
@@ -65,7 +62,7 @@ function SupplierRegistration() {
     const handleRegistration = async (e) => {
         e.preventDefault();
         // تحديد الحقول المطلوبة
-        const requiredFields = ['supplierName', 'email', 'supplierID', 'supplierPhone', 'password', 'confirmPassword',  'supplierProduct', 'commercialRegister'];
+        const requiredFields = ['supplierName', 'email', 'supplierID', 'supplierPhone', 'password', 'confirmPassword',  'supplierProduct'];
 
         // التحقق من وجود الحقول المطلوبة
         const missingFields = requiredFields.filter(field => !registrationInfo[field]);
@@ -85,20 +82,15 @@ function SupplierRegistration() {
 
         try {
             const url = `http://localhost:8080/auth/supplier/registration`;
-            
-            // const formData = new FormData(file);
-            // formData.append('body', JSON.stringify(registrationInfo));
+            const formData = new FormData();
+            formData.append('body', JSON.stringify(registrationInfo));
 
-            // formData.append('commercialRegister', file);
-            // console.log(formData);
+            formData.append('commercialRegister', file);
+            console.log(Object.fromEntries(formData));
 
-            const response = await fetch(url, {    
+            const response = await fetch(url, {
                 method: "POST",
-                headers: {
-                    // 'Content-Type': 'multipart/form-data'
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(registrationInfo) // formData
+                body: formData
             });
             const result = await response.json();
             console.log(result);
@@ -213,13 +205,12 @@ function SupplierRegistration() {
                     </div>
                     <div className={styles.supplierRegistrationDiv}>
                         <label className={styles.supplierRegistrationLabel} htmlFor='commercialRegister'>Commercial Register</label>
-                        <input 
+                        <input
                             className={styles.supplierCommercialRegister}
-                            onChange={handleChange}
+                            onChange={handleFileChange}
                             type='file'
                             name='commercialRegister'
                             accept="application/pdf"
-                            value={registrationInfo.commercialRegister}
                         />
                     </div>
 

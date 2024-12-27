@@ -68,8 +68,6 @@ CompanyRouter.get('/company-commercial-register', ensureAuthenticated, async (re
         const company = await CompanyModel.findOne({_id: id})
         if (!company) return res.status(404).json({message: 'Commercial register not found', success: false});
         res.set({
-            'Access-Control-Allow-Origin': '*', // Replace '*' with the frontend origin in production
-            'Access-Control-Expose-Headers': 'Content-Disposition', // Expose this header
             'Content-Type': 'application/pdf',
             'Content-Disposition': `attachment; filename=${company.companyName}.pdf`,
         }).send(company.commercialRegister)

@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-const registrationValidation = async (req, res, next) => {
+const registrationValidation = (req, res, next) => {
     const dataSchema = Joi.object({
         companyName: Joi.string().required(),
         email: Joi.string().email().required(),
