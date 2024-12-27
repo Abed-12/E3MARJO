@@ -5,7 +5,7 @@ import { loginValidation } from "../Middlewares/AdminValidation.js";
 const AdminRouter = express.Router();
 
 // Login route
-AdminRouter.post('/admin', loginValidation, login);
+AdminRouter.post('/admin', login);
 
 // Add admin route
 AdminRouter.post('/add-admin', loginValidation, register);

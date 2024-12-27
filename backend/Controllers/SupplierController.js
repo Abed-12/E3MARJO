@@ -7,36 +7,23 @@ import fs from "node:fs";
 
 env.config();
 const registration = async (req, res) => {
+    // console.log(req.body);
+    // console.log(req.commercialRegister);
+    // console.log(req.body.commercialRegister);
     try {
-        const {
-            supplierName,
-            email,
-            supplierID,
-            supplierPhone,
-            password,
-            supplierProduct,
-            role
-        } = JSON.parse(req.fields.body[0]);
-        const filePath = req.files.commercialRegister[0].filepath;
-        const commercialRegister = fs.readFileSync(filePath)
-        const checkSupplier = await RegisterModel.findOne({
-            $or: [{Name: supplierName}, {Id: supplierID}]
+        const { supplierName, email, supplierID, supplierPhone, password, supplierProduct, commercialRegister } = req.body;
+        const checkSupplier = await SupplierModel.findOne({
+            $or: [{ supplierName }, { supplierID }]
         });
 
         if (checkSupplier) {
             return res.status(409).json({message: 'Supplier already exists', success: false});
         }
 
-        const newUser = new RegisterModel({
-            Name: supplierName,
-            email: email,
-            Id: supplierID,
-            Phone: supplierPhone,
-            password: await bcrypt.hash(password, 10),
-            supplierProduct: supplierProduct,
-            commercialRegister: commercialRegister,
-            role: role
-        });
+        const newUser = new RegisterModel({ supplierName, email, username, supplierPhone, password, supplierProduct, commercialRegister,role });
+        newUser.password = await bcrypt.hash(password, 10);
+        // supplierModel.commercialRegister = Buffer.from(commercialRegister, 'base64').toString('utf8');
+        
 
         await newUser.save();
 

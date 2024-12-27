@@ -19,8 +19,8 @@ const UserRegister = new mongoose.Schema({
         type: String,
         required: true,
     },
-    Phone: {
-        type: Number,
+    phone: {
+        type: String,
         required: true
     },
     commercialRegister: {

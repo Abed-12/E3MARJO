@@ -35,8 +35,7 @@ RegistrationRouter.get('/fetchRegistrationData', ensureAuthenticated, async (req
             return res.json([]);
         } 
         const adminId  = jwt.decode(req.headers.authorization)._id; // extract the id of admin who is accept the request
-        const { email: adminEmail } = await AdminModel.findById(adminId); 
-
+        const { email: adminEmail } = await AdminModel.findById(adminId);
         res.json
         (
             registration.map(data =>
@@ -77,9 +76,8 @@ RegistrationRouter.get('/fetchRegistrationData', ensureAuthenticated, async (req
     } catch (error) {
         res.status(500).json({ error: "Failed to fetch data" });
     }
-}); 
+});
 
-// approve the request 
 RegistrationRouter.patch("/approve/:id", ensureAuthenticated,  async (req, res) => {
     try 
         {
@@ -126,9 +124,7 @@ RegistrationRouter.patch("/approve/:id", ensureAuthenticated,  async (req, res) 
         {
             res.status(500).json({ error: `Failed to  approve ` });
         }
-
-
-}); 
+});
 
 // reject request 
 RegistrationRouter.patch("/rejected/:id", ensureAuthenticated, async (req, res) => {
@@ -153,8 +149,6 @@ RegistrationRouter.patch("/rejected/:id", ensureAuthenticated, async (req, res) 
         }
 });
 
-
-// drop a user from collection " that are rejected"
 RegistrationRouter.delete("/delete/:id", ensureAuthenticated, async (req, res) => {
     try 
         {
@@ -166,9 +160,6 @@ RegistrationRouter.delete("/delete/:id", ensureAuthenticated, async (req, res) =
         {
                 res.status(500).json({ error: "Failed to delete user" });
         }
-}); 
-
-
-
+});
 
 export default RegistrationRouter;
