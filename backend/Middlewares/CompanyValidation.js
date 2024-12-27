@@ -14,6 +14,7 @@ const registrationValidation = (req, res, next) => {
             {'any.only': 'Passwords do not match'}),
         companyPhone: Joi.string().length(10).required(),
         commercialRegister: Joi.required(),
+        role: Joi.string().required(),
     });
     const { error } = schema.validate(req.body);
     if (error) {

@@ -18,22 +18,12 @@ const CompanyRouter = express.Router();
 CompanyRouter.post('/login', loginValidation, login);
 CompanyRouter.post('/registration', registrationValidation, registration);
 
-
-// fetch register company data 
-CompanyRouter.get('/register', ensureAuthenticated, async (req, res) => {
-    try {
-        const companies = await CompanyModelRegister.find(); // Fetch all documents
-        res.status(200).json([companies]);
-    } catch (error) {
-        res.status(500).json({ error: "Failed to fetch data" });
-    }
-});
-
+// ----------------------------- admin -----------------------------
 // fetch company data
 CompanyRouter.get('/companyData', ensureAuthenticated, async (req, res) => {
     try {
         const companies = await CompanyModel.find({},
-        {
+        {  
             _id:1,
             companyName: 1,
             email: 1,
@@ -42,13 +32,27 @@ CompanyRouter.get('/companyData', ensureAuthenticated, async (req, res) => {
             commercialRegister: 1,
             adminID: 1
         }); 
+        if (companies.length === 0){  return res.json({ error: "No data found" });        }
 
-        if (companies.length === 0)
-        {
-            return res.status(404).json({ error: "No data found" });
-        }
+        const companyWithAdmin = await Promise.all(companies.map(async (data)=>{
 
-        res.json(companies);
+            const admin = await AdminModel.findOne(
+                { _id: data.adminID },
+                { email: 1 }
+            );
+            return{
+                _id:data._id,
+                companyName:data.companyName,
+                email:data.email,
+                companyID:data.companyID,
+                companyPhone:data.companyPhone,
+                commercialRegister:data.commercialRegister,
+                adminEmail: admin ? admin.email : null,
+            
+            }
+        }))
+        res.json(companyWithAdmin)
+
 
     } catch (error) {
         res.status(500).json({ error: "Failed to fetch data" });
@@ -59,8 +63,8 @@ CompanyRouter.get('/companyData', ensureAuthenticated, async (req, res) => {
 CompanyRouter.delete("/delete/:id", ensureAuthenticated, async (req, res) => {
     try 
         {
-            const companyID = (req.params.id); 
-            await CompanyModel.deleteOne({ companyID: companyID });
+            const companyId = (req.params.id); 
+            await CompanyModel.deleteOne({ companyID: companyId });
             res.status(200).json({ message: "company  deleted successfully" });
         }
             catch (error) 
@@ -69,46 +73,6 @@ CompanyRouter.delete("/delete/:id", ensureAuthenticated, async (req, res) => {
         }
 });
 
-// reject the request for company registration
-CompanyRouter.patch("/request/reject/:id", async (req, res) => {
-    try 
-        {
-            const ComapnyId = req.params.id; 
-            await CompanyModelRegister.updateOne
-            (
-                { _id: ComapnyId },
-                {state:"reject"}
-            );
-        res.status(200).json({ message: `Company reject successfully` });
-        }
-            catch (error) 
-        {
-                res.status(500).json({ error: `Failed to  reject Company` });
-        }
-});
-
-// approve the request for company registration
-CompanyRouter.patch("/approve/:id", async (req, res) => {
-    try 
-        {
-            const companyId = req.params.id; // get the id of the company
-            const companyData = await CompanyModelRegister.findById(companyId); // find the company by id
-            
-            // remove state from data "state" is a field in company collection  and ...dataWithoutState is name u give and this what will we use "
-            const { state, ...dataWithoutState } = companyData.toObject();
-
-            // for now we will update the state not delete " for now "
-            await CompanyModelRegister.deleteOne({ _id: companyId });
-            await CompanyModel.create(dataWithoutState);
-            res.status(200).json({ message: `Company approve successfully` });
-        }
-        catch (error) 
-        {
-                res.status(500).json({ error: `Failed to  approve Company` });
-        }
-
-
-    });
 // ----------------------------- Concrete -----------------------------
 
 
@@ -256,7 +220,7 @@ CompanyRouter.get('/order-data', ensureAuthenticated, async (req, res) => {
 
                         supplierName: supplier.supplierName,
                         companyName: dataCompany.companyName,
-                        companyPhone: dataCompany.companyPhone
+                        companyPhone:dataCompany.companyPhone
                     };
                 }
         });

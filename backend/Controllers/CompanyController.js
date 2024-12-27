@@ -20,7 +20,7 @@ const registration = async (req, res) => {
                 .json({ message: 'Company already exists', success: false });
         }
         // Create a new user object with proper field mappings
-        const newUser = new RegisterModel({Name: companyName, email, Id: companyID, password: await bcrypt.hash(password, 10), Phone: companyPhone, commercialRegister: Buffer.from(commercialRegister, 'utf-8'), role });
+        const newUser = new RegisterModel({name: companyName, email, ID: companyID, password: await bcrypt.hash(password, 10), phone: companyPhone, commercialRegister: Buffer.from(commercialRegister, 'utf-8'), role });
 
         // Save the new user to the database
         await newUser.save();

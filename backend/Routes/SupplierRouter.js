@@ -14,21 +14,52 @@ const SupplierRouter = express.Router();
 // Login & Registration
 SupplierRouter.post('/login', loginValidation, login);
 SupplierRouter.post('/registration', registrationValidation, registration);
-// fetch register supplier data 
-SupplierRouter.get('/register', ensureAuthenticated, async (req, res) => {
-    try {
-        const suppliers = await SupplierModelRegister.find(); // Fetch all documents
-        res.status(200).json([suppliers]); // Send them as array 
-    } catch (error) {
-        res.status(500).json({ error: "Failed to fetch data" });
-    }
-});
 // fetch supplier data
 SupplierRouter.get('/supplierData', ensureAuthenticated, async (req, res) => {
-    try {
-        const suppliers = await SupplierModel.find(); // Fetch all documents
-        res.status(200).json([suppliers]); // Send them as array 
-    } catch (error) {
+    try 
+    {
+        const suppliers = await SupplierModel.find({},
+            {
+                _id: 1,
+                supplierName:1,
+                email: 1,
+                supplierID:1,
+                supplierPhone:1,
+                supplierProduct:1,
+                price:1,
+                commercialRegister: 1,
+                adminID: 1,
+            });
+            /*
+            data 
+            id 1 
+            id 2 
+            id 3 
+            */
+        if(suppliers.length===0){            return res.json({ error: "No data found" });        }
+
+        const suppliersWithAdmin = await Promise.all(suppliers.map(async (data) => {
+            // Find admin email using adminID
+            const admin = await AdminModel.findOne(
+                { _id: data.adminID },
+                { email: 1 }
+            );
+
+            return {
+                _id: data._id,
+                supplierName: data.supplierName,
+                email: data.email,
+                supplierID: data.supplierID,
+                supplierPhone: data.supplierPhone,
+                price: data.price,
+                commercialRegister: data.commercialRegister,
+                supplierProduct: data.supplierProduct,
+                adminEmail: admin ? admin.email : null,
+            };
+        }));
+        res.json(suppliersWithAdmin);
+       } catch (error) 
+    {
         res.status(500).json({ error: "Failed to fetch data" });
     }
 });
@@ -38,7 +69,6 @@ SupplierRouter.delete("/delete/:id", ensureAuthenticated, async (req, res) => {
     try 
         {
             const supplierId = (req.params.id); 
-            console.log(supplierId)
             await SupplierModel.deleteOne({ supplierID: supplierId });
             res.status(200).json({ message: "supplier  deleted successfully" });
         }

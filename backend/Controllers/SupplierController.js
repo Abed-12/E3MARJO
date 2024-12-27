@@ -10,7 +10,7 @@ const registration = async (req, res) => {
     // console.log(req.commercialRegister);
     // console.log(req.body.commercialRegister);
     try {
-        const { supplierName, email, supplierID, supplierPhone, password, supplierProduct, commercialRegister } = req.body;
+        const { supplierName, email, supplierID, supplierPhone, password, supplierProduct, commercialRegister, role } = req.body;
         const checkSupplier = await SupplierModel.findOne({
             $or: [{ supplierName }, { supplierID }]
         });
@@ -20,7 +20,7 @@ const registration = async (req, res) => {
         }
         // console.log("after: " + commercialRegister)
 
-        const newUser = new RegisterModel({ supplierName, email, username, supplierPhone, password, supplierProduct, commercialRegister,role });
+        const newUser = new RegisterModel({ name: supplierName, email, ID: supplierID, phone: supplierPhone, password, supplierProduct, commercialRegister,role });
         newUser.password = await bcrypt.hash(password, 10);
         // supplierModel.commercialRegister = Buffer.from(commercialRegister, 'base64').toString('utf8');
         
