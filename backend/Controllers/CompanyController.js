@@ -67,7 +67,6 @@ const login = async (req, res) => {
                 companyName: company.companyName,
                 email: company.email,
                 companyID: company.companyID,
-                companyPhone: company.companyPhone,
                 role: company.role,
                 _id: company._id,
             }, // يحتوي على المعلومات التي تريد تضمينها

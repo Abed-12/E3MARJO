@@ -29,28 +29,7 @@ function Profile() {
 
         navigate("/company/home/profile/edit-profile");
     };
-
-    const fetchCompanyData = async () => {
-        try {
-            const url = `http://localhost:8080/auth/company/company-data`;
-            const headers = {
-                headers: {
-                    'Authorization': localStorage.getItem('token'),
-                }
-            }
-            const response = await fetch(url, headers);
-            const result = await response.json();
-            console.log(result);
-            setCompanyData(result);
-        } catch (err) {
-            handleError(err);
-        }
-    }
     
-    useEffect(() => {
-        fetchCompanyData();
-    }, []);
-
     const downloadCommercialRegisterPdf = async () => {
         try {
             const url = `http://localhost:8080/auth/company/company-commercial-register`;
@@ -66,8 +45,28 @@ function Profile() {
         } catch (err) {
             handleError(err);
         }
-
     }
+    
+    const fetchCompanyData = async () => {
+        try {
+            const url = `http://localhost:8080/auth/company/company-data`;
+            const headers = {
+                headers: {
+                    'Authorization': localStorage.getItem('token'),
+                }
+            }
+            const response = await fetch(url, headers);
+            const result = await response.json();
+            setCompanyData(result);
+        } catch (err) {
+            handleError(err);
+        }
+    }
+    
+    useEffect(() => {
+        fetchCompanyData();
+    }, []);
+
 
     return (
         <section className={styles.profileBody}>

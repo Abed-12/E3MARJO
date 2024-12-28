@@ -72,7 +72,6 @@ const login = async (req, res) => {
                 supplierName: supplier.supplierName,
                 email: supplier.email,
                 supplierID: supplier.supplierID,
-                supplierPhone: supplier.supplierPhone,
                 supplierProduct: supplier.supplierProduct,
                 role: supplier.role,
                 _id: supplier._id

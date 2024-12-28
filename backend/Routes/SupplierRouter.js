@@ -133,7 +133,6 @@ SupplierRouter.get('/supplier-data', ensureAuthenticated, async (req, res) => {
         const supplierData = await SupplierModel.findOne({_id: id})
         if (!supplierData) return res.status(404).json({message: 'Supplier not found', success: false});
         res.json({
-            commercialRegister: supplierData.commercialRegister,
             price: supplierData.price,
             supplierPhone: supplierData.supplierPhone,
         });

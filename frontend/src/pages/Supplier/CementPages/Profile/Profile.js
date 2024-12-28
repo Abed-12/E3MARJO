@@ -29,27 +29,6 @@ function Profile() {
         navigate("/supplier/cement/profile/edit-profile");
     };
 
-    const fetchSupplierData = async () => {
-        try {
-            const url = `http://localhost:8080/auth/supplier/supplier-data`;
-            const headers = {
-                headers: {
-                    'Authorization': localStorage.getItem('token'),
-                }
-            }
-            const response = await fetch(url, headers);
-            const result = await response.json();
-            console.log(result);
-            setSupplierData(result);
-        } catch (err) {
-            handleError(err);
-        }
-    }
-
-    useEffect(() => {
-        fetchSupplierData();
-    }, []);
-
     const downloadCommercialRegisterPdf = async () => {
         try {
             const url = `http://localhost:8080/auth/supplier/supplier-commercial-register`;
@@ -65,8 +44,29 @@ function Profile() {
         } catch (err) {
             handleError(err);
         }
-
+        
     }
+
+    const fetchSupplierData = async () => {
+        try {
+            const url = `http://localhost:8080/auth/supplier/supplier-data`;
+            const headers = {
+                headers: {
+                    'Authorization': localStorage.getItem('token'),
+                }
+            }
+            const response = await fetch(url, headers);
+            const result = await response.json();
+            setSupplierData(result);
+        } catch (err) {
+            handleError(err);
+        }
+    }
+
+    useEffect(() => {
+        fetchSupplierData();
+    }, []);
+    
     return (
         <section className={styles.profileBody}>
             <Navbar
