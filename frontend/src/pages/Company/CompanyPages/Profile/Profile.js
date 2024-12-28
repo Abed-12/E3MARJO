@@ -60,7 +60,7 @@ function Profile() {
             }
             const response = await fetch(url, options);
             const contentDisposition = response.headers.get('content-disposition');
-            const filename = contentDisposition ? contentDisposition.split('filename=')[1].replace(/"/g, '') : 'file.pdf';
+            const filename = contentDisposition ? contentDisposition.split('filename=')[1].replace(/"/g, '') : `${decodedData.companyName}.pdf`;
             const file = await response.blob();
             saveAs(file, filename)
         } catch (err) {
