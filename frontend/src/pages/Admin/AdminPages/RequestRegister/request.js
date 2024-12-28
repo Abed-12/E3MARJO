@@ -4,8 +4,8 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import styles from './request.module.css';
 import Navbar from '../../../../components/navbar/Navbar';
-import { handleSuccess } from '../../../../utils/utils';
-
+import { handleSuccess , handleError} from '../../../../utils/utils';
+import {saveAs} from 'file-saver';
 function RequestRegister() {
     const navigate = useNavigate();
     const [pending, setPending] = useState([]); // Initialize as an empty array
@@ -93,10 +93,29 @@ const handleLogout = (e) =>
             console.log("approve user faild " `${err}`)
         }
     };
-    
 
+    async function downloadCommercialRegisterPdf(ID, name) 
+    {
+        try 
+        {
+            const url = `http://localhost:8080/auth/register/registration-commercial-register/${ID}`;
+            const options = {
+                method:'GET',
+                headers: { Authorization: localStorage.getItem('token') }
+            }
+            const response = await fetch(url, options);
+            const contentDisposition = response.headers.get('content-disposition');
+            const filename = contentDisposition ? contentDisposition.split('filename=')[1].replace(/"/g, '') : `${name}.pdf`;
+            const file = await response.blob();
+            saveAs(file, filename)
+        } catch (err) {
+            handleError(err);
+        }
+
+    }
+        
     return (
-        <div>
+        <div className={styles.body}>
             <ToastContainer />
             
             <Navbar
@@ -106,7 +125,7 @@ const handleLogout = (e) =>
                 pathFour="/admin/reject-user"
 
                 five="Pending"
-                pathFive="/admin/=request-user"
+                pathFive="/admin/request-user"
 
                 six="Add Admin"
                 pathSix="/admin/add-admin"
@@ -135,20 +154,23 @@ const handleLogout = (e) =>
                                     <strong></strong> 
                                     )
                                 }
-                                <p><strong>Commercial register:</strong> <a href={JSON.stringify(field.commercialRegister)}>view PDF</a> </p>                                
-
-                                <button
-                                    className={styles.pendingButtonAccept}
-                                    onClick={() => approveUser(field.ID)}
-                                >
-                                    Approve
-                                </button>
-                                <button
-                                    className={styles.pendingButtonReject}
-                                    onClick={() => rejectUser(field.ID)}
-                                >
-                                    Reject
-                                </button>
+                                <p><strong>Commercial register:</strong>            
+                                    <button className={styles.requestDownloadButton} onClick={() => downloadCommercialRegisterPdf(field.ID, field.name)}>Download PDF</button> 
+                                </p>
+                                <div className={styles.divButton}>
+                                    <button
+                                        className={styles.pendingButtonAccept}
+                                        onClick={() => approveUser(field.ID)}
+                                    >
+                                        Approve
+                                    </button>
+                                    <button
+                                        className={styles.pendingButtonReject}
+                                        onClick={() => rejectUser(field.ID)}
+                                    >
+                                        Reject
+                                    </button>
+                                </div>
                             </div>
                     );
                 

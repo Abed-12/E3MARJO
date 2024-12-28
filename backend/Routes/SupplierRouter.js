@@ -15,38 +15,78 @@ const SupplierRouter = express.Router();
 // Login & Registration
 SupplierRouter.post('/login', loginValidation, login);
 SupplierRouter.post('/registration', formidableTransformer, registrationValidation, registration);
-// fetch register supplier data
-SupplierRouter.get('/register', ensureAuthenticated, async (req, res) => {
-    try {
-        const suppliers = await SupplierModelRegister.find(); // Fetch all documents
-        res.status(200).json([suppliers]); // Send them as array
-    } catch (error) {
-        res.status(500).json({ error: "Failed to fetch data" });
-    }
-});
+
+// ----------------------------- admin -----------------------------
 // fetch supplier data
 SupplierRouter.get('/supplierData', ensureAuthenticated, async (req, res) => {
-    try {
-        const suppliers = await SupplierModel.find(); // Fetch all documents
-        res.status(200).json([suppliers]); // Send them as array
-    } catch (error) {
+    try 
+    {
+        const suppliers = await SupplierModel.find({},
+            {
+                _id: 1,
+                supplierName:1,
+                email: 1,
+                supplierID:1,
+                supplierPhone:1,
+                supplierProduct:1,
+                price:1,
+                commercialRegister: 1,
+                adminID: 1,
+            });
+        if(suppliers.length===0){            return res.json({ error: "No data found" });        }
+
+        const suppliersWithAdmin = await Promise.all(suppliers.map(async (data) => {
+            // Find admin email using adminID
+            const admin = await AdminModel.findOne(
+                { _id: data.adminID },
+                { email: 1 }
+            );
+
+            return {
+                _id: data._id,
+                supplierName: data.supplierName,
+                email: data.email,
+                supplierID: data.supplierID,
+                supplierPhone: data.supplierPhone,
+                price: data.price,
+                commercialRegister: data.commercialRegister,
+                supplierProduct: data.supplierProduct,
+                adminEmail: admin ? admin.email : null,
+            };
+        }));
+        res.json(suppliersWithAdmin);
+       } catch (error) 
+    {
         res.status(500).json({ error: "Failed to fetch data" });
     }
 });
 
 // delete supplier from collection 
 SupplierRouter.delete("/delete/:id", ensureAuthenticated, async (req, res) => {
-    try
+    try 
         {
-            const supplierId = (req.params.id);
-            console.log(supplierId)
+            const supplierId = (req.params.id); 
             await SupplierModel.deleteOne({ supplierID: supplierId });
             res.status(200).json({ message: "supplier  deleted successfully" });
         }
-            catch (error)
+            catch (error) 
         {
                 res.status(500).json({ error: "Failed to delete supplier" });
         }
+});
+
+SupplierRouter.get('/admin-commercial-register/:id', ensureAuthenticated, async (req, res) => {
+    try {
+        const id = req.params.id;
+        const supplier = await SupplierModel.findOne({supplierID : id})
+        if (!supplier) return res.status(404).json({message: 'Commercial register not found', success: false});   
+        res.set({
+            'Content-Type': 'application/pdf',
+            'Content-Disposition': `attachment;filename=${supplier.supplierName}.pdf`,
+            }).send(supplier.commercialRegister) 
+        } catch (error) {
+        res.status(500).json({ message: "Internal server errror: " + error.message, success: false });
+    }
 });
 
 // ----------------------------- Concrete -----------------------------
@@ -86,7 +126,7 @@ SupplierRouter.patch('/update-order-status', ensureAuthenticated, async (req, re
     }
 });
 
-// Get commercialRegister Data in Collection Supplier 
+// Get Data in Collection Supplier 
 SupplierRouter.get('/supplier-data', ensureAuthenticated, async (req, res) => {
     try {
         const id = jwt.decode(req.headers.authorization)._id;
@@ -175,9 +215,9 @@ SupplierRouter.patch('/update-profile', updateValidation, ensureAuthenticated, a
             return res.json({message: "No valid data provided to update. Allowed fields are: price, supplierPhone, and password"});
         }
 
-        const updateCementPrice = await SupplierModel.findByIdAndUpdate(id, query);
+        const updateSupplier = await SupplierModel.findByIdAndUpdate(id, query);
 
-        if (!updateCementPrice) {
+        if (!updateSupplier) {
             return res.status(404).json({message: "Order not found", success: false});
         }
         res.status(200).json({message: "Profile has been updated", success: true});

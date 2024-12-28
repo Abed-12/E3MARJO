@@ -36,4 +36,23 @@ const loginValidation = (req, res, next) => {
     next();
 }
 
-export {registrationValidation, loginValidation};
+const updateValidation = (req, res, next) => {
+    const schema = Joi.object({
+        password: Joi.string().min(9).max(18).pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/).allow('').messages(
+            {'string.min': 'Password must be at least 9 characters long.',
+            'string.max': 'Password cannot exceed 18 characters.',
+            'string.pattern.base': 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.',
+            'any.required': 'Password is required.',}),
+        confirmPassword: Joi.string().valid(Joi.ref('password')).messages(
+            {'any.only': 'Passwords do not match'}),
+        companyPhone: Joi.string().length(10).allow(''),
+    });
+    const { error } = schema.validate(req.body);
+    if (error) {
+        return res.status(400)
+        .json({ message: "Bad request", error })
+    }
+    next();
+}
+
+export {registrationValidation, loginValidation, updateValidation};

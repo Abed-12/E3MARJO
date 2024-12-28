@@ -24,8 +24,7 @@ const UserRegister = new mongoose.Schema({
         required: true
     },
     commercialRegister: {
-        type: Buffer, // Store the file as binary data
-        // contentType: String, // Store the MIME type (e.g., application/pdf)
+        type: Buffer, 
         required: true
     },
     role: {

@@ -4,7 +4,9 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import styles from './Reject.module.css';
 import Navbar from '../../../../components/navbar/Navbar';
-import { handleSuccess } from '../../../../utils/utils';
+import { handleSuccess, handleError } from '../../../../utils/utils';
+import {saveAs} from 'file-saver';
+
 
 function RejectRegister() {
     const navigate = useNavigate();
@@ -75,10 +77,30 @@ const handleLogout = (e) =>
         }
     }
 
+    async function downloadCommercialRegisterPdf(ID, name) 
+    {
+        try 
+        {
+            const url = `http://localhost:8080/auth/register/registration-commercial-register/${ID}`;
+            const options = {
+                method:'GET',
+                headers: { Authorization: localStorage.getItem('token') }
+            }
+            const response = await fetch(url, options);
+            const contentDisposition = response.headers.get('content-disposition');
+            const filename = contentDisposition ? contentDisposition.split('filename=')[1].replace(/"/g, '') : `${name}.pdf`;
+            const file = await response.blob();
+            saveAs(file, filename)
+        } catch (err) {
+            handleError(err);
+        }
+
+    }
+
 
 
     return (
-        <div>
+        <div className={styles.body}>
             <ToastContainer />
             <Navbar
                 three="Approved"
@@ -117,7 +139,9 @@ const handleLogout = (e) =>
                                     <strong></strong> 
                                     )
                                 }
-                            <p><strong>Commercial register:</strong> <a href={JSON.stringify(field.commercialRegister)}>view PDF</a> </p>                                
+                            <p><strong>Commercial register:</strong> 
+                                <button className={styles.rejectDownloadButton} onClick={() =>downloadCommercialRegisterPdf(field.ID, field.name)}>Download PDF</button> 
+                            </p>                                
                             <p><strong>Admin email:</strong> {field.adminEmail} </p>
                                 <button
                                     className={styles.pendingButtonDrop}

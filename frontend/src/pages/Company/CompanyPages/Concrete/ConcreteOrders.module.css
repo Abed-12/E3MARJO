@@ -1,5 +1,5 @@
 /* Card */
-.companyHomeContainerCard {
+.concreteOrdersContainerCard {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -9,18 +9,17 @@
     flex-wrap: wrap; /* يجعل العناصر تتكيف مع أحجام الشاشات الأصغر */
     background-color: #998d77cb;
     background-image: url("https://www.transparenttextures.com/patterns/groovepaper.png");
-
 }
 
-.cementCardMedia {
-    background-image: url('../../../../public/images/cement.jpg');
-    background-size: cover; /* يجعل الخلفية تتكيف مع حجم العنصر */
+.QuickOrdersCardMedia {
+    background-image: url('../../../../../public/images/quickOrders.png');
+    background-size: 50vh ; 
     background-position: center;
 }
 
-.concreteCardMedia {
-    background-image: url('../../../../public/images/concrete.jpg');
-    background-size: cover; /* يجعل الخلفية تتكيف مع حجم العنصر */
+.BasicOrdersCardMedia {
+    background-image: url('../../../../../public/images/basicOrders.png');
+    background-size: cover;
     background-position: center;
 }
 
@@ -31,7 +30,7 @@
 
 /* Responsive Styles */
 @media (max-width: 768px) {
-    .companyHomeContainerCard {
+    .concreteOrdersCard {
         flex-direction: column; /* العناصر تتحول إلى عمودي للشاشات الصغيرة */
         gap: 20px;
         width: auto;
@@ -39,7 +38,7 @@
         margin-bottom: 3%;
     }
 
-    .cementCardMedia {
+    .QuickOrdersCardMedia {
         width: 100%;
     }
 }

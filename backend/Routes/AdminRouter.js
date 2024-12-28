@@ -2,6 +2,7 @@ import express from "express";
 import { login, register } from "../Controllers/AdminController.js"; 
 import { loginValidation } from "../Middlewares/AdminValidation.js";
 
+
 const AdminRouter = express.Router();
 
 // Login route

@@ -15,7 +15,7 @@ const registration = async (req, res) => {
 
         // Check if the company already exists
         const checkCompany = await RegisterModel.findOne({
-            $or: [{Name: companyName}, {Id: companyID}]
+            $or: [{name: companyName}, {ID: companyID}]
         });
 
         if (checkCompany) {
@@ -24,11 +24,11 @@ const registration = async (req, res) => {
         }
         // Create a new user object with proper field mappings
         const newUser = new RegisterModel({
-            Name: companyName,
+            name: companyName,
             email: email,
-            Id: companyID,
+            ID: companyID,
             password: await bcrypt.hash(password, 10),
-            Phone: companyPhone,
+            phone: companyPhone,
             commercialRegister: commercialRegister,
             role: role
         });

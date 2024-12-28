@@ -1,10 +1,11 @@
 import bodyParser from "body-parser";
 import {login, registration} from "../Controllers/CompanyController.js";
-import {loginValidation, registrationValidation} from "../Middlewares/CompanyValidation.js";
+import {loginValidation, registrationValidation, updateValidation} from "../Middlewares/CompanyValidation.js";
 import CompanyModel from "../Models/Company.js"
 import ensureAuthenticated from "../Middlewares/Auth.js"
 import express from "express";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 import cementOrder from "../Controllers/OrderController.js";
 import SupplierModel from "../Models/Supplier.js";
 import OrderModel from "../Models/Order.js";
@@ -19,92 +20,75 @@ const CompanyRouter = express.Router();
 CompanyRouter.post('/login', loginValidation, login);
 CompanyRouter.post('/registration', formidableTransformer, registrationValidation, registration);
 
-
-// fetch register company data
-CompanyRouter.get('/register', ensureAuthenticated, async (req, res) => {
-    try {
-        const companies = await CompanyModelRegister.find(); // Fetch all documents
-        res.status(200).json([companies]);
-    } catch (error) {
-        res.status(500).json({ error: "Failed to fetch data" });
-    }
-});
-
+// ----------------------------- admin -----------------------------
 // fetch company data
 CompanyRouter.get('/companyData', ensureAuthenticated, async (req, res) => {
     try {
         const companies = await CompanyModel.find({},
-            {
-                _id: 1,
-                companyName: 1,
-                email: 1,
-                companyID: 1,
-                companyPhone: 1,
-                commercialRegister: 1,
-                adminID: 1
-            });
+        {  
+            _id:1,
+            companyName: 1,
+            email: 1,
+            companyID: 1,
+            companyPhone: 1,
+            commercialRegister: 1,
+            adminID: 1
+        }); 
+        if (companies.length === 0){  return res.json({ error: "No data found" });        }
 
-        if (companies.length === 0) {
-            return res.status(404).json({error: "No data found"});
-        }
-        res.json(companies);
+        const companyWithAdmin = await Promise.all(companies.map(async (data)=>{
+
+            const admin = await AdminModel.findOne(
+                { _id: data.adminID },
+                { email: 1, }
+            );
+            return{
+                _id:data._id,
+                companyName:data.companyName,
+                email:data.email,
+                companyID:data.companyID,
+                companyPhone:data.companyPhone,
+                commercialRegister:data.commercialRegister,
+                adminEmail: admin ? admin.email : null,
+            
+            }
+        }))
+        res.json(companyWithAdmin)
+
 
     } catch (error) {
-        res.status(500).json({error: "Failed to fetch data"});
+        res.status(500).json({ error: "Failed to fetch data" });
     }
-});
+}); 
 
 // delete company from collection 
 CompanyRouter.delete("/delete/:id", ensureAuthenticated, async (req, res) => {
+    try 
+        {
+            const companyId = (req.params.id); 
+            await CompanyModel.deleteOne({ companyID: companyId });
+            res.status(200).json({ message: "company  deleted successfully" });
+        }
+            catch (error) 
+        {
+                res.status(500).json({ error: "Failed to delete company" });
+        }
+});
+
+CompanyRouter.get('/admin-commercial-register/:id', ensureAuthenticated, async (req, res) => {
     try {
-        const companyID = (req.params.id);
-        await CompanyModel.deleteOne({companyID: companyID});
-        res.status(200).json({message: "company  deleted successfully"});
-    } catch (error) {
-        res.status(500).json({error: "Failed to delete company"});
+        const id = req.params.id;
+        const company = await CompanyModel.findOne({companyID: id})
+        if (!company) return res.status(404).json({message: 'Commercial register not found', success: false});
+        res.set({
+            'Content-Type': 'application/pdf',
+            'Content-Disposition': `attachment; filename="${company.companyName}.pdf"`,
+            }).send(company.commercialRegister) 
+        } catch (error) {
+        res.status(500).json({ message: "Internal server errror: " + error.message, success: false });
     }
 });
 
-// reject the request for company registration
-CompanyRouter.patch("/request/reject/:id", async (req, res) => {
-    try
-        {
-            const ComapnyId = req.params.id;
-            await CompanyModelRegister.updateOne
-            (
-                { _id: ComapnyId },
-                {state:"reject"}
-            );
-        res.status(200).json({ message: `Company reject successfully` });
-        }
-            catch (error)
-        {
-                res.status(500).json({ error: `Failed to  reject Company` });
-        }
-});
-
-// approve the request for company registration
-CompanyRouter.patch("/approve/:id", async (req, res) => {
-    try
-        {
-            const companyId = req.params.id; // get the id of the company
-            const companyData = await CompanyModelRegister.findById(companyId); // find the company by id
-
-            // remove state from data "state" is a field in company collection  and ...dataWithoutState is name u give and this what will we use "
-            const { state, ...dataWithoutState } = companyData.toObject();
-
-            // for now we will update the state not delete " for now "
-            await CompanyModelRegister.deleteOne({ _id: companyId });
-            await CompanyModel.create(dataWithoutState);
-            res.status(200).json({ message: `Company approve successfully` });
-        }
-        catch (error)
-        {
-                res.status(500).json({ error: `Failed to  approve Company` });
-        }
-
-
-    });
 // ----------------------------- Concrete -----------------------------
 
 
@@ -147,6 +131,20 @@ CompanyRouter.get('/data-supplier', ensureAuthenticated, async (req, res) => {
                 type: item.supplierProduct
             }
         }));
+    } catch (error) {
+        res.status(500).json({message: "Internal server errror: " + error.message, success: false});
+    }
+});
+
+// Get Data in Collection Supplier 
+CompanyRouter.get('/company-data', ensureAuthenticated, async (req, res) => {
+    try {
+        const id = jwt.decode(req.headers.authorization)._id;
+        const companyData = await CompanyModel.findOne({_id: id})
+        if (!companyData) return res.status(404).json({message: 'Company not found', success: false});
+        res.json({
+            companyPhone: companyData.companyPhone,
+        });
     } catch (error) {
         res.status(500).json({message: "Internal server errror: " + error.message, success: false});
     }
@@ -265,6 +263,31 @@ CompanyRouter.get('/order-data', ensureAuthenticated, async (req, res) => {
     }
 });
 
+// Define a route to handle PATCH requests for updating a profile
+CompanyRouter.patch('/update-profile', updateValidation, ensureAuthenticated, async (req, res) => {
+    try {
+        const id = jwt.decode(req.headers.authorization)._id;
+        const { companyPhone, password} = req.body;
+        const hashPassword = await bcrypt.hash(password, 10);
+
+        const query = {};
+        if (companyPhone) query.companyPhone = companyPhone;
+        if (password) query.password = hashPassword;
+
+        if (Object.keys(query).length === 0) {
+            return res.json({message: "No valid data provided to update. Allowed fields are: companyPhone, and password"});
+        }
+
+        const updateCompany = await CompanyModel.findByIdAndUpdate(id, query);
+
+        if (!updateCompany) {
+            return res.status(404).json({message: "Order not found", success: false});
+        }
+        res.status(200).json({message: "Profile has been updated", success: true});
+    } catch (error) {
+        res.status(500).json({message: "Internal server errror: " + error, success: false});
+    }
+});
 
 // ----------------------------- Concrete -----------------------------
 

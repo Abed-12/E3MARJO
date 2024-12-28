@@ -1,14 +1,15 @@
 import { useNavigate } from 'react-router-dom';
-import { handleSuccess } from '../../../utils/utils';
+import { handleError, handleSuccess } from '../../../../utils/utils';
 import { ToastContainer } from 'react-toastify';
-import styles from './CompanyHome.module.css';
-import Navbar from '../../../components/navbar/Navbar';
-import Footer from '../../../components/footer/Footer';
+import styles from './ConcreteOrders.module.css';
+import Navbar from '../../../../components/navbar/Navbar';
+import Footer from '../../../../components/footer/Footer';
 import { Card, CardActionArea, CardMedia, CardContent, Typography } from '@mui/material';
 
-function CompanyHome() {
-    const navigate = useNavigate();
+function ConcreteOrders() {
 
+    const navigate = useNavigate();
+    
     const handleLogout = (e) => {
         localStorage.removeItem('token');
         localStorage.removeItem('role');
@@ -19,23 +20,23 @@ function CompanyHome() {
     }
 
     // for card
-    const handleConcrete = async (e) => {
+    const handleQuickOrders = (e) => {
         e.preventDefault();
         setTimeout(() => { 
-            navigate('/company/home/concrete-orders') // (function) سيتم تنفيذها بعد انتهاء الوقت
+            navigate('/company/home/concrete-orders/quick-orders') 
         }, 500)
     }
-    
+
     // for card
-    const handleCement = (e) => {
+    const handleBasicOrders = (e) => {
         e.preventDefault();
         setTimeout(() => { 
-            navigate('/company/home/cement-orders') // (function) سيتم تنفيذها بعد انتهاء الوقت
+            navigate('/company/home/concrete-orders/basic-orders') 
         }, 500)
     }
 
     return(
-        <section className={styles.companyBody}>
+        <section className={styles.concreteOrdersBody}>
             <Navbar 
                 one="Home"
                 pathOne="/company/home"
@@ -54,11 +55,12 @@ function CompanyHome() {
                 pathFive="/company/home/profile"
                 logout={handleLogout}
             />
-            
-            <div className={styles.companyHomeContainerCard}>
+
+            <div className={styles.concreteOrdersContainerCard}>
+                
                 {/* First Card */}
                 <Card
-                    className={styles.companyHomeCard}
+                    className={styles.concreteOrdersCard}
                     sx={{
                         width: {
                             xs: 250,  // for extra small screens
@@ -68,18 +70,18 @@ function CompanyHome() {
                         }
                     }}
                 >
-                    <CardActionArea onClick={handleCement}>
+                    <CardActionArea onClick={handleQuickOrders}>
                         <CardMedia
-                            className={styles.cementCardMedia}
+                            className={styles.QuickOrdersCardMedia}
                             component="img"
                             height="170"
                         />
                         <CardContent className={styles.cardContent}>
                             <Typography gutterBottom variant="h5" component="div">
-                                Cement
+                                Quick Orders
                             </Typography>
                             <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                                Click to start ordering cement for your construction.
+                                Click to start quick ordering Concrete for your construction
                             </Typography>
                         </CardContent>
                     </CardActionArea>
@@ -96,24 +98,24 @@ function CompanyHome() {
                         }
                     }}
                 >
-                    <CardActionArea onClick={handleConcrete}>
+                    <CardActionArea onClick={handleBasicOrders}>
                         <CardMedia
-                            className={styles.concreteCardMedia}
+                            className={styles.BasicOrdersCardMedia} 
                             component="img"
                             height="170"
                         />
                         <CardContent className={styles.cardContent}>
                             <Typography gutterBottom variant="h5" component="div">
-                                Concrete
+                                Basic Orders
                             </Typography>
                             <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                                Click to start ordering concrete for your construction.
+                                Click to start basic ordering Concrete for your construction
                             </Typography>
                         </CardContent>
                     </CardActionArea>
                 </Card>
             </div>
-
+            
             <Footer 
                 one="Home"
                 pathOne="/company/home"
@@ -136,4 +138,5 @@ function CompanyHome() {
         </section>
     );
 }
-export default CompanyHome;
+
+export default ConcreteOrders;

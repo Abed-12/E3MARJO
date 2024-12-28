@@ -1,3 +1,8 @@
+.underPreparingOrdersBody{
+    background-color: #998d77cb;
+    background-image: url("https://www.transparenttextures.com/patterns/groovepaper.png");
+}
+
 .underPreparingOrdersContainer {
     display: grid;
     grid-template-columns: 2fr; /* افتراضيًا عمود واحد للشاشات الصغيرة */

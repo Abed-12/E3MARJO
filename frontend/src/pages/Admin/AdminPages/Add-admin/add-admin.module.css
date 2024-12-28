@@ -1,13 +1,14 @@
-body {
-    margin: 0;
+.adminBody{
+    background-color: #998d77cb;
+    background-image: url("https://www.transparenttextures.com/patterns/groovepaper.png");
+    height: 100vh;
 }
 
-.adminBody {
+.container {
     display: flex;
     justify-content: center;
     align-items: center; 
-    margin-bottom: 20px; /* Add space between fields */
-    height: 80vh;
+    margin-top: 5%;
 }
 
 /* Container Styles */

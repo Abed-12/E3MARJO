@@ -1,3 +1,8 @@
+.profileBody{
+    background-color: #998d77cb;
+    background-image: url("https://www.transparenttextures.com/patterns/groovepaper.png");
+}
+
 .profileContainer {
     display: flex;
     justify-content: center;
@@ -24,8 +29,8 @@
     margin-top: 0;
 }
 
-.profileEditPriceButton {
-    position: absolute; /* يتيح التحكم بموقع الزر داخل الحاوية */
+.profileEditProfileButton {
+    position: absolute; 
     top: 25px; 
     right: 25px; 
     background-color: rgb(109, 102, 109); 
@@ -35,11 +40,11 @@
     border-radius: 5px;
     padding: 8px 12px; 
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease; 
 
 }
 
-.profileEditPriceButton:hover {
+.profileEditProfileButton:hover {
     background-color: rgb(54, 54, 54); 
 }
 
@@ -102,6 +107,27 @@
 .profileButton:hover {
     background-color: rgb(54, 54, 54);
 }
+
+/* styles.module.css */
+.profileDownloadButton {
+    background-color: #4CAF50; 
+    color: white; 
+    padding: 5px 5px;
+    font-size: 14px; 
+    border: none; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    transition: background-color 0.3s ease; 
+}
+
+.profileDownloadButton:hover {
+background-color: #45a049; 
+}
+
+.profileDownloadButton:active {
+background-color: #3e8e41; 
+}
+  
 
 /* استعلام الوسائط للشاشات الأكبر */
 @media (min-width: 768px) {

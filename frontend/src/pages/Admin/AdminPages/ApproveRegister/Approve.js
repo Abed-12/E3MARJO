@@ -4,7 +4,8 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import styles from './Approve.module.css';
 import Navbar from '../../../../components/navbar/Navbar';
-import { handleSuccess } from '../../../../utils/utils';
+import { handleSuccess, handleError } from '../../../../utils/utils';
+import {saveAs} from 'file-saver';
 
 function ApproveRegister()
 {
@@ -32,9 +33,7 @@ function ApproveRegister()
 
     const handleLogout = (e) =>
         {
-
             localStorage.removeItem('token');
-            localStorage.removeItem('loggedInUser');
             localStorage.removeItem('role');
             handleSuccess('User Loggedout');
             setTimeout(() => 
@@ -78,19 +77,19 @@ function ApproveRegister()
                     return { supplierData: []} ;// Return an empty array in case of error
                 }
         };
-        async function deleteCompany(companyId) 
+        async function deleteCompany(companyID) 
         {
             try
             {
                 const confirmDrop = window.confirm('Are you sure you want to drop this user?');
                 if (!confirmDrop) return;
-                const response = await fetch(`http://localhost:8080/auth/company/delete/${companyId}`,
+                const response = await fetch(`http://localhost:8080/auth/company/delete/${companyID}`,
                     {
                         method: 'DELETE',
                         headers: { Authorization: localStorage.getItem('token') },
                     });
                     if (response.ok) {
-                        setCompanies(deleteCompany => deleteCompany.filter(company => company.companyID !== companyId));
+                        setCompanies(deleteCompany => deleteCompany.filter(company => company.companyID !== companyID));
                         handleSuccess('Company deleted successfully '); // Show success message
                     } else {
                         console.error('Failed to delete company:', response.statusText);
@@ -122,10 +121,48 @@ function ApproveRegister()
                 console.error('Failed to delete supplier:', error);
             }
         };
+        async function companyDownloadCommercialRegisterPdf(ID, name) 
+                {
+                    try 
+                    {
+                        const url = `http://localhost:8080/auth/company/admin-commercial-register/${ID}`;
+                        const options = {
+                            method:'GET',
+                            headers: { Authorization: localStorage.getItem('token') }
+                        }
+                        const response = await fetch(url, options);
+                        const contentDisposition = response.headers.get('content-disposition');
+                        const filename = contentDisposition ? contentDisposition.split('filename=')[1].replace(/"/g, '') : `${name}.pdf`;
+                        const file = await response.blob();
+                        saveAs(file, filename)
+                    } catch (err) {
+                        handleError(err);
+                    }
+            
+        };
+        async function supplierDownloadCommercialRegisterPdf (ID, name)
+            {
+                try 
+                {
+                    const url = `http://localhost:8080/auth/supplier/admin-commercial-register/${ID}`;
+                    const options = {
+                        method:'GET',
+                        headers: { Authorization: localStorage.getItem('token') }
+                    }
+                    const response = await fetch(url, options);
+                    const contentDisposition = response.headers.get('content-disposition');
+                    const filename = contentDisposition ? contentDisposition.split('filename=')[1].replace(/"/g, '') : `${name}.pdf`;
+                    const file = await response.blob();
+                    saveAs(file, filename)
+                } catch (err) {
+                    handleError(err);
+                }
+        
+    };
+
     
     return (
-    <div>
-
+    <div className={styles.body}>
         <Navbar
             three="Approved"
             pathThree="/admin/approve-user"
@@ -140,8 +177,7 @@ function ApproveRegister()
             logout={handleLogout}
         />
         <h2 className={styles.List}>Suppliers Approved List:</h2>
-            <div className={styles.profileContainer}>
-
+        <div className={styles.profileContainer}>
                 {suppliers.length > 0 ? (
                     suppliers.map((field) => 
                         (
@@ -164,9 +200,8 @@ function ApproveRegister()
                                 <p>
                                     <strong>Supplier item price:</strong> {field.price} JD
                                 </p>
-                                <p>
-                                    <strong>Commercial register:</strong>  <a href={JSON.stringify(field.commercialRegister)}>view PDF</a> 
-                                    
+                                <p><strong>Commercial register:</strong>  
+                                <button className={styles.approveDownloadButton} onClick={()=>supplierDownloadCommercialRegisterPdf(field.supplierID, field.supplierName)}>Download PDF</button> 
                                 </p>
                                 <p>
                                     <strong>Admin email:</strong> {field.adminEmail} 
@@ -202,8 +237,8 @@ function ApproveRegister()
                                 <p>
                                     <strong>Company phone:</strong> {field.companyPhone} 
                                 </p>
-                                <p>
-                                    <strong>Commercial register:</strong> <a href={JSON.stringify(field.commercialRegister)}>view PDF</a> 
+                                <p><strong>Commercial register:</strong>  
+                                <button className={styles.approveDownloadButton} onClick={ ()=>companyDownloadCommercialRegisterPdf(field.companyID, field.companyName)}>Download PDF</button> 
                                 </p>
                                 <p>
                                     <strong>Admin email:</strong> {field.adminEmail} 
@@ -219,7 +254,7 @@ function ApproveRegister()
                 ) : (
                     <p>No companies found.</p>
                 )}
-        </div>
+        </div> 
             <ToastContainer />
 
     </div>

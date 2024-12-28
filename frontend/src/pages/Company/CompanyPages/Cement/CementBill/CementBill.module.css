@@ -3,6 +3,8 @@
     justify-content: center;
     align-items: center;
     padding: 25px;
+    background-color: #998d77cb;
+    background-image: url("https://www.transparenttextures.com/patterns/groovepaper.png");
 }
 
 .cementBillRow {

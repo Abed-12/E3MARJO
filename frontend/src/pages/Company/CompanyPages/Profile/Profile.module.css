@@ -6,9 +6,12 @@
     padding: 20px; /* إضافة تباعد داخلي للشاشات الصغيرة */
     margin-bottom: -1.4%;
     margin-top: -1.55%;    
+    background-color: #998d77cb;
+    background-image: url("https://www.transparenttextures.com/patterns/groovepaper.png");
 }
 
 .profileRow {
+    position: relative; 
     background-color: #ffffff9a;
     padding: 20px;
     width: 90%; /* النسبة تجعل التصميم متجاوبًا */
@@ -25,6 +28,24 @@
     margin-top: 0;
 }
 
+.profileEditProfileButton {
+    position: absolute; /* يتيح التحكم بموقع الزر داخل الحاوية */
+    top: 25px; 
+    right: 25px; 
+    background-color: rgb(109, 102, 109); 
+    border: none;
+    font-size: 14px; 
+    color: white;
+    border-radius: 5px;
+    padding: 8px 12px; 
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.profileEditProfileButton:hover {
+    background-color: rgb(54, 54, 54); 
+}
+
 .profileRow p {
     font-size: 16px; /* حجم أصغر للشاشات الصغيرة */
     margin: 10px 0;
@@ -36,6 +57,25 @@
 
 .profileRow a:hover {
     text-decoration: underline;
+}
+
+.profileDownloadButton {
+    background-color: #4CAF50; 
+    color: white; 
+    padding: 5px 5px;
+    font-size: 14px; 
+    border: none; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    transition: background-color 0.3s ease; 
+}
+
+.profileDownloadButton:hover {
+    background-color: #45a049; 
+}
+
+.profileDownloadButton:active {
+    background-color: #3e8e41; 
 }
 
 /* استعلام الوسائط للشاشات الأكبر */

@@ -1,3 +1,10 @@
+.body{
+  background-color: #998d77cb;
+  background-image: url("https://www.transparenttextures.com/patterns/groovepaper.png");
+  min-height: 100vh;
+  height: 100%;
+}
+
 .profileContainer {
   display: flex;
   flex-direction: column;  /* Ensure items are stacked vertically */
@@ -52,4 +59,23 @@ transition: background-color 0.3s ease;
 
 .pendingButtonDrop:hover{
 background-color: #ff0000fa;
+}
+
+.approveDownloadButton{
+  background-color: #4CAF50; 
+  color: white; 
+  padding: 5px 5px;
+  font-size: 14px; 
+  border: none; 
+  border-radius: 5px; 
+  cursor: pointer; 
+  transition: background-color 0.3s ease; 
+}
+
+.approveDownloadButton:hover{
+  background-color: #45a049; 
+}
+
+.approveDownloadButton:active{
+  background-color: #3e8e41; 
 }

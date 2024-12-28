@@ -71,9 +71,9 @@ function OldOrders() {
                 two3="Old orders"
                 pathTwo3="/company/home/old-orders"
                 three="Cement"
-                pathThree="/company/home/cement-order"
+                pathThree="/company/home/cement-orders"
                 four="Concrete"
-                pathFour="/company/home/concrete-order"
+                pathFour="/company/home/concrete-orders"
                 five="Profile"
                 pathFive="/company/home/profile"
                 logout={handleLogout}
@@ -157,9 +157,9 @@ function OldOrders() {
                 two3="Old orders"
                 pathTwo3="/company/home/old-orders"
                 three="Cement"
-                pathThree="/company/home/cement-order"
+                pathThree="/company/home/cement-orders"
                 four="Concrete"
-                pathFour="/company/home/concrete-order"
+                pathFour="/company/home/concrete-orders"
                 five="Profile"
                 pathFive="/company/home/profile"
                 logout={handleLogout}

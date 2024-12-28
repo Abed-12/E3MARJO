@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { handleError, handleSuccess } from '../../../../utils/utils';
 import { ToastContainer } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import styles from './CementOrder.module.css';
+import styles from './CementOrders.module.css';
 import Navbar from '../../../../components/navbar/Navbar';
 import Footer from '../../../../components/footer/Footer';
 
-function CementOrder() {
+function CementOrders() {
     const [dataSupplier, setDataSupplier] = useState([]);
     const [inputValue, setInputValue] = useState({
         supplierName: '',
@@ -118,9 +118,9 @@ function CementOrder() {
                 two3="Old orders"
                 pathTwo3="/company/home/old-orders"
                 three="Cement"
-                pathThree="/company/home/cement-order"
+                pathThree="/company/home/cement-orders"
                 four="Concrete"
-                pathFour="/company/home/concrete-order"
+                pathFour="/company/home/concrete-orders"
                 five="Profile"
                 pathFive="/company/home/profile"
                 logout={handleLogout}
@@ -188,4 +188,4 @@ function CementOrder() {
         </section>
     );
 }
-export default CementOrder;
+export default CementOrders;

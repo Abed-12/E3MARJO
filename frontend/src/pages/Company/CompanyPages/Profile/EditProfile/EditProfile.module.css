@@ -1,14 +1,11 @@
-.editProfileBody{
-    background-color: #998d77cb;
-    background-image: url("https://www.transparenttextures.com/patterns/groovepaper.png");
-}
-
 .editProfileContainer {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 62.2vh;
-    padding: 20px; 
+    padding: 20px;     
+    background-color: #998d77cb;
+    background-image: url("https://www.transparenttextures.com/patterns/groovepaper.png");
 }
 
 .editProfileRow {

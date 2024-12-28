@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import {jwtDecode} from "jwt-decode";
 import {handleError, handleSuccess} from '../../../../utils/utils';
 import {ToastContainer} from 'react-toastify';
@@ -12,6 +12,8 @@ function Profile() {
     const token = localStorage.getItem("token");
     const decodedData = jwtDecode(token);
 
+    const [companyData, setCompanyData] = useState('');
+
     const navigate = useNavigate();
 
     const handleLogout = (e) => {
@@ -22,6 +24,32 @@ function Profile() {
             navigate('/company-login');
         }, 500)
     }
+
+    const handleEditProfileClick = () => {
+
+        navigate("/company/home/profile/edit-profile");
+    };
+
+    const fetchCompanyData = async () => {
+        try {
+            const url = `http://localhost:8080/auth/company/company-data`;
+            const headers = {
+                headers: {
+                    'Authorization': localStorage.getItem('token'),
+                }
+            }
+            const response = await fetch(url, headers);
+            const result = await response.json();
+            console.log(result);
+            setCompanyData(result);
+        } catch (err) {
+            handleError(err);
+        }
+    }
+    
+    useEffect(() => {
+        fetchCompanyData();
+    }, []);
 
     const downloadCommercialRegisterPdf = async () => {
         try {
@@ -54,9 +82,9 @@ function Profile() {
                 two3="Old orders"
                 pathTwo3="/company/home/old-orders"
                 three="Cement"
-                pathThree="/company/home/cement-order"
+                pathThree="/company/home/cement-orders"
                 four="Concrete"
-                pathFour="/company/home/concrete-order"
+                pathFour="/company/home/concrete-orders"
                 five="Profile"
                 pathFive="/company/home/profile"
                 logout={handleLogout}
@@ -65,13 +93,14 @@ function Profile() {
             <div className={styles.profileContainer}>
                 <div className={styles.profileRow}>
                     <h1 className={styles.profileH1}>{decodedData.companyName} Profile</h1>
+                    <button className={styles.profileEditProfileButton} onClick={handleEditProfileClick}>Edit Profile</button>
                     <p><strong>Company name:</strong> {decodedData.companyName}</p>
                     <p><strong>Company ID:</strong> {decodedData.companyID}</p>
                     <p><strong>Email:</strong> {decodedData.email}</p>
-                    <p><strong>Phone:</strong> {decodedData.companyPhone}</p>
+                    <p><strong>Phone:</strong> {companyData.companyPhone}</p>
                     <p>
                         <strong>Commercial register: </strong>
-                        <button onClick={downloadCommercialRegisterPdf}>Download PDF</button>
+                        <button className={styles.profileDownloadButton} onClick={downloadCommercialRegisterPdf}>Download PDF</button>
                     </p>
                 </div>
             </div>
@@ -87,9 +116,9 @@ function Profile() {
                 two3="Old orders"
                 pathTwo3="/company/home/old-orders"
                 three="Cement"
-                pathThree="/company/home/cement-order"
+                pathThree="/company/home/cement-orders"
                 four="Concrete"
-                pathFour="/company/home/concrete-order"
+                pathFour="/company/home/concrete-orders"
                 five="Profile"
                 pathFive="/company/home/profile"
                 logout={handleLogout}

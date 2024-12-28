@@ -74,7 +74,7 @@ function AddAdmin() {
     }
 
     return (
-        <div>
+        <section className={styles.adminBody}>
             <Navbar
                 three="Approved"
                 pathThree="/admin/approve-user"
@@ -85,11 +85,11 @@ function AddAdmin() {
                 pathFive="/admin/request-user"
 
                 six="Add Admin"
-                pathSix="/admin/Add-admin"
+                pathSix="/admin/add-admin"
 
                 logout={handleLogout}
             />
-            <section className={styles.adminBody}>
+            <div className={styles.container}>
                 <div className={styles.adminRegistrationContainer}>
                     <h1 className={styles.adminRegistrationH1}>Add Admin</h1>
                     <form className={styles.adminFormRegistration} onSubmit={handleRegistration}>
@@ -121,9 +121,9 @@ function AddAdmin() {
                         <button className={styles.adminRegistrationButton} type='submit'>Add Admin</button>
                     </form>
                 </div>
-            </section>
+            </div>
             <ToastContainer />
-        </div>
+        </section>
     );
 }
 
