@@ -12,7 +12,7 @@ function Profile() {
     const token = localStorage.getItem("token");
     const decodedData = jwtDecode(token);
 
-    const [supplierData, setSupplierData] = useState('');
+    const [supplierData, setSupplierData] = useState(null);
 
     const navigate = useNavigate();
 
@@ -38,7 +38,7 @@ function Profile() {
             }
             const response = await fetch(url, options);
             const contentDisposition = response.headers.get('content-disposition');
-            const filename = contentDisposition ? contentDisposition.split('filename=')[1].replace(/"/g, '') : `${decodedData.supplierName}.pdf`;
+            const filename = contentDisposition ? contentDisposition.split('filename=')[1].replace(/"/g, '') : `file.pdf`;
             const file = await response.blob();
             saveAs(file, filename)
         } catch (err) {
@@ -82,22 +82,28 @@ function Profile() {
                 logout={handleLogout}
             />
 
-            <div className={styles.profileContainer}>
-                <div className={styles.profileRow}>
-                    <h1 className={styles.profileH1}>{decodedData.supplierName} Profile</h1>
-                    <button className={styles.profileEditProfileButton} onClick={handleEditProfileClick}>Edit Profile</button>
-                    <p><strong>Supplier name:</strong> {decodedData.supplierName}</p>
-                    <p><strong>Supplier ID:</strong> {decodedData.supplierID}</p>
-                    <p><strong>Email:</strong> {decodedData.email}</p>
-                    <p><strong>Phone:</strong> {supplierData.supplierPhone}</p>
-                    <p><strong>Product:</strong> {decodedData.supplierProduct}</p>
-                    <p>
-                        <strong>Commercial register: </strong>
-                        <button className={styles.profileDownloadButton} onClick={downloadCommercialRegisterPdf}>Download PDF</button>
-                    </p>
-                    <p><strong>Price of one bag:</strong> {supplierData.price} JD</p>
+            {supplierData ? (
+                <div className={styles.profileContainer}>
+                    <div className={styles.profileRow}>
+                        <h1 className={styles.profileH1}>{decodedData.supplierName} Profile</h1>
+                        <button className={styles.profileEditProfileButton} onClick={handleEditProfileClick}>Edit Profile</button>
+                        <p><strong>Supplier name:</strong> {decodedData.supplierName}</p>
+                        <p><strong>Supplier ID:</strong> {decodedData.supplierID}</p>
+                        <p><strong>Email:</strong> {decodedData.email}</p>
+                        <p><strong>Phone:</strong> {supplierData.supplierPhone}</p>
+                        <p><strong>Product:</strong> {decodedData.supplierProduct}</p>
+                        <p>
+                            <strong>Commercial register: </strong>
+                            <button className={styles.profileDownloadButton} onClick={downloadCommercialRegisterPdf}>Download PDF</button>
+                        </p>
+                        <p><strong>Price of one bag:</strong> {supplierData.price} JD</p>
+                    </div>
                 </div>
-            </div>
+            ) : (
+                <div className={styles.profileContainer}>
+                    <div className={styles.loader}></div>
+                </div>
+            )}
 
             <Footer
                 two="Orders"

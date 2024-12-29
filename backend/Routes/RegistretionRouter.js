@@ -164,6 +164,8 @@ RegistrationRouter.get('/registration-commercial-register/:id', ensureAuthentica
         const user = await RegisterModel.findOne({ID: id})
         if (!user) return res.status(404).json({message: 'Commercial register not found', success: false});   
         res.set({
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Expose-Headers': 'Content-Disposition',
             'Content-Type': 'application/pdf',
             'Content-Disposition': `attachment;filename=${user.name}.pdf`,
             }).send(user.commercialRegister) 

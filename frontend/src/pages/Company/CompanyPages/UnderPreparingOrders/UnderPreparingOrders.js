@@ -9,7 +9,7 @@ import OrderFilter from '../../../../components/orderFilter/OrderFilter';
 import moment from 'moment';
 
 function UnderPreparingOrders() {
-    const [filteredOrders, setFilteredOrders] = useState([]);
+    const [filteredOrders, setFilteredOrders] = useState(null);
 
     const navigate = useNavigate();
 
@@ -119,67 +119,73 @@ function UnderPreparingOrders() {
             <div className={styles.underPreparingOrdersTitle}>
                 <h2 className={styles.underPreparingOrdersH2}>Under Preparing Orders</h2>
             </div>
-            <div className={styles.underPreparingOrdersContainer}>
-                {filteredOrders && filteredOrders.length > 0 ? (
-                    filteredOrders.map((order, index) => (
-                        <div className={styles.underPreparingOrdersRow} key={index}>
-                            <p className={`${styles.underPreparingOrdersData} ${styles.underPreparingOrdersSupplierName}`}>
-                                <strong>Supplier name:</strong> {order.supplierName} 
-                            </p>
-                            <div className={styles.underPreparingOrdersDiv}>
-                                <p className={`${styles.underPreparingOrdersData} ${styles.underPreparingOrdersStatus}`}>
-                                    <strong>Order status:</strong> {order.status} 
+            {filteredOrders ? (
+                <div className={styles.underPreparingOrdersContainer}>
+                    {filteredOrders && filteredOrders.length > 0 ? (
+                        filteredOrders.map((order, index) => (
+                            <div className={styles.underPreparingOrdersRow} key={index}>
+                                <p className={`${styles.underPreparingOrdersData} ${styles.underPreparingOrdersSupplierName}`}>
+                                    <strong>Supplier name:</strong> {order.supplierName} 
                                 </p>
-                                <p className={`${styles.underPreparingOrdersData} ${styles.underPreparingOrdersType}`}>
-                                    <strong>Order type:</strong> {order.type} 
-                                </p>
-                            </div>
-                            <hr />
-                            <div className={styles.underPreparingOrdersDiv}>
-                                <p className={styles.underPreparingOrdersData}>
-                                    <strong>Company name:</strong> {order.companyName} 
-                                </p>
-                                <p className={styles.underPreparingOrdersData}>
-                                    <strong>Company phone:</strong> {order.companyPhone} 
-                                </p>
-                                <p className={styles.underPreparingOrdersData}>
-                                    <strong>Recipient's name:</strong> {order.recipientName} 
-                                </p>
-                                <p className={styles.underPreparingOrdersData}>
-                                    <strong>Recipient's phone:</strong> {order.recipientPhone} 
-                                </p>
-                                <p className={styles.underPreparingOrdersData}>
-                                    <strong>Delivery time:</strong> {moment(order.deliveryTime * 1000).format('D/MM/YYYY - h:mm a')} 
-                                </p>
-                                <p className={styles.underPreparingOrdersData}>
-                                    <strong>Location:</strong> {order.location} 
-                                </p>
-                            </div>
-                            <div className={styles.underPreparingOrdersDiv}>
-                                <p className={styles.underPreparingOrdersData}>
-                                    <strong>Cement quantity:</strong> {order.cementQuantity} ton
-                                </p>
-                                <p className={styles.underPreparingOrdersData}>
-                                    <strong>Number of cement bags:</strong> {order.cementNumberBags} 
-                                </p>
-                                <p className={styles.underPreparingOrdersData}>
-                                    <strong>Cement price:</strong> {order.price} JD
-                                </p>
-                                <p className={styles.underPreparingOrdersData}>
-                                    <strong>Order request time:</strong> {moment(order.orderRequestTime * 1000).format('D/MM/YYYY - h:mm a')} 
-                                </p>
-                            </div>
-                            {order.status === 'completed' && (
-                                <div className={styles.underPreparingOrdersDivButton}>
-                                    <button className={styles.underPreparingOrdersButtonDelivered} onClick={() => orderDelivered(order.id)}>Delivered</button>
+                                <div className={styles.underPreparingOrdersDiv}>
+                                    <p className={`${styles.underPreparingOrdersData} ${styles.underPreparingOrdersStatus}`}>
+                                        <strong>Order status:</strong> {order.status} 
+                                    </p>
+                                    <p className={`${styles.underPreparingOrdersData} ${styles.underPreparingOrdersType}`}>
+                                        <strong>Order type:</strong> {order.type} 
+                                    </p>
                                 </div>
-                            )}
-                        </div>
-                    ))
-                ) : (
-                    <p className={styles.underPreparingOrdersP} >No under preparing orders found</p>
-                )}
-            </div>
+                                <hr />
+                                <div className={styles.underPreparingOrdersDiv}>
+                                    <p className={styles.underPreparingOrdersData}>
+                                        <strong>Company name:</strong> {order.companyName} 
+                                    </p>
+                                    <p className={styles.underPreparingOrdersData}>
+                                        <strong>Company phone:</strong> {order.companyPhone} 
+                                    </p>
+                                    <p className={styles.underPreparingOrdersData}>
+                                        <strong>Recipient's name:</strong> {order.recipientName} 
+                                    </p>
+                                    <p className={styles.underPreparingOrdersData}>
+                                        <strong>Recipient's phone:</strong> {order.recipientPhone} 
+                                    </p>
+                                    <p className={styles.underPreparingOrdersData}>
+                                        <strong>Delivery time:</strong> {moment(order.deliveryTime * 1000).format('D/MM/YYYY - h:mm a')} 
+                                    </p>
+                                    <p className={styles.underPreparingOrdersData}>
+                                        <strong>Location:</strong> {order.location} 
+                                    </p>
+                                </div>
+                                <div className={styles.underPreparingOrdersDiv}>
+                                    <p className={styles.underPreparingOrdersData}>
+                                        <strong>Cement quantity:</strong> {order.cementQuantity} ton
+                                    </p>
+                                    <p className={styles.underPreparingOrdersData}>
+                                        <strong>Number of cement bags:</strong> {order.cementNumberBags} 
+                                    </p>
+                                    <p className={styles.underPreparingOrdersData}>
+                                        <strong>Cement price:</strong> {order.price} JD
+                                    </p>
+                                    <p className={styles.underPreparingOrdersData}>
+                                        <strong>Order request time:</strong> {moment(order.orderRequestTime * 1000).format('D/MM/YYYY - h:mm a')} 
+                                    </p>
+                                </div>
+                                {order.status === 'completed' && (
+                                    <div className={styles.underPreparingOrdersDivButton}>
+                                        <button className={styles.underPreparingOrdersButtonDelivered} onClick={() => orderDelivered(order.id)}>Delivered</button>
+                                    </div>
+                                )}
+                            </div>
+                        ))
+                    ) : (
+                        <p className={styles.underPreparingOrdersP} >No under preparing orders found</p>
+                    )}
+                </div>
+            ) : (
+                <div className={styles.underPreparingOrdersLoader}>
+                    <div className={styles.loader}></div>
+                </div>
+            )}
 
             <Footer 
                 one="Home"

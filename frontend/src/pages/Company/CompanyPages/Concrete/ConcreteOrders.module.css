@@ -11,14 +11,14 @@
     background-image: url("https://www.transparenttextures.com/patterns/groovepaper.png");
 }
 
-.QuickOrdersCardMedia {
-    background-image: url('../../../../../public/images/quickOrders.png');
+.expressOrdersCardMedia {
+    background-image: url('../../../../../public/images/expressOrders.png');
     background-size: 50vh ; 
     background-position: center;
 }
 
-.BasicOrdersCardMedia {
-    background-image: url('../../../../../public/images/basicOrders.png');
+.customOrdersCardMedia {
+    background-image: url('../../../../../public/images/customOrders.png');
     background-size: cover;
     background-position: center;
 }
@@ -38,7 +38,7 @@
         margin-bottom: 3%;
     }
 
-    .QuickOrdersCardMedia {
+    .expressOrdersCardMedia {
         width: 100%;
     }
 }

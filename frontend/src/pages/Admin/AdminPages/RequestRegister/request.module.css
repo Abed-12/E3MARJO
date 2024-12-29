@@ -98,3 +98,33 @@ background-color: #01c514;
 .requestDownloadButton:active{
   background-color: #3e8e41; 
 }
+
+
+.requestLoader{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 45.7vh;
+  padding: 20px; 
+}
+
+/* HTML: <div class="loader"></div> */
+.loader {
+  width: fit-content;
+  font-size: 40px;
+  font-family: system-ui,sans-serif;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #0000;
+  -webkit-text-stroke: 1px #000;
+  background: 
+      linear-gradient(-60deg,#0000 45%,#000 0 55%,#0000 0) 
+      0/300% 100% no-repeat text;
+  animation: l3 2s linear infinite;
+}
+.loader:before {
+  content: "Loading";
+}
+@keyframes l3 {
+  0%{background-position: 100%}
+}

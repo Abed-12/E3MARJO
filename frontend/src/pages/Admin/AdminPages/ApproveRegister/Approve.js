@@ -10,8 +10,8 @@ import {saveAs} from 'file-saver';
 function ApproveRegister()
 {
     const navigate = useNavigate();
-    const [companies, setCompanies] = useState([]); // Initialize as an empty array
-    const [suppliers, setSuppliers] = useState([]); // Initialize as an empty array
+    const [companies, setCompanies] = useState(null); // Initialize as an empty array
+    const [suppliers, setSuppliers] = useState(null); // Initialize as an empty array
 
     useEffect(() => {
         const getData = async () => {
@@ -121,7 +121,7 @@ function ApproveRegister()
                 console.error('Failed to delete supplier:', error);
             }
         };
-        async function companyDownloadCommercialRegisterPdf(ID, name) 
+        async function companyDownloadCommercialRegisterPdf(ID) 
                 {
                     try 
                     {
@@ -132,7 +132,7 @@ function ApproveRegister()
                         }
                         const response = await fetch(url, options);
                         const contentDisposition = response.headers.get('content-disposition');
-                        const filename = contentDisposition ? contentDisposition.split('filename=')[1].replace(/"/g, '') : `${name}.pdf`;
+                        const filename = contentDisposition ? contentDisposition.split('filename=')[1].replace(/"/g, '') : `file.pdf`;
                         const file = await response.blob();
                         saveAs(file, filename)
                     } catch (err) {
@@ -140,7 +140,7 @@ function ApproveRegister()
                     }
             
         };
-        async function supplierDownloadCommercialRegisterPdf (ID, name)
+        async function supplierDownloadCommercialRegisterPdf (ID)
             {
                 try 
                 {
@@ -151,7 +151,7 @@ function ApproveRegister()
                     }
                     const response = await fetch(url, options);
                     const contentDisposition = response.headers.get('content-disposition');
-                    const filename = contentDisposition ? contentDisposition.split('filename=')[1].replace(/"/g, '') : `${name}.pdf`;
+                    const filename = contentDisposition ? contentDisposition.split('filename=')[1].replace(/"/g, '') : `file.pdf`;
                     const file = await response.blob();
                     saveAs(file, filename)
                 } catch (err) {
@@ -176,11 +176,13 @@ function ApproveRegister()
             pathSix="/admin/add-admin"
             logout={handleLogout}
         />
-        <h2 className={styles.List}>Suppliers Approved List:</h2>
-        <div className={styles.profileContainer}>
-                {suppliers.length > 0 ? (
-                    suppliers.map((field) => 
-                        (
+
+        {suppliers && companies ? (
+            <>
+                <h2 className={styles.List}>Suppliers Approved List:</h2>
+                <div className={styles.profileContainer}>
+                    {suppliers.length > 0 ? (
+                        suppliers.map((field) => (
                             <div className={styles.profileRow} key={field._id}>
                                 <p>
                                     <strong>Supplier name:</strong> {field.supplierName} 
@@ -201,29 +203,28 @@ function ApproveRegister()
                                     <strong>Supplier item price:</strong> {field.price} JD
                                 </p>
                                 <p><strong>Commercial register:</strong>  
-                                <button className={styles.approveDownloadButton} onClick={()=>supplierDownloadCommercialRegisterPdf(field.supplierID, field.supplierName)}>Download PDF</button> 
+                                    <button className={styles.approveDownloadButton} onClick={() => supplierDownloadCommercialRegisterPdf(field.supplierID)}>Download PDF</button> 
                                 </p>
                                 <p>
                                     <strong>Admin email:</strong> {field.adminEmail} 
                                 </p>
                                 <button
                                     className={styles.pendingButtonDrop}
-                                    
-                                    onClick={() =>deleteSupplier(field.supplierID)}
+                                    onClick={() => deleteSupplier(field.supplierID)}
                                 >
                                     Delete Supplier
                                 </button>
                             </div>
                         ))
-                ) : (
-                    <p>No suppliers found.</p>
-                )}
-            </div>
-        <h2 className={styles.List}>Companies Approved List:</h2>
-        <div className={styles.profileContainer}>
-                {companies.length > 0 ? (
-                    companies.map((field) => 
-                        (
+                    ) : (
+                        <p>No suppliers found.</p>
+                    )}
+                </div>
+
+                <h2 className={styles.List}>Companies Approved List:</h2>
+                <div className={styles.profileContainer}>
+                    {companies.length > 0 ? (
+                        companies.map((field) => (
                             <div className={styles.profileRow} key={field._id}>
                                 <p>
                                     <strong>Company name:</strong> {field.companyName} 
@@ -238,23 +239,30 @@ function ApproveRegister()
                                     <strong>Company phone:</strong> {field.companyPhone} 
                                 </p>
                                 <p><strong>Commercial register:</strong>  
-                                <button className={styles.approveDownloadButton} onClick={ ()=>companyDownloadCommercialRegisterPdf(field.companyID, field.companyName)}>Download PDF</button> 
+                                    <button className={styles.approveDownloadButton} onClick={() => companyDownloadCommercialRegisterPdf(field.companyID)}>Download PDF</button> 
                                 </p>
                                 <p>
                                     <strong>Admin email:</strong> {field.adminEmail} 
                                 </p>
                                 <button
-                                        className={styles.pendingButtonDrop}
-                                        onClick={() => deleteCompany(field.companyID)}
-                                    >
-                                        Delete Company
-                                    </button>
+                                    className={styles.pendingButtonDrop}
+                                    onClick={() => deleteCompany(field.companyID)}
+                                >
+                                    Delete Company
+                                </button>
                             </div>
                         ))
-                ) : (
-                    <p>No companies found.</p>
-                )}
-        </div> 
+                    ) : (
+                        <p>No companies found.</p>
+                    )}
+                </div>
+            </>
+        ) : (
+                <div className={styles.profileLoader}>
+                    <div className={styles.loader}></div>
+                </div>
+        )}
+
             <ToastContainer />
 
     </div>

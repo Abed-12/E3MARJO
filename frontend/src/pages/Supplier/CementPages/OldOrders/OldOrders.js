@@ -9,7 +9,7 @@ import OrderFilter from '../../../../components/orderFilter/OrderFilter';
 import moment from 'moment';
 
 function OldOrders() {
-    const [filteredOrders, setFilteredOrders] = useState([]);
+    const [filteredOrders, setFilteredOrders] = useState(null);
 
     const navigate = useNavigate();
 
@@ -78,67 +78,73 @@ function OldOrders() {
             <div className={styles.oldOrdersTitle}>
                 <h2 className={styles.oldOrdersH2}>Old Orders</h2>
             </div>
-            <div className={styles.oldOrdersContainer}>
-                {filteredOrders && filteredOrders.length > 0 ? (
-                    filteredOrders.map((order, index) => (
-                        <div className={styles.oldOrdersRow} key={index}> 
-                            <p className={`${styles.oldOrdersData} ${styles.oldOrdersSupplierName}`}>
-                                <strong>Supplier name:</strong> {order.supplierName} 
-                            </p>
-                            <div className={styles.oldOrdersDiv}>
-                                <p className={`${styles.oldOrdersData} ${styles.oldOrdersStatus}`}>
-                                    <strong>Order status:</strong> {order.status} 
+            {filteredOrders ? (
+                <div className={styles.oldOrdersContainer}>
+                    {filteredOrders.length > 0 ? (
+                        filteredOrders.map((order, index) => (
+                            <div className={styles.oldOrdersRow} key={index}> 
+                                <p className={`${styles.oldOrdersData} ${styles.oldOrdersSupplierName}`}>
+                                    <strong>Supplier name:</strong> {order.supplierName} 
                                 </p>
-                                <p className={`${styles.oldOrdersData} ${styles.oldOrdersType}`}>
-                                    <strong>Order type:</strong> {order.type} 
-                                </p>
+                                <div className={styles.oldOrdersDiv}>
+                                    <p className={`${styles.oldOrdersData} ${styles.oldOrdersStatus}`}>
+                                        <strong>Order status:</strong> {order.status} 
+                                    </p>
+                                    <p className={`${styles.oldOrdersData} ${styles.oldOrdersType}`}>
+                                        <strong>Order type:</strong> {order.type} 
+                                    </p>
+                                </div>
+                                <hr />
+                                <div className={styles.oldOrdersDiv}>
+                                    <p className={styles.oldOrdersData}>
+                                        <strong>Company name:</strong> {order.companyName} 
+                                    </p>
+                                    <p className={styles.oldOrdersData}>
+                                        <strong>Company phone:</strong> {order.companyPhone} 
+                                    </p>
+                                    <p className={styles.oldOrdersData}>
+                                        <strong>Recipient's name:</strong> {order.recipientName} 
+                                    </p>
+                                    <p className={styles.oldOrdersData}>
+                                        <strong>Recipient's phone:</strong> {order.recipientPhone} 
+                                    </p>
+                                    <p className={styles.oldOrdersData}>
+                                        <strong>Delivery time:</strong> {moment(order.deliveryTime * 1000).format('D/MM/YYYY - h:mm a')} 
+                                    </p>
+                                    <p className={styles.oldOrdersData}>
+                                        <strong>Location:</strong> {order.location} 
+                                    </p>
+                                </div>
+                                <div className={styles.oldOrdersDiv}>
+                                    <p className={styles.oldOrdersData}>
+                                        <strong>Cement quantity:</strong> {order.cementQuantity} ton
+                                    </p>
+                                    <p className={styles.oldOrdersData}>
+                                        <strong>Number of cement bags:</strong> {order.cementNumberBags} 
+                                    </p>
+                                    <p className={styles.oldOrdersData}>
+                                        <strong>Cement price:</strong> {order.price} JD
+                                    </p>
+                                    <p className={styles.oldOrdersData}>
+                                        <strong>Order request time:</strong> {moment(order.orderRequestTime * 1000).format('D/MM/YYYY - h:mm a')} 
+                                    </p>
+                                </div>
+                                {order.status === 'rejected' && (
+                                    <p className={styles.oldOrdersData}>
+                                        <strong>Reason for rejection:</strong> {order.rejectionReason} 
+                                    </p>
+                                )}
                             </div>
-                            <hr />
-                            <div className={styles.oldOrdersDiv}>
-                                <p className={styles.oldOrdersData}>
-                                    <strong>Company name:</strong> {order.companyName} 
-                                </p>
-                                <p className={styles.oldOrdersData}>
-                                    <strong>Company phone:</strong> {order.companyPhone} 
-                                </p>
-                                <p className={styles.oldOrdersData}>
-                                    <strong>Recipient's name:</strong> {order.recipientName} 
-                                </p>
-                                <p className={styles.oldOrdersData}>
-                                    <strong>Recipient's phone:</strong> {order.recipientPhone} 
-                                </p>
-                                <p className={styles.oldOrdersData}>
-                                    <strong>Delivery time:</strong> {moment(order.deliveryTime * 1000).format('D/MM/YYYY - h:mm a')} 
-                                </p>
-                                <p className={styles.oldOrdersData}>
-                                    <strong>Location:</strong> {order.location} 
-                                </p>
-                            </div>
-                            <div className={styles.oldOrdersDiv}>
-                                <p className={styles.oldOrdersData}>
-                                    <strong>Cement quantity:</strong> {order.cementQuantity} ton
-                                </p>
-                                <p className={styles.oldOrdersData}>
-                                    <strong>Number of cement bags:</strong> {order.cementNumberBags} 
-                                </p>
-                                <p className={styles.oldOrdersData}>
-                                    <strong>Cement price:</strong> {order.price} JD
-                                </p>
-                                <p className={styles.oldOrdersData}>
-                                    <strong>Order request time:</strong> {moment(order.orderRequestTime * 1000).format('D/MM/YYYY - h:mm a')} 
-                                </p>
-                            </div>
-                            {order.status === 'rejected' && (
-                                <p className={styles.oldOrdersData}>
-                                    <strong>Reason for rejection:</strong> {order.rejectionReason} 
-                                </p>
-                            )}
-                        </div>
-                        ))
-                    ) : (
-                        <p className={styles.oldOrdersP}>No old orders found</p>
-                )}
-            </div>
+                            ))
+                        ) : (
+                                <p className={styles.oldOrdersP}>No old orders found</p>
+                    )}
+                </div>
+            ) : (
+                    <div className={styles.oldOrdersLoader}>
+                        <div className={styles.loader}></div>
+                    </div>
+            )}
 
             <Footer 
                 two="Orders"

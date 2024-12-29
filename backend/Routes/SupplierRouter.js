@@ -81,6 +81,8 @@ SupplierRouter.get('/admin-commercial-register/:id', ensureAuthenticated, async 
         const supplier = await SupplierModel.findOne({supplierID : id})
         if (!supplier) return res.status(404).json({message: 'Commercial register not found', success: false});   
         res.set({
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Expose-Headers': 'Content-Disposition',
             'Content-Type': 'application/pdf',
             'Content-Disposition': `attachment;filename=${supplier.supplierName}.pdf`,
             }).send(supplier.commercialRegister) 
@@ -100,6 +102,8 @@ SupplierRouter.get('/supplier-commercial-register', ensureAuthenticated, async (
         const supplier = await SupplierModel.findOne({_id: id})
         if (!supplier) return res.status(404).json({message: 'Commercial register not found', success: false});
         res.set({
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Expose-Headers': 'Content-Disposition',
             'Content-Type': 'application/pdf',
             'Content-Disposition': `attachment; filename=${supplier.supplierName}.pdf`,
         }).send(supplier.commercialRegister)

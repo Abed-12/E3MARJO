@@ -10,7 +10,7 @@ import {saveAs} from 'file-saver';
 
 function RejectRegister() {
     const navigate = useNavigate();
-    const [rejected, setRejected] = useState([]); // Initialize as an empty array
+    const [rejected, setRejected] = useState(null); // Initialize as an empty array
     useEffect(() => {
         const getData = async () => 
         {
@@ -77,7 +77,7 @@ const handleLogout = (e) =>
         }
     }
 
-    async function downloadCommercialRegisterPdf(ID, name) 
+    async function downloadCommercialRegisterPdf(ID) 
     {
         try 
         {
@@ -88,7 +88,7 @@ const handleLogout = (e) =>
             }
             const response = await fetch(url, options);
             const contentDisposition = response.headers.get('content-disposition');
-            const filename = contentDisposition ? contentDisposition.split('filename=')[1].replace(/"/g, '') : `${name}.pdf`;
+            const filename = contentDisposition ? contentDisposition.split('filename=')[1].replace(/"/g, '') : `file.pdf`;
             const file = await response.blob();
             saveAs(file, filename)
         } catch (err) {
@@ -117,51 +117,48 @@ const handleLogout = (e) =>
                 logout={handleLogout}
             />
 
-            <h2 className={styles.List}>Rejcted Registration:</h2>
-            <div className={styles.profileContainer}>   
-            {(() => 
-            {
-                const rejectedUsers = Array.isArray(rejected) ? rejected : [];
-
-                const filteredData = rejectedUsers.length > 0 ? 
-                rejectedUsers.map((field) => 
-                {
-                    return (
-                            <div className={styles.profileRow} key={field._id}>
-                                <p><strong>{field.role === "company" ? "Company" : "Supplier"} name:</strong> {field.name}</p>
-                                <p><strong>{field.role === "company" ? "Company" : "Supplier"} email:</strong> {field.email}</p>
-                                <p><strong>{field.role === "company" ? "Company" : "Supplier"} ID:</strong> {field.ID}</p>
-                                <p><strong>{field.role === "company" ? "Company" : "Supplier"} phone:</strong> {field.phone}</p>
-                                {field.role === "supplier" ? 
-                                (
-                                    <p><strong>Supplier product:</strong> {field.supplierProduct}</p>
-                                ) : (
-                                    <strong></strong> 
-                                    )
-                                }
-                            <p><strong>Commercial register:</strong> 
-                                <button className={styles.rejectDownloadButton} onClick={() =>downloadCommercialRegisterPdf(field.ID, field.name)}>Download PDF</button> 
-                            </p>                                
-                            <p><strong>Admin email:</strong> {field.adminEmail} </p>
-                                <button
-                                    className={styles.pendingButtonDrop}
-                                    onClick={() => dropUser(field.ID)}
-                                >
-                                    Drop
-                                </button>
-                            </div>
-                    );
-                
-                return null;
-            }) : 
-            <p>No Pending registrations found.</p>;
-
-        return filteredData;
-    })()}
-</div>
+            {rejected ? (
+                <>
+                    <h2 className={styles.List}>Rejected Registration:</h2>
+                    <div className={styles.profileContainer}>   
+                        {(() => {
+                            const rejectedUsers = Array.isArray(rejected) ? rejected : [];
+                            if (rejectedUsers.length > 0) {
+                                return rejectedUsers.map((field) => (
+                                    <div className={styles.profileRow} key={field._id}>
+                                        <p><strong>{field.role === "company" ? "Company" : "Supplier"} name:</strong> {field.name}</p>
+                                        <p><strong>{field.role === "company" ? "Company" : "Supplier"} email:</strong> {field.email}</p>
+                                        <p><strong>{field.role === "company" ? "Company" : "Supplier"} ID:</strong> {field.ID}</p>
+                                        <p><strong>{field.role === "company" ? "Company" : "Supplier"} phone:</strong> {field.phone}</p>
+                                        {field.role === "supplier" && (
+                                            <p><strong>Supplier product:</strong> {field.supplierProduct}</p>
+                                        )}
+                                        <p><strong>Commercial register:</strong> 
+                                            <button className={styles.rejectDownloadButton} onClick={() => downloadCommercialRegisterPdf(field.ID)}>
+                                                Download PDF
+                                            </button> 
+                                        </p>                                 
+                                        <p><strong>Admin email:</strong> {field.adminEmail} </p>
+                                        <button
+                                            className={styles.pendingButtonDrop}
+                                            onClick={() => dropUser(field.ID)}
+                                        >
+                                            Drop
+                                        </button>
+                                    </div>
+                                ));
+                            } else {
+                                return <p>No Pending registrations found.</p>;
+                            }
+                        })()}
+                    </div>
+                </>
+            ) : (
+                <div className={styles.rejectLoader}>
+                    <div className={styles.loader}></div>
+                </div>
+            )}
         </div>
-
     );
-    
 }
 export default RejectRegister;

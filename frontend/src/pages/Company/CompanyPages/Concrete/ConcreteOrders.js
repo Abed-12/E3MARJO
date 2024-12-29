@@ -20,18 +20,18 @@ function ConcreteOrders() {
     }
 
     // for card
-    const handleQuickOrders = (e) => {
+    const handleExpressOrders = (e) => {
         e.preventDefault();
         setTimeout(() => { 
-            navigate('/company/home/concrete-orders/quick-orders') 
+            navigate('/company/home/concrete-orders/express-orders') 
         }, 500)
     }
 
     // for card
-    const handleBasicOrders = (e) => {
+    const handleCustomOrders = (e) => {
         e.preventDefault();
         setTimeout(() => { 
-            navigate('/company/home/concrete-orders/basic-orders') 
+            navigate('/company/home/concrete-orders/custom-orders') 
         }, 500)
     }
 
@@ -70,18 +70,18 @@ function ConcreteOrders() {
                         }
                     }}
                 >
-                    <CardActionArea onClick={handleQuickOrders}>
+                    <CardActionArea onClick={handleExpressOrders}>
                         <CardMedia
-                            className={styles.QuickOrdersCardMedia}
+                            className={styles.expressOrdersCardMedia}
                             component="img"
                             height="170"
                         />
                         <CardContent className={styles.cardContent}>
                             <Typography gutterBottom variant="h5" component="div">
-                                Quick Orders
+                                Express Orders
                             </Typography>
                             <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                                Click to start quick ordering Concrete for your construction
+                                Click to start express ordering Concrete for your construction
                             </Typography>
                         </CardContent>
                     </CardActionArea>
@@ -98,18 +98,18 @@ function ConcreteOrders() {
                         }
                     }}
                 >
-                    <CardActionArea onClick={handleBasicOrders}>
+                    <CardActionArea onClick={handleCustomOrders}>
                         <CardMedia
-                            className={styles.BasicOrdersCardMedia} 
+                            className={styles.customOrdersCardMedia} 
                             component="img"
                             height="170"
                         />
                         <CardContent className={styles.cardContent}>
                             <Typography gutterBottom variant="h5" component="div">
-                                Basic Orders
+                                Custom Orders
                             </Typography>
                             <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                                Click to start basic ordering Concrete for your construction
+                                Click to start custom ordering Concrete for your construction
                             </Typography>
                         </CardContent>
                     </CardActionArea>

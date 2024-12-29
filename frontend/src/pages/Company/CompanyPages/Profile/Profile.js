@@ -12,7 +12,7 @@ function Profile() {
     const token = localStorage.getItem("token");
     const decodedData = jwtDecode(token);
 
-    const [companyData, setCompanyData] = useState('');
+    const [companyData, setCompanyData] = useState(null);
 
     const navigate = useNavigate();
 
@@ -39,7 +39,7 @@ function Profile() {
             }
             const response = await fetch(url, options);
             const contentDisposition = response.headers.get('content-disposition');
-            const filename = contentDisposition ? contentDisposition.split('filename=')[1].replace(/"/g, '') : `${decodedData.companyName}.pdf`;
+            const filename = contentDisposition ? contentDisposition.split('filename=')[1].replace(/"/g, '') : `file.pdf`;
             const file = await response.blob();
             saveAs(file, filename)
         } catch (err) {
@@ -89,20 +89,26 @@ function Profile() {
                 logout={handleLogout}
             />
 
-            <div className={styles.profileContainer}>
-                <div className={styles.profileRow}>
-                    <h1 className={styles.profileH1}>{decodedData.companyName} Profile</h1>
-                    <button className={styles.profileEditProfileButton} onClick={handleEditProfileClick}>Edit Profile</button>
-                    <p><strong>Company name:</strong> {decodedData.companyName}</p>
-                    <p><strong>Company ID:</strong> {decodedData.companyID}</p>
-                    <p><strong>Email:</strong> {decodedData.email}</p>
-                    <p><strong>Phone:</strong> {companyData.companyPhone}</p>
-                    <p>
-                        <strong>Commercial register: </strong>
-                        <button className={styles.profileDownloadButton} onClick={downloadCommercialRegisterPdf}>Download PDF</button>
-                    </p>
+            {companyData ? (
+                <div className={styles.profileContainer}>
+                    <div className={styles.profileRow}>
+                        <h1 className={styles.profileH1}>{decodedData.companyName} Profile</h1>
+                        <button className={styles.profileEditProfileButton} onClick={handleEditProfileClick}>Edit Profile</button>
+                        <p><strong>Company name:</strong> {decodedData.companyName}</p>
+                        <p><strong>Company ID:</strong> {decodedData.companyID}</p>
+                        <p><strong>Email:</strong> {decodedData.email}</p>
+                        <p><strong>Phone:</strong> {companyData.companyPhone}</p>
+                        <p>
+                            <strong>Commercial register: </strong>
+                            <button className={styles.profileDownloadButton} onClick={downloadCommercialRegisterPdf}>Download PDF</button>
+                        </p>
+                    </div>
                 </div>
-            </div>
+            ) : (
+                <div className={styles.profileContainer}>
+                    <div className={styles.loader}></div>
+                </div>
+            )}
 
             <Footer
                 one="Home"

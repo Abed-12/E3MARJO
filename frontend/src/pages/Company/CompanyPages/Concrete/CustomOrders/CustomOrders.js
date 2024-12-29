@@ -1,11 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 import { handleError, handleSuccess } from '../../../../../utils/utils';
 import { ToastContainer } from 'react-toastify';
-import styles from './QuickOrders.module.css';
+import styles from './CustomOrders.module.css';
 import Navbar from '../../../../../components/navbar/Navbar';
 import Footer from '../../../../../components/footer/Footer';
 
-function QuickOrders() {
+function CustomOrders() {
 
     const navigate = useNavigate();
     
@@ -19,7 +19,7 @@ function QuickOrders() {
     }
 
     return(
-        <section className={styles.quickOrdersBody}>
+        <section className={styles.customOrdersBody}>
             <Navbar 
                 one="Home"
                 pathOne="/company/home"
@@ -51,9 +51,9 @@ function QuickOrders() {
                 two3="Old orders"
                 pathTwo3="/company/home/old-orders"
                 three="Cement"
-                pathThree="/company/home/cement-order"
+                pathThree="/company/home/cement-orders"
                 four="Concrete"
-                pathFour="/company/home/concrete-order"
+                pathFour="/company/home/concrete-orders"
                 five="Profile"
                 pathFive="/company/home/profile"
                 logout={handleLogout}
@@ -63,4 +63,4 @@ function QuickOrders() {
     );
 }
 
-export default QuickOrders;
+export default CustomOrders;

@@ -9,7 +9,7 @@ import OrderFilter from '../../../../components/orderFilter/OrderFilter';
 import moment from 'moment';
 
 function PendingOrders() {
-    const [filteredOrders, setFilteredOrders] = useState([]);
+    const [filteredOrders, setFilteredOrders] = useState(null);
     const [showRejectModal, setShowRejectModal] = useState(false);  // لعرض صندوق النص
     const [rejectReason, setRejectReason] = useState('');  // لتخزين السبب المدخل
     const [currentOrderId, setCurrentOrderId] = useState(null);  // لتخزين id الطلب الحالي
@@ -153,80 +153,85 @@ function PendingOrders() {
             <div className={styles.pendingOrdersTitle}>
                 <h2 className={styles.pendingOrdersH2}>Pending Orders</h2>
             </div>
-            <div className={styles.pendingOrdersContainer}>
-                {filteredOrders && filteredOrders.length > 0 ? (
-                    filteredOrders.map((order, index) => (
-                        <div className={styles.pendingOrdersRow} key={index}> 
-                            <p className={`${styles.pendingOrdersData} ${styles.pendingOrdersSupplierName}`}>
-                                <strong>Supplier name:</strong> {order.supplierName} 
-                            </p>
-                            <div className={styles.pendingOrdersDiv}>
-                                <p className={`${styles.pendingOrdersData} ${styles.pendingOrdersStatus}`}>
-                                    <strong>Order status:</strong> {order.status} 
+            {filteredOrders ? (
+                <div className={styles.pendingOrdersContainer}>
+                    {filteredOrders && filteredOrders.length > 0 ? (
+                        filteredOrders.map((order, index) => (
+                            <div className={styles.pendingOrdersRow} key={index}> 
+                                <p className={`${styles.pendingOrdersData} ${styles.pendingOrdersSupplierName}`}>
+                                    <strong>Supplier name:</strong> {order.supplierName} 
                                 </p>
-                                <p className={`${styles.pendingOrdersData} ${styles.pendingOrdersType}`}>
-                                    <strong>Order type:</strong> {order.type} 
-                                </p>
-                            </div>
-                            <hr />
-                            <div className={styles.pendingOrdersDiv}>
-                                <p className={styles.pendingOrdersData}>
-                                    <strong>Company name:</strong> {order.companyName} 
-                                </p>
-                                <p className={styles.pendingOrdersData}>
-                                    <strong>Company phone:</strong> {order.companyPhone} 
-                                </p>
-                                <p className={styles.pendingOrdersData}>
-                                    <strong>Recipient's name:</strong> {order.recipientName} 
-                                </p>
-                                <p className={styles.pendingOrdersData}>
-                                    <strong>Recipient's phone:</strong> {order.recipientPhone} 
-                                </p>
-                                <p className={styles.pendingOrdersData}>
-                                    <strong>Delivery time:</strong> {moment(order.deliveryTime * 1000).format('D/MM/YYYY - h:mm a')}
-                                </p>
-                                <p className={styles.pendingOrdersData}>
-                                    <strong>Location:</strong> {order.location} 
-                                </p>
-                            </div>
-                            <div className={styles.pendingOrdersDiv}>
-                                <p className={styles.pendingOrdersData}>
-                                    <strong>Cement quantity:</strong> {order.cementQuantity} ton
-                                </p>
-                                <p className={styles.pendingOrdersData}>
-                                    <strong>Number of cement bags:</strong> {order.cementNumberBags} 
-                                </p>
-                                <p className={styles.pendingOrdersData}>
-                                    <strong>Cement price:</strong> {order.price} JD
-                                </p>
-                                <p className={styles.pendingOrdersData}>
-                                    <strong>Order request time:</strong> {moment(order.orderRequestTime * 1000).format('D/MM/YYYY - h:mm a')}
-                                </p>
-                            </div>
-                            <div className={styles.pendingOrdersDivButton}>
-                                <button className={styles.pendingOrdersButtonAccept} onClick={() => orderAccepted(order.id)}>Accept</button>
-                                <button className={styles.pendingOrdersButtonReject} onClick={() => { setShowRejectModal(true); setCurrentOrderId(order.id); }}>Reject</button>
-                            </div>
-                            {showRejectModal && (
-                                <div className={styles.rejectModalDiv}>
-                                    <h3 className={styles.rejectModalH3}>Enter rejection reason</h3>
-                                    <textarea
-                                        className={styles.rejectModalTextarea}
-                                        value={rejectReason}
-                                        onChange={(e) => setRejectReason(e.target.value)}
-                                        placeholder="Enter reason for rejection"
-                                    />
-                                    <button className={styles.rejectModalButtonCancel} onClick={() => setShowRejectModal(false)}>Cancel</button>
-                                    <button className={styles.rejectModalButtonSubmit} onClick={orderRejected}>Submit</button>
+                                <div className={styles.pendingOrdersDiv}>
+                                    <p className={`${styles.pendingOrdersData} ${styles.pendingOrdersStatus}`}>
+                                        <strong>Order status:</strong> {order.status} 
+                                    </p>
+                                    <p className={`${styles.pendingOrdersData} ${styles.pendingOrdersType}`}>
+                                        <strong>Order type:</strong> {order.type} 
+                                    </p>
                                 </div>
-                            )}
-                        </div>
-                    ))
-                ) : (
-                    <p className={styles.pendingOrdersP}>No pending orders found</p>
-                )}
-            </div>
-            {/* Modal for entering rejection reason */}
+                                <hr />
+                                <div className={styles.pendingOrdersDiv}>
+                                    <p className={styles.pendingOrdersData}>
+                                        <strong>Company name:</strong> {order.companyName} 
+                                    </p>
+                                    <p className={styles.pendingOrdersData}>
+                                        <strong>Company phone:</strong> {order.companyPhone} 
+                                    </p>
+                                    <p className={styles.pendingOrdersData}>
+                                        <strong>Recipient's name:</strong> {order.recipientName} 
+                                    </p>
+                                    <p className={styles.pendingOrdersData}>
+                                        <strong>Recipient's phone:</strong> {order.recipientPhone} 
+                                    </p>
+                                    <p className={styles.pendingOrdersData}>
+                                        <strong>Delivery time:</strong> {moment(order.deliveryTime * 1000).format('D/MM/YYYY - h:mm a')}
+                                    </p>
+                                    <p className={styles.pendingOrdersData}>
+                                        <strong>Location:</strong> {order.location} 
+                                    </p>
+                                </div>
+                                <div className={styles.pendingOrdersDiv}>
+                                    <p className={styles.pendingOrdersData}>
+                                        <strong>Cement quantity:</strong> {order.cementQuantity} ton
+                                    </p>
+                                    <p className={styles.pendingOrdersData}>
+                                        <strong>Number of cement bags:</strong> {order.cementNumberBags} 
+                                    </p>
+                                    <p className={styles.pendingOrdersData}>
+                                        <strong>Cement price:</strong> {order.price} JD
+                                    </p>
+                                    <p className={styles.pendingOrdersData}>
+                                        <strong>Order request time:</strong> {moment(order.orderRequestTime * 1000).format('D/MM/YYYY - h:mm a')}
+                                    </p>
+                                </div>
+                                <div className={styles.pendingOrdersDivButton}>
+                                    <button className={styles.pendingOrdersButtonAccept} onClick={() => orderAccepted(order.id)}>Accept</button>
+                                    <button className={styles.pendingOrdersButtonReject} onClick={() => { setShowRejectModal(true); setCurrentOrderId(order.id); }}>Reject</button>
+                                </div>
+                                {showRejectModal && (
+                                    <div className={styles.rejectModalDiv}>
+                                        <h3 className={styles.rejectModalH3}>Enter rejection reason</h3>
+                                        <textarea
+                                            className={styles.rejectModalTextarea}
+                                            value={rejectReason}
+                                            onChange={(e) => setRejectReason(e.target.value)}
+                                            placeholder="Enter reason for rejection"
+                                        />
+                                        <button className={styles.rejectModalButtonCancel} onClick={() => setShowRejectModal(false)}>Cancel</button>
+                                        <button className={styles.rejectModalButtonSubmit} onClick={orderRejected}>Submit</button>
+                                    </div>
+                                )}
+                            </div>
+                        ))
+                    ) : (
+                            <p className={styles.pendingOrdersP}>No pending orders found</p>
+                    )}
+                </div>
+            ) : (
+                <div className={styles.pendingOrdersLoader}>
+                    <div className={styles.loader}></div>
+                </div>
+            )}
 
             <Footer 
                 two="Orders"

@@ -8,7 +8,7 @@ import { handleSuccess , handleError} from '../../../../utils/utils';
 import {saveAs} from 'file-saver';
 function RequestRegister() {
     const navigate = useNavigate();
-    const [pending, setPending] = useState([]); // Initialize as an empty array
+    const [pending, setPending] = useState(null); // Initialize as an empty array
     useEffect(() => {
         const getData = async () => {
             try {
@@ -94,7 +94,7 @@ const handleLogout = (e) =>
         }
     };
 
-    async function downloadCommercialRegisterPdf(ID, name) 
+    async function downloadCommercialRegisterPdf(ID) 
     {
         try 
         {
@@ -105,7 +105,7 @@ const handleLogout = (e) =>
             }
             const response = await fetch(url, options);
             const contentDisposition = response.headers.get('content-disposition');
-            const filename = contentDisposition ? contentDisposition.split('filename=')[1].replace(/"/g, '') : `${name}.pdf`;
+            const filename = contentDisposition ? contentDisposition.split('filename=')[1].replace(/"/g, '') : `file.pdf`;
             const file = await response.blob();
             saveAs(file, filename)
         } catch (err) {
@@ -132,55 +132,57 @@ const handleLogout = (e) =>
 
                 logout={handleLogout}
             />
-            <h2 className={styles.List}>Pending Registration:</h2>
-            <div className={styles.profileContainer}>   
-            {(() => 
-            {
-                const RegisterationData = Array.isArray(pending) ? pending : [];
 
-                const filteredData = RegisterationData.length > 0 ? 
-                RegisterationData.map((field) => 
-                {
-                    return (
-                            <div className={styles.profileRow} key={field._id}>
-                                <p><strong>{field.role === "company" ? "Company" : "Supplier"} name:</strong> {field.name}</p>
-                                <p><strong>{field.role === "company" ? "Company" : "Supplier"} email:</strong> {field.email}</p>
-                                <p><strong>{field.role === "company" ? "Company" : "Supplier"} ID:</strong> {field.ID}</p>
-                                <p><strong>{field.role === "company" ? "Company" : "Supplier"} phone:</strong> {field.phone}</p>
-                                {field.role === "supplier" ? 
-                                (
-                                    <p><strong>Supplier product:</strong> {field.supplierProduct}</p>
-                                ) : (
-                                    <strong></strong> 
-                                    )
-                                }
-                                <p><strong>Commercial register:</strong>            
-                                    <button className={styles.requestDownloadButton} onClick={() => downloadCommercialRegisterPdf(field.ID, field.name)}>Download PDF</button> 
-                                </p>
-                                <div className={styles.divButton}>
-                                    <button
-                                        className={styles.pendingButtonAccept}
-                                        onClick={() => approveUser(field.ID)}
-                                    >
-                                        Approve
-                                    </button>
-                                    <button
-                                        className={styles.pendingButtonReject}
-                                        onClick={() => rejectUser(field.ID)}
-                                    >
-                                        Reject
-                                    </button>
-                                </div>
-                            </div>
-                    );
-                
-                return null;
-            }) : 
-            <p>No Pending registrations found.</p>;
+            {pending ? (
+                <>
+                    <h2 className={styles.List}>Pending Registration:</h2>
+                    <div className={styles.profileContainer}>
+                        {(() => {
+                            const RegisterationData = Array.isArray(pending) ? pending : [];
 
-        return filteredData;
-    })()}
-</div>
+                            if (RegisterationData.length > 0) {
+                                return RegisterationData.map((field) => (
+                                    <div className={styles.profileRow} key={field._id}>
+                                        <p><strong>{field.role === "company" ? "Company" : "Supplier"} name:</strong> {field.name}</p>
+                                        <p><strong>{field.role === "company" ? "Company" : "Supplier"} email:</strong> {field.email}</p>
+                                        <p><strong>{field.role === "company" ? "Company" : "Supplier"} ID:</strong> {field.ID}</p>
+                                        <p><strong>{field.role === "company" ? "Company" : "Supplier"} phone:</strong> {field.phone}</p>
+                                        {field.role === "supplier" && (
+                                            <p><strong>Supplier product:</strong> {field.supplierProduct}</p>
+                                        )}
+                                        <p><strong>Commercial register:</strong> 
+                                            <button className={styles.requestDownloadButton} onClick={() => downloadCommercialRegisterPdf(field.ID)}>
+                                                Download PDF
+                                            </button>
+                                        </p>
+                                        <div className={styles.divButton}>
+                                            <button
+                                                className={styles.pendingButtonAccept}
+                                                onClick={() => approveUser(field.ID)}
+                                            >
+                                                Approve
+                                            </button>
+                                            <button
+                                                className={styles.pendingButtonReject}
+                                                onClick={() => rejectUser(field.ID)}
+                                            >
+                                                Reject
+                                            </button>
+                                        </div>
+                                    </div>
+                                ));
+                            } else {
+                                return <p>No Pending registrations found.</p>;
+                            }
+                        })()}
+                    </div>
+                </>
+            ) : (
+                <div className={styles.requestLoader}>
+                    <div className={styles.loader}></div>
+                </div>
+            )}
+
         </div>
     );
     

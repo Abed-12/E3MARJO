@@ -1,11 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 import { handleError, handleSuccess } from '../../../../../utils/utils';
 import { ToastContainer } from 'react-toastify';
-import styles from './BasicOrders.module.css';
+import styles from './ExpressOrders.module.css';
 import Navbar from '../../../../../components/navbar/Navbar';
 import Footer from '../../../../../components/footer/Footer';
 
-function BasicOrders() {
+function ExpressOrders() {
 
     const navigate = useNavigate();
     
@@ -19,7 +19,7 @@ function BasicOrders() {
     }
 
     return(
-        <section className={styles.basicOrdersBody}>
+        <section className={styles.expressOrdersBody}>
             <Navbar 
                 one="Home"
                 pathOne="/company/home"
@@ -51,9 +51,9 @@ function BasicOrders() {
                 two3="Old orders"
                 pathTwo3="/company/home/old-orders"
                 three="Cement"
-                pathThree="/company/home/cement-orders"
+                pathThree="/company/home/cement-order"
                 four="Concrete"
-                pathFour="/company/home/concrete-orders"
+                pathFour="/company/home/concrete-order"
                 five="Profile"
                 pathFive="/company/home/profile"
                 logout={handleLogout}
@@ -63,4 +63,4 @@ function BasicOrders() {
     );
 }
 
-export default BasicOrders;
+export default ExpressOrders;

@@ -81,6 +81,8 @@ CompanyRouter.get('/admin-commercial-register/:id', ensureAuthenticated, async (
         const company = await CompanyModel.findOne({companyID: id})
         if (!company) return res.status(404).json({message: 'Commercial register not found', success: false});
         res.set({
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Expose-Headers': 'Content-Disposition',
             'Content-Type': 'application/pdf',
             'Content-Disposition': `attachment; filename="${company.companyName}.pdf"`,
             }).send(company.commercialRegister) 
@@ -103,6 +105,8 @@ CompanyRouter.get('/company-commercial-register', ensureAuthenticated, async (re
         const company = await CompanyModel.findOne({_id: id})
         if (!company) return res.status(404).json({message: 'Commercial register not found', success: false});
         res.set({
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Expose-Headers': 'Content-Disposition',
             'Content-Type': 'application/pdf',
             'Content-Disposition': `attachment; filename=${company.companyName}.pdf`,
         }).send(company.commercialRegister)

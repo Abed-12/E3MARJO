@@ -34,8 +34,8 @@ import CementOrders from './pages/Company/CompanyPages/Cement/CementOrders';
 import CementBill from './pages/Company/CompanyPages/Cement/CementBill/CementBill';
 // Company-Concrete
 import ConcreteOrders from './pages/Company/CompanyPages/Concrete/ConcreteOrders';
-import QuickOrders from './pages/Company/CompanyPages/Concrete/QuickOrders/QuickOrders';
-import BasicOrders from './pages/Company/CompanyPages/Concrete/BasicOrders/BasicOrders';
+import ExpressOrders from './pages/Company/CompanyPages/Concrete/ExpressOrders/ExpressOrders';
+import CustomOrders from './pages/Company/CompanyPages/Concrete/CustomOrders/CustomOrders';
 
 
 
@@ -175,17 +175,17 @@ function App() {
                                                 allowedRoles={['company']}
                                                 element={<ConcreteOrders />}
                                               />}/>
-        <Route path="/company/home/concrete-orders/quick-orders" element={<PrivateRoute
+        <Route path="/company/home/concrete-orders/express-orders" element={<PrivateRoute
                                                 isAuthenticated={isAuthenticated}
                                                 role={role}
                                                 allowedRoles={['company']}
-                                                element={<QuickOrders />}
+                                                element={<ExpressOrders />}
                                               />}/>
-        <Route path="/company/home/concrete-orders/basic-orders" element={<PrivateRoute
+        <Route path="/company/home/concrete-orders/custom-orders" element={<PrivateRoute
                                                 isAuthenticated={isAuthenticated}
                                                 role={role}
                                                 allowedRoles={['company']}
-                                                element={<BasicOrders />}
+                                                element={<CustomOrders />}
                                               />}/>
                   
 

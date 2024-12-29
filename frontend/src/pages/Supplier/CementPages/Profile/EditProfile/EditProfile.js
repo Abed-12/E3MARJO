@@ -7,7 +7,7 @@ import Navbar from '../../../../../components/navbar/Navbar';
 import Footer from '../../../../../components/footer/Footer';
 
 function EditProfile() {
-    const [supplierData, setSupplierData] = useState('');
+    const [supplierData, setSupplierData] = useState(null);
     const [editData, setEditData] = useState({
         supplierPhone: '',
         price: '',
@@ -153,64 +153,70 @@ function EditProfile() {
                 pathFour="/supplier/cement/profile"
                 logout={handleLogout}
             />
-
-            <div className={styles.editProfileContainer}>
-                <div className={styles.editProfileRow}>
-                    <h1 className={styles.editProfileH1}>Edit profile</h1>
-                    <form className={styles.editProfileForm} onSubmit= {handleUpdateProfile}>
-                        <div className={styles.editProfileDiv}>
-                            <label className={styles.editProfileLabel} htmlFor='price'><strong>Change the Cement price:</strong></label>
-                            <input
-                                className={styles.editProfileInput}
-                                onChange= {handleChange}
-                                type='text'
-                                name='price' 
-                                placeholder= {supplierData.price}
-                                value={editData.price}
-                                autoFocus
-                            />
-                        </div>
-                        <div className={styles.editProfileDiv}>
-                            <label className={styles.editProfileLabel} htmlFor='supplierPhone'><strong>Change the phone number:</strong></label>
-                            <input
-                                className={styles.editProfileInput}
-                                onChange= {handleChange}
-                                onKeyPress={handleKeyPress}
-                                onBlur={(e) => handlePhoneValidation(e.target.value)}
-                                type='tel'
-                                name='supplierPhone' 
-                                inputMode="numeric" 
-                                maxLength="10"
-                                placeholder= {supplierData.supplierPhone}
-                                value={editData.supplierPhone}
-                            />
-                        </div>
-                        <div className={styles.editProfileDiv}>
-                            <label className={styles.editProfileLabel} htmlFor='password'><strong>Change the password:</strong></label>
-                            <input
-                                className={styles.editProfileInput}
-                                onChange={handleChange}
-                                type='password'
-                                name='password'
-                                placeholder='Enter your password...'
-                                value={editData.password}
-                            />
-                        </div>
-                        <div className={styles.editProfileDiv}>
-                            <label className={styles.editProfileLabel} htmlFor='confirmPassword'><strong>Confirm Password</strong></label>
-                            <input
-                                className={styles.editProfileInput}
-                                onChange={handleChange}
-                                type='password'
-                                name='confirmPassword'
-                                placeholder='Enter your Confirm Password...'
-                                value={editData.confirmPassword}
-                            />
-                        </div>
-                        <button className={styles.editProfileButton} type='submit'>Update</button>
-                    </form>
+            
+            {supplierData ? (
+                <div className={styles.editProfileContainer}>
+                    <div className={styles.editProfileRow}>
+                        <h1 className={styles.editProfileH1}>Edit profile</h1>
+                        <form className={styles.editProfileForm} onSubmit= {handleUpdateProfile}>
+                            <div className={styles.editProfileDiv}>
+                                <label className={styles.editProfileLabel} htmlFor='price'><strong>Change the Cement price:</strong></label>
+                                <input
+                                    className={styles.editProfileInput}
+                                    onChange= {handleChange}
+                                    type='text'
+                                    name='price' 
+                                    placeholder= {supplierData.price}
+                                    value={editData.price}
+                                    autoFocus
+                                />
+                            </div>
+                            <div className={styles.editProfileDiv}>
+                                <label className={styles.editProfileLabel} htmlFor='supplierPhone'><strong>Change the phone number:</strong></label>
+                                <input
+                                    className={styles.editProfileInput}
+                                    onChange= {handleChange}
+                                    onKeyPress={handleKeyPress}
+                                    onBlur={(e) => handlePhoneValidation(e.target.value)}
+                                    type='tel'
+                                    name='supplierPhone' 
+                                    inputMode="numeric" 
+                                    maxLength="10"
+                                    placeholder= {supplierData.supplierPhone}
+                                    value={editData.supplierPhone}
+                                />
+                            </div>
+                            <div className={styles.editProfileDiv}>
+                                <label className={styles.editProfileLabel} htmlFor='password'><strong>Change the password:</strong></label>
+                                <input
+                                    className={styles.editProfileInput}
+                                    onChange={handleChange}
+                                    type='password'
+                                    name='password'
+                                    placeholder='Enter your password...'
+                                    value={editData.password}
+                                />
+                            </div>
+                            <div className={styles.editProfileDiv}>
+                                <label className={styles.editProfileLabel} htmlFor='confirmPassword'><strong>Confirm Password</strong></label>
+                                <input
+                                    className={styles.editProfileInput}
+                                    onChange={handleChange}
+                                    type='password'
+                                    name='confirmPassword'
+                                    placeholder='Enter your Confirm Password...'
+                                    value={editData.confirmPassword}
+                                />
+                            </div>
+                            <button className={styles.editProfileButton} type='submit'>Update</button>
+                        </form>
+                    </div>
                 </div>
-            </div>
+            ) : (
+                <div className={styles.editProfileContainer}>
+                    <div className={styles.loader}></div>
+                </div>
+            )}
 
             <Footer 
                 two="Orders"
