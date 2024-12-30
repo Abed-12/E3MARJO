@@ -17,8 +17,7 @@ function AddAdmin() {
 
     const [registrationInfo, setRegistrationInfo] = useState({
         email: '',
-        password: '',
-        adminName:'',
+        password: ''
     });
 
     const navigate = useNavigate();
@@ -34,7 +33,7 @@ function AddAdmin() {
         e.preventDefault();
 
         // تحديد الحقول المطلوبة
-        const requiredFields = ['email', 'password', 'adminName'];
+        const requiredFields = ['email', 'password'];
 
         // التحقق من وجود الحقول المطلوبة
         const missingFields = requiredFields.filter(field => !registrationInfo[field]);
@@ -95,19 +94,6 @@ function AddAdmin() {
                     <h1 className={styles.adminRegistrationH1}>Add Admin</h1>
                     <form className={styles.adminFormRegistration} onSubmit={handleRegistration}>
                         <div className={styles.adminRegistrationDiv}>
-                            <label className={styles.adminRegistrationLabel} htmlFor='adminName'>Admin Name</label>
-                            <input
-                                className={styles.adminRegistrationInput}
-                                onChange={handleChange}
-                                type='text'
-                                name='adminName'
-                                placeholder='Enter admin name...'
-                                value={registrationInfo.adminName}
-                                required
-                            />
-                        </div>
-                        <br></br>
-                        <div className={styles.adminRegistrationDiv}>
                             <label className={styles.adminRegistrationLabel} htmlFor='email'>Email</label>
                             <input
                                 className={styles.adminRegistrationInput}
@@ -127,7 +113,6 @@ function AddAdmin() {
                                 onChange={handleChange}
                                 type='password'
                                 name='password'
-                                autoComplete="password"
                                 placeholder='Enter admin password...'
                                 value={registrationInfo.password}
                                 required

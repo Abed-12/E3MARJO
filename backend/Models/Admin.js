@@ -2,11 +2,11 @@ import mongoose from 'mongoose';
 import bcrypt from "bcrypt";
 
 const AdminSchema = new mongoose.Schema({
-    adminName:{
-        type: String,
-        required: true,
-        unique: true
-    },
+    // adminName:{
+    //     type: String,
+    //     required: true,
+    //     unique: true
+    // },
     email: {
         type: String,
         required: true,
@@ -15,11 +15,6 @@ const AdminSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-    },
-    adminName:{
-        type: String,
-        required: true,
-        unique: true
     },
     role: {
         type: String,
@@ -40,8 +35,8 @@ const AdminModel = mongoose.model('admin', AdminSchema);
 const admin = new AdminModel({
     email: "admin1@gmail.com",
     password: "admin123",
-    adminName: "d7",
+    // adminName: "d7",
 }); 
-// admin.save();
+admin.save();
 
 export default AdminModel;
