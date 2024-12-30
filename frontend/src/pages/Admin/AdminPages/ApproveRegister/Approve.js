@@ -199,32 +199,15 @@ function ApproveRegister()
                                 <p>
                                     <strong>Supplier product:</strong> {field.supplierProduct} 
                                 </p>
-                                <div>
                                 <p>
-                                    {field.supplierProduct === "concrete" ? (
-                                        // Handle the object display for concrete
-                                        <div>
-                                            <strong>Supplier strength/price:</strong>{" "}
-                                            {Object.entries(field.cementBreakingStrength).map(([strength, price]) => (
-                                                <div key={strength}>
-                                                    Strength {strength}: {price} JD
-                                                </div>
-                                            ))}
-                                        </div>
-                                    ) : (
-                                        <div>
-                                        <strong>Supplier item price:</strong> {field.price} JD
-                                        </div>
-                                    )}
+                                    <strong>Supplier item price:</strong> {field.price} JD
                                 </p>
-                                </div>
                                 <p><strong>Commercial register:</strong>  
-                                    <button className={styles.approveDownloadButton} onClick={() => supplierDownloadCommercialRegisterPdf(field.supplierID)}>Download PDF</button>  
-                                </p> 
-                                <p>
-                                    <strong>Admin name:</strong> {field.adminName} 
+                                    <button className={styles.approveDownloadButton} onClick={() => supplierDownloadCommercialRegisterPdf(field.supplierID)}>Download PDF</button> 
                                 </p>
-                                
+                                <p>
+                                    <strong>Admin email:</strong> {field.adminEmail} 
+                                </p>
                                 <button
                                     className={styles.pendingButtonDrop}
                                     onClick={() => deleteSupplier(field.supplierID)}
@@ -259,7 +242,7 @@ function ApproveRegister()
                                     <button className={styles.approveDownloadButton} onClick={() => companyDownloadCommercialRegisterPdf(field.companyID)}>Download PDF</button> 
                                 </p>
                                 <p>
-                                <strong>Admin name:</strong> {field.adminName} 
+                                    <strong>Admin email:</strong> {field.adminEmail} 
                                 </p>
                                 <button
                                     className={styles.pendingButtonDrop}

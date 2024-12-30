@@ -40,7 +40,7 @@ CompanyRouter.get('/companyData', ensureAuthenticated, async (req, res) => {
 
             const admin = await AdminModel.findOne(
                 { _id: data.adminID },
-                { adminName: 1, }
+                { email: 1, }
             );
             return{
                 _id:data._id,
@@ -49,7 +49,7 @@ CompanyRouter.get('/companyData', ensureAuthenticated, async (req, res) => {
                 companyID:data.companyID,
                 companyPhone:data.companyPhone,
                 commercialRegister:data.commercialRegister,
-                adminName: admin ? admin.adminName : null,
+                adminEmail: admin ? admin.email : null,
             
             }
         }))
@@ -59,7 +59,7 @@ CompanyRouter.get('/companyData', ensureAuthenticated, async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: "Failed to fetch data" });
     }
-});
+}); 
 
 // delete company from collection 
 CompanyRouter.delete("/delete/:id", ensureAuthenticated, async (req, res) => {

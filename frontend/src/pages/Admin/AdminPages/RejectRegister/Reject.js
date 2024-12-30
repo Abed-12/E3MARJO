@@ -138,7 +138,7 @@ const handleLogout = (e) =>
                                                 Download PDF
                                             </button> 
                                         </p>                                 
-                                        <p><strong>Admin name:</strong> {field.adminName} </p>
+                                        <p><strong>Admin email:</strong> {field.adminEmail} </p>
                                         <button
                                             className={styles.pendingButtonDrop}
                                             onClick={() => dropUser(field.ID)}
