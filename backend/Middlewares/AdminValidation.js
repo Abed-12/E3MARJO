@@ -3,6 +3,7 @@ import Joi from "joi";
 const loginValidation = (req, res, next) => {
     const schema = Joi.object({
         email: Joi.string().email().required(),
+        adminName: Joi.string().allow(''),
         password: Joi.string().min(9).max(18).pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/).required().messages(
             {'string.min': 'Password must be at least 9 characters long.',
             'string.max': 'Password cannot exceed 18 characters.',
