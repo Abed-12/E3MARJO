@@ -36,7 +36,7 @@ RegistrationRouter.get('/fetchRegistrationData', ensureAuthenticated, async (req
                     if (data.adminID != "none")
                     {
                         var admin = await AdminModel.findById(data.adminID); // Fetch admin details
-                        admin = admin.adminName;                        
+                        admin = admin.adminName;
                     }
                     if (data.role === "supplier") {
                         return {

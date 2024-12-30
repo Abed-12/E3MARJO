@@ -18,7 +18,6 @@ const login = async (req, res) => {
         if (!admin) {
             return res.status(403).json({ message: errorMsg, success: false });
         }
-
         const isPassEqual = await bcrypt.compare(password, admin.password);
         if (!isPassEqual) {
             return res.status(403).json({ message: errorMsg, success: false });
@@ -48,32 +47,31 @@ const login = async (req, res) => {
 const register = async (req, res) => {
     try {
         const { email, password, adminName } = req.body;
+        const errorMsgPassword = 'You forgot to add a password';
+        const errorMsgEmail = 'You forgot to add an email';
+        const errorMsgName = 'You forgot to add a name';
 
-        if (!email || !password || !adminName) {
-            const missingFields = [];
-            if (!email) missingFields.push('email');
-            if (!password) missingFields.push('password');
-            if (!adminName) missingFields.push('name');
-            return res.status(400).json({
-                message: `Missing required fields: ${missingFields.join(', ')}`,
-                success: false
-            });
+        const errorMsgEmailExists = 'Email already exists';
+        const errorMsgNameExists ='Name already exists';
+        if (!password || !email || !adminName) {
+            if (!password) return res.status(403).json({ message: errorMsgPassword, success: false });
+            if (!email) return res.status(403).json({ message: errorMsgEmail, success: false });
+            if (!adminName) return res.status(403).json({ message: errorMsgName, success: false });
         }
 
         const adminExists = await AdminModel.findOne({
-            $or: [{ email }, { adminName }]
+            $or: // single database query instead of two
+            [
+                { email: email },
+                { adminName: adminName }
+            ]
         });
 
         if (adminExists) {
-            const conflictField = adminExists.email === email ? 'email' : 'name';
-            return res.status(409).json({
-                message: `The ${conflictField} already exists`,
-                success: false
-            });
-        }
-
+            const message = adminExists.email === email ? errorMsgEmailExists : errorMsgNameExists;
+            return res.status(409).json({ message, success: false });
+            }
         const newAdmin = new AdminModel({ email, password: await bcrypt.hash(password, 10), adminName });
-
         await newAdmin.save();
 
         res.status(201).json({

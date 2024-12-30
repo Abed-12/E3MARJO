@@ -16,6 +16,11 @@ const AdminSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    adminName:{
+        type: String,
+        required: true,
+        unique: true
+    },
     role: {
         type: String,
         default: 'admin',
@@ -33,11 +38,10 @@ AdminSchema.pre('save', async function(next) {
 const AdminModel = mongoose.model('admin', AdminSchema);
 
 const admin = new AdminModel({
-    adminName: 'Abed',
-    email: "admin@gmail.com",
+    email: "admin1@gmail.com",
     password: "admin123",
-    role: "admin"
-});
-// admin.save()
+    adminName: "d7",
+}); 
+// admin.save();
 
 export default AdminModel;

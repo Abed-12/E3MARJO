@@ -23,16 +23,17 @@ const SupplierSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+
+    commercialRegister: {
+        type: Buffer, // Store the file as binary data
+        // contentType: String, // Store the MIME type (e.g., application/pdf)
+        required: true
+    },
     supplierProduct: {
         type: String,
         required: true,
         enum: ['cement', 'concrete'] // يحدد أنواع الطلبات المدعومة
 
-    },
-    commercialRegister: {
-        type: Buffer, // Store the file as binary data
-        // contentType: String, // Store the MIME type (e.g., application/pdf)
-        required: true
     },
     price: {
         type:Number,
@@ -47,9 +48,8 @@ const SupplierSchema = new mongoose.Schema({
         default: function(){
             if (  this.supplierProduct === 'concrete') { 
             return {"200":10,"100":20};
-            }
         }
-    },
+    }},
     role: {
         type: String,
         default:"supplier"
