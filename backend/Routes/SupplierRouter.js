@@ -30,6 +30,7 @@ SupplierRouter.get('/supplierData', ensureAuthenticated, async (req, res) => {
                 supplierPhone:1,
                 supplierProduct:1,
                 price:1,
+                cementBreakingStrength:1,
                 commercialRegister: 1,
                 adminID: 1,
             });
@@ -39,7 +40,7 @@ SupplierRouter.get('/supplierData', ensureAuthenticated, async (req, res) => {
             // Find admin email using adminID
             const admin = await AdminModel.findOne(
                 { _id: data.adminID },
-                { email: 1 }
+                { adminName: 1 }
             );
 
             return {
@@ -49,13 +50,57 @@ SupplierRouter.get('/supplierData', ensureAuthenticated, async (req, res) => {
                 supplierID: data.supplierID,
                 supplierPhone: data.supplierPhone,
                 price: data.price,
+                cementBreakingStrength: data.cementBreakingStrength,
                 commercialRegister: data.commercialRegister,
                 supplierProduct: data.supplierProduct,
-                adminEmail: admin ? admin.email : null,
+                adminName: admin ? admin.adminName : null,
             };
         }));
         res.json(suppliersWithAdmin);
        } catch (error) 
+    {
+        res.status(500).json({ error: "Failed to fetch data" });
+    }
+});SupplierRouter.get('/supplierData', ensureAuthenticated, async (req, res) => {
+    try 
+    {
+        const suppliers = await SupplierModel.find({},
+            {
+                _id: 1,
+                supplierName:1,
+                email: 1,
+                supplierID:1,
+                supplierPhone:1,
+                supplierProduct:1,
+                price:1,
+                cementBreakingStrength:1,
+                commercialRegister: 1,
+                adminID: 1,
+            });
+        if(suppliers.length===0){            return res.json({ error: "No data found" });        }
+
+        const suppliersWithAdmin = await Promise.all(suppliers.map(async (data) => {
+            // Find admin email using adminID
+            const admin = await AdminModel.findOne(
+                { _id: data.adminID },
+                { adminName: 1 }
+            );
+
+            return {
+                _id: data._id,
+                supplierName: data.supplierName,
+                email: data.email,
+                supplierID: data.supplierID,
+                supplierPhone: data.supplierPhone,
+                price: data.price,
+                cementBreakingStrength: data.cementBreakingStrength,
+                commercialRegister: data.commercialRegister,
+                supplierProduct: data.supplierProduct,
+                adminName: admin ? admin.adminName : null,
+            };
+        }));
+        res.json(suppliersWithAdmin);
+    } catch (error) 
     {
         res.status(500).json({ error: "Failed to fetch data" });
     }

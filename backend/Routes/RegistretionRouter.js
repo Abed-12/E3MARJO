@@ -30,47 +30,43 @@ RegistrationRouter.get('/fetchRegistrationData', ensureAuthenticated, async (req
         {
             return res.json([]);
         } 
-        const adminId  = jwt.decode(req.headers.authorization)._id; // extract the id of admin who is accept the request
-        const { email: adminEmail } = await AdminModel.findById(adminId);
-        res.json
-        (
-            registration.map(data =>
-                {
-                    if (data.role === "supplier")
-                        {
-                            return {
-                                _id:data._id, // return the id bc in for loop use for key " or i can use index 0 , 1, 2, etc"
-                                name:data.name,
-                                email:data.email,
-                                ID:data.ID,
-                                phone:data.phone,
-                                role:data.role,
-                                commercialRegister:data.commercialRegister,
-                                supplierProduct:data.supplierProduct,
-                                adminEmail
-                            };
-                        }
-                        
-                        else if (data.role === "company") 
-                        { 
-                            return {
-                            _id:data._id, // return the id bc in for loop use for key " or i can use index 0 , 1, 2, etc"
-                            name:data.name,
-                            email:data.email,
-                            ID:data.ID,
-                            phone:data.phone,
-                            role:data.role,
-                            commercialRegister:data.commercialRegister,
-                            adminEmail
-                            };
-                        }
-
+        res.json(
+            await Promise.all(
+                registration.map(async (data) => {
+                    if (data.adminID != "none")
+                    {
+                        var admin = await AdminModel.findById(data.adminID); // Fetch admin details
+                        admin = admin.adminName;                        
+                    }
+                    if (data.role === "supplier") {
+                        return {
+                            _id: data._id, // Return the ID for use as a key
+                            name: data.name,
+                            email: data.email,
+                            ID: data.ID,
+                            phone: data.phone,
+                            role: data.role,
+                            commercialRegister: data.commercialRegister,
+                            supplierProduct: data.supplierProduct,
+                            adminName: admin 
+                        };
+                    } else if (data.role === "company") {
+                        return {
+                            _id: data._id, // Return the ID for use as a key
+                            name: data.name,
+                            email: data.email,
+                            ID: data.ID,
+                            phone: data.phone,
+                            role: data.role,
+                            commercialRegister: data.commercialRegister,
+                            adminName: admin
+                        };
+                    }
                 })
-
-                
+            )
         );
     } catch (error) {
-        res.status(500).json({ error: "Failed to fetch data" });
+        res.status(500).json({ error: "Failed to fetch data"+ error });
     }
 });
 

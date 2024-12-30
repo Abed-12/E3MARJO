@@ -199,15 +199,32 @@ function ApproveRegister()
                                 <p>
                                     <strong>Supplier product:</strong> {field.supplierProduct} 
                                 </p>
+                                <div>
                                 <p>
-                                    <strong>Supplier item price:</strong> {field.price} JD
+                                    {field.supplierProduct === "concrete" ? (
+                                        // Handle the object display for concrete
+                                        <div>
+                                            <strong>Supplier strength/price:</strong>{" "}
+                                            {Object.entries(field.cementBreakingStrength).map(([strength, price]) => (
+                                                <div key={strength}>
+                                                    Strength {strength}: {price} JD
+                                                </div>
+                                            ))}
+                                        </div>
+                                    ) : (
+                                        <div>
+                                        <strong>Supplier item price:</strong> {field.price} JD
+                                        </div>
+                                    )}
                                 </p>
+                                </div>
                                 <p><strong>Commercial register:</strong>  
-                                    <button className={styles.approveDownloadButton} onClick={() => supplierDownloadCommercialRegisterPdf(field.supplierID)}>Download PDF</button> 
-                                </p>
+                                    <button className={styles.approveDownloadButton} onClick={() => supplierDownloadCommercialRegisterPdf(field.supplierID)}>Download PDF</button>  
+                                </p> 
                                 <p>
-                                    <strong>Admin email:</strong> {field.adminEmail} 
+                                    <strong>Admin name:</strong> {field.adminName} 
                                 </p>
+                                
                                 <button
                                     className={styles.pendingButtonDrop}
                                     onClick={() => deleteSupplier(field.supplierID)}
@@ -242,7 +259,7 @@ function ApproveRegister()
                                     <button className={styles.approveDownloadButton} onClick={() => companyDownloadCommercialRegisterPdf(field.companyID)}>Download PDF</button> 
                                 </p>
                                 <p>
-                                    <strong>Admin email:</strong> {field.adminEmail} 
+                                <strong>Admin name:</strong> {field.adminName} 
                                 </p>
                                 <button
                                     className={styles.pendingButtonDrop}
