@@ -35,7 +35,7 @@ const SupplierSchema = new mongoose.Schema({
         enum: ['cement', 'concrete'] // يحدد أنواع الطلبات المدعومة
 
     },
-    price:{
+    price: {
         type:Number,
         default: function(){
             if (  this.supplierProduct === 'cement') {

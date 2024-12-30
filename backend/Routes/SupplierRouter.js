@@ -30,6 +30,7 @@ SupplierRouter.get('/supplierData', ensureAuthenticated, async (req, res) => {
                 supplierPhone:1,
                 supplierProduct:1,
                 price:1,
+                cementBreakingStrength:1,
                 commercialRegister: 1,
                 adminID: 1,
             });
@@ -39,7 +40,7 @@ SupplierRouter.get('/supplierData', ensureAuthenticated, async (req, res) => {
             // Find admin email using adminID
             const admin = await AdminModel.findOne(
                 { _id: data.adminID },
-                { email: 1 }
+                { adminName: 1 }
             );
 
             return {
@@ -49,9 +50,10 @@ SupplierRouter.get('/supplierData', ensureAuthenticated, async (req, res) => {
                 supplierID: data.supplierID,
                 supplierPhone: data.supplierPhone,
                 price: data.price,
+                cementBreakingStrength: data.cementBreakingStrength,
                 commercialRegister: data.commercialRegister,
                 supplierProduct: data.supplierProduct,
-                adminEmail: admin ? admin.email : null,
+                adminName: admin ? admin.adminName : null,
             };
         }));
         res.json(suppliersWithAdmin);

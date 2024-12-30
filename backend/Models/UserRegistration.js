@@ -44,7 +44,7 @@ const UserRegister = new mongoose.Schema({
     },
     adminID: {
         type: String,
-        default: "none"
+        default: ""
     }
 
 });

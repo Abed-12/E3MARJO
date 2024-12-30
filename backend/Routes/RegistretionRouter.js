@@ -63,8 +63,7 @@ RegistrationRouter.get('/fetchRegistrationData', ensureAuthenticated, async (req
                         };
                     }
                 })
-
-                
+            )
         );
     } catch (error) {
         res.status(500).json({ error: "Failed to fetch data" });
