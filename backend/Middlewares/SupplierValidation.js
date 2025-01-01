@@ -36,6 +36,20 @@ const loginValidation = (req, res, next) => {
     next();
 }
 
+const loginOtpValidation = (req, res, next) => {
+    const schema = Joi.object({
+        id: Joi.string().required(),
+        otp: Joi.string().required()
+    });
+    schema.validate(req.body)
+    const { error } = schema.validate(req.body);
+    if (error) {
+        return res.status(400)
+        .json({ message: "Bad request", error })
+    }
+    next();
+}
+
 const updateValidation = (req, res, next) => {
     const schema = Joi.object({
         password: Joi.string().min(9).max(18).pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/).allow('').messages(
@@ -58,4 +72,4 @@ const updateValidation = (req, res, next) => {
 
 
 
-export { registrationValidation, loginValidation, updateValidation };
+export { registrationValidation, loginValidation, loginOtpValidation, updateValidation };

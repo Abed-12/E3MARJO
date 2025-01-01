@@ -5,6 +5,7 @@ import express from "express";
 
 const app = express();
 app.use(bodyParser.json());
+
 const CompanyOtpRouter = express.Router();
 
 CompanyOtpRouter.post('/login/otp', loginOtpValidation, loginOtp);

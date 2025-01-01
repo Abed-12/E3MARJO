@@ -4,6 +4,9 @@ import RegisterModel from '../Models/UserRegistration.js';
 import SupplierModel from '../Models/Supplier.js'
 import env from "dotenv";
 import fs from "node:fs";
+import UserOtpModel from "../Models/UserOtp.js";
+import crypto from "node:crypto";
+import {sendEmail} from "../Services/mail-sender-service.js";
 
 env.config();
 const registration = async (req, res) => {
@@ -55,18 +58,68 @@ const registration = async (req, res) => {
 const login = async (req, res) => {
     try {
         const {supplierID, password} = req.body;
-        const supplier = await SupplierModel.findOne({supplierID});
-        const errorMsg = 'Auth failed supplierID or password is wrong';
+        const supplier = await SupplierModel.findOne({supplierID: supplierID});
+        let errorMessage = 'Auth failed supplierID or password is wrong';
         if (!supplier) {
             return res.status(403)
-                .json({message: errorMsg, success: false});
-        }
-
-        const isPassEqual = await bcrypt.compare(password, supplier.password);
-        if (!isPassEqual) {
+                .json({message: errorMessage, success: false});
+        } else if (!await bcrypt.compare(password, supplier.password)) {
             return res.status(403)
-                .json({message: errorMsg, success: false});
+                .json({message: errorMessage, success: false});
         }
+        const allPreviousNewLoginOtp = await UserOtpModel.find({
+            userId: supplier._id,
+            userType: 'SUPPLIER',
+            operationType: 'LOGIN',
+            status: 'NEW'
+        })
+        allPreviousNewLoginOtp.forEach(previousOtp => {
+            previousOtp.status = 'DENIED'
+            previousOtp.save()
+        })
+        let newLoginOtp = await new UserOtpModel({
+            userId: supplier._id,
+            otp: crypto.randomInt(100000, 999999),
+            userType: 'SUPPLIER',
+            operationType: 'LOGIN',
+            status: 'NEW'
+        }).save();
+
+        sendEmail(supplier.email, 'Login OTP', `Your login OTP is: ${newLoginOtp.otp}`, false)
+
+        res.status(200)
+            .json({
+                success: true,
+                userOtpId: newLoginOtp._id,
+                otpRequired: true
+            })
+    } catch (err) {
+        res.status(500)
+            .json({
+                message: "Internal server errror:" + err,
+                success: false
+            })
+    }
+}
+
+const loginOtp = async (req, res) => {
+    try {
+        const {id, otp} = req.body;
+        const userOtp = await UserOtpModel.findOne({
+            _id: id,
+            otp: otp,
+            operationType: 'LOGIN',
+            userType: 'SUPPLIER',
+            status: 'NEW'
+        })
+        if (!userOtp) {
+            return res.status(403)
+                .json({message: "Invalid OTP", success: false})
+        }
+        userOtp.status = 'USED'
+        await userOtp.save()
+
+        const supplier = await SupplierModel.findById(userOtp.userId);
         const jwtToken = jwt.sign(
             {
                 supplierName: supplier.supplierName,
@@ -97,4 +150,4 @@ const login = async (req, res) => {
     }
 }
 
-export {registration, login};
+export {registration, login, loginOtp};

@@ -56,12 +56,13 @@ const login = async (req, res) => {
     try {
         const {companyID, password} = req.body;
         const company = await CompanyModel.findOne({companyID: companyID});
+        let errorMessage = 'Auth failed companyID or password is wrong';
         if (!company) {
             return res.status(403)
-                .json({message: 'Auth failed companyID or password is wrong', success: false});
+                .json({message: errorMessage, success: false});
         }else if (!await bcrypt.compare(password, company.password)){
             return res.status(403)
-                .json({message: 'Auth failed companyID or password is wrong', success: false});
+                .json({message: errorMessage, success: false});
         }
         const allPreviousNewLoginOtp = await UserOtpModel.find({userId: company._id, userType: 'COMPANY', operationType:'LOGIN', status: 'NEW'})
         allPreviousNewLoginOtp.forEach( previousOtp =>{
@@ -82,6 +83,7 @@ const login = async (req, res) => {
             .json({
                 success: true,
                 userOtpId: newLoginOtp._id,
+                otpRequired: true
             })
     } catch (err) {
         res.status(500)
