@@ -4,6 +4,10 @@ import CompanyModel from "../Models/Company.js";
 import RegisterModel from "../Models/UserRegistration.js";
 import env from "dotenv";
 import * as fs from "node:fs";
+import UserOtpModel from "../Models/UserOtp.js";
+import userOtp from "../Models/UserOtp.js";
+import {sendEmail} from "../Services/mail-sender-service.js";
+import crypto from "node:crypto";
 
 env.config();
 
@@ -51,17 +55,55 @@ const registration = async (req, res) => {
 const login = async (req, res) => {
     try {
         const {companyID, password} = req.body;
-        const company = await CompanyModel.findOne({companyID});
-        const errorMsg = 'Auth failed companyID or password is wrong';
+        const company = await CompanyModel.findOne({companyID: companyID});
         if (!company) {
             return res.status(403)
-                .json({message: errorMsg, success: false});
-        }
-        const isPassEqual = await bcrypt.compare(password, company.password);
-        if (!isPassEqual) {
+                .json({message: 'Auth failed companyID or password is wrong', success: false});
+        }else if (!await bcrypt.compare(password, company.password)){
             return res.status(403)
-                .json({message: errorMsg, success: false});
+                .json({message: 'Auth failed companyID or password is wrong', success: false});
         }
+        const allPreviousNewLoginOtp = await UserOtpModel.find({userId: company._id, userType: 'COMPANY', operationType:'LOGIN', status: 'NEW'})
+        allPreviousNewLoginOtp.forEach( previousOtp =>{
+            previousOtp.status = 'DENIED'
+            previousOtp.save()
+        })
+        let newLoginOtp = await new UserOtpModel({
+            userId: company._id,
+            otp: crypto.randomInt(100000, 999999),
+            userType: 'COMPANY',
+            operationType: 'LOGIN',
+            status: 'NEW'
+        }).save();
+
+        sendEmail(company.email, 'Login OTP', `Your login OTP is: ${newLoginOtp.otp}`, false)
+
+        res.status(200)
+            .json({
+                success: true,
+                userOtpId: newLoginOtp._id,
+            })
+    } catch (err) {
+        res.status(500)
+            .json({
+                message: "Internal server errror:" + err,
+                success: false
+            })
+    }
+}
+
+const loginOtp = async (req, res) => {
+    try {
+        const {id, otp} = req.body;
+        const userOtp = await UserOtpModel.findOne({_id: id, otp: otp, operationType:'LOGIN', userType:'COMPANY', status: 'NEW'})
+        if (!userOtp){
+            return res.status(403)
+                .json({message:"Invalid OTP", success: false})
+        }
+        userOtp.status = 'USED'
+        await userOtp.save()
+
+        const company = await CompanyModel.findById(userOtp.userId);
         const jwtToken = jwt.sign(
             {
                 companyName: company.companyName,
@@ -90,4 +132,4 @@ const login = async (req, res) => {
     }
 }
 
-export {registration, login};
+export {registration, login, loginOtp};
