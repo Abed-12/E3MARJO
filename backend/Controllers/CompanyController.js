@@ -6,7 +6,7 @@ import env from "dotenv";
 import * as fs from "node:fs";
 import UserOtpModel from "../Models/UserOtp.js";
 import userOtp from "../Models/UserOtp.js";
-import {sendEmail} from "../Services/mail-sender-service.js";
+import {sendEmail} from "../Services/mail-sender.service.js";
 import crypto from "node:crypto";
 
 env.config();

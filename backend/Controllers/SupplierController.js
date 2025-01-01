@@ -6,7 +6,7 @@ import env from "dotenv";
 import fs from "node:fs";
 import UserOtpModel from "../Models/UserOtp.js";
 import crypto from "node:crypto";
-import {sendEmail} from "../Services/mail-sender-service.js";
+import {sendEmail} from "../Services/mail-sender.service.js";
 
 env.config();
 const registration = async (req, res) => {
