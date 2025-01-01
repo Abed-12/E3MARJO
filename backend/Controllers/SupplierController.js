@@ -150,4 +150,166 @@ const loginOtp = async (req, res) => {
     }
 }
 
-export {registration, login, loginOtp};
+const enableOtp = async (req, res) => {
+    try {
+        const supplierId = jwt.decode(req.headers.authorization)._id
+        const supplier = await SupplierModel.findOne({supplierID: supplierId});
+        if (!supplier) {
+            return res.status(403)
+                .json({message: "Unauthorized Operation", success: false})
+        }
+        const allPreviousNewOtp = await UserOtpModel.find({
+            userId: supplier._id,
+            userType: 'SUPPLIER',
+            operationType: 'ENABLE_2FA',
+            status: 'NEW'
+        })
+        allPreviousNewOtp.forEach(previousOtp => {
+            previousOtp.status = 'DENIED'
+            previousOtp.save()
+        })
+
+        let newOtp = await new UserOtpModel({
+            userId: supplier._id,
+            otp: crypto.randomInt(100000, 999999),
+            userType: 'SUPPLIER',
+            operationType: 'ENABLE_2FA',
+            status: 'NEW'
+        }).save();
+
+        sendEmail(supplier.email, 'Enable OTP', `Your enabling OTP is: ${newOtp.otp}`, false)
+
+        res.status(200)
+            .json({
+                success: true,
+            })
+    } catch (err) {
+        res.status(500)
+            .json({
+                message: "Internal server errror:" + err,
+                success: false
+            })
+    }
+}
+
+const enableOtpConfirm = async (req, res) => {
+    try {
+        const {otp} = req.body
+        const supplierId = jwt.decode(req.headers.authorization)._id
+        const supplier = await SupplierModel.findOne({supplierID: supplierId});
+        if (!supplier) {
+            return res.status(403)
+                .json({message: "Unauthorized Operation", success: false})
+        }
+        const userOtp = await UserOtpModel.findOne({
+            userId: supplier._id,
+            otp: otp,
+            userType: 'SUPPLIER',
+            operationType: 'ENABLE_2FA',
+            status: 'NEW'
+        })
+        if (!userOtp) {
+            return res.status(403)
+                .json({message: "Invalid OTP", success: false})
+        }
+        userOtp.status = 'USED'
+        await userOtp.save()
+
+        supplier.otpEnabled = true
+        await supplier.save()
+
+        res.status(200)
+            .json({
+                success: true,
+            })
+    } catch (err) {
+        res.status(500)
+            .json({
+                message: "Internal server errror:" + err,
+                success: false
+            })
+    }
+}
+
+const disableOtp = async (req, res) => {
+    try {
+        const supplierId = jwt.decode(req.headers.authorization)._id
+        const supplier = await SupplierModel.findOne({supplierID: supplierId});
+        if (!supplier) {
+            return res.status(403)
+                .json({message: "Unauthorized Operation", success: false})
+        }
+        const allPreviousNewOtp = await UserOtpModel.find({
+            userId: supplier._id,
+            userType: 'SUPPLIER',
+            operationType: 'DISABLE_2FA',
+            status: 'NEW'
+        })
+        allPreviousNewOtp.forEach(previousOtp => {
+            previousOtp.status = 'DENIED'
+            previousOtp.save()
+        })
+
+        let newOtp = await new UserOtpModel({
+            userId: supplier._id,
+            otp: crypto.randomInt(100000, 999999),
+            userType: 'SUPPLIER',
+            operationType: 'DISABLE_2FA',
+            status: 'NEW'
+        }).save();
+
+        sendEmail(supplier.email, 'Disable OTP', `Your disabling OTP is: ${newOtp.otp}`, false)
+
+        res.status(200)
+            .json({
+                success: true,
+            })
+    } catch (err) {
+        res.status(500)
+            .json({
+                message: "Internal server errror:" + err,
+                success: false
+            })
+    }
+}
+
+const disableOtpConfirm = async (req, res) => {
+    try {
+        const {otp} = req.body
+        const supplierId = jwt.decode(req.headers.authorization)._id
+        const supplier = await SupplierModel.findOne({supplierID: supplierId});
+        if (!supplier) {
+            return res.status(403)
+                .json({message: "Unauthorized Operation", success: false})
+        }
+        const userOtp = await UserOtpModel.findOne({
+            userId: supplier._id,
+            otp: otp,
+            userType: 'SUPPLIER',
+            operationType: 'DISABLE_2FA',
+            status: 'NEW'
+        })
+        if (!userOtp) {
+            return res.status(403)
+                .json({message: "Invalid OTP", success: false})
+        }
+        userOtp.status = 'USED'
+        await userOtp.save()
+
+        supplier.otpEnabled = false
+        await supplier.save()
+
+        res.status(200)
+            .json({
+                success: true,
+            })
+    } catch (err) {
+        res.status(500)
+            .json({
+                message: "Internal server errror:" + err,
+                success: false
+            })
+    }
+}
+
+export {registration, login, loginOtp, enableOtp, enableOtpConfirm, disableOtp, disableOtpConfirm};

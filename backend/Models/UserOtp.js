@@ -17,7 +17,7 @@ const UserOtpSchema = new mongoose.Schema({
     operationType: {
         type: String,
         required: true,
-        enum: ['LOGIN']
+        enum: ['LOGIN', 'ENABLE_2FA', 'DISABLE_2FA']
     },
     status: {
         type: String,

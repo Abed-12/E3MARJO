@@ -35,6 +35,10 @@ const CompanySchema = new mongoose.Schema({
         type: String,
         default: 'admin'
     },
+    otpEnabled: {
+        type: Boolean,
+        default: false
+    },
 });
 
 const CompanyModel = mongoose.model('company', CompanySchema);
