@@ -67,34 +67,59 @@ const login = async (req, res) => {
             return res.status(403)
                 .json({message: errorMessage, success: false});
         }
-        const allPreviousNewLoginOtp = await UserOtpModel.find({
-            userId: supplier._id,
-            userType: 'SUPPLIER',
-            operationType: 'LOGIN',
-            status: 'NEW'
-        })
-        allPreviousNewLoginOtp.forEach(previousOtp => {
-            previousOtp.status = 'DENIED'
-            previousOtp.save()
-        })
-        let newLoginOtp = await new UserOtpModel({
-            userId: supplier._id,
-            otp: crypto.randomInt(100000, 999999),
-            userType: 'SUPPLIER',
-            operationType: 'LOGIN',
-            status: 'NEW'
-        }).save();
-
-        sendEmail(supplier.email, 'Login OTP', `Your login OTP is: ${newLoginOtp.otp}`, false)
-
-        res.status(200)
-            .json({
-                success: true,
-                userOtpId: newLoginOtp._id,
-                otpRequired: true
+        if (supplier.otpEnabled) {
+            const allPreviousNewLoginOtp = await UserOtpModel.find({
+                userId: supplier._id,
+                userType: 'SUPPLIER',
+                operationType: 'LOGIN',
+                status: 'NEW'
             })
+            allPreviousNewLoginOtp.forEach(previousOtp => {
+                previousOtp.status = 'DENIED'
+                previousOtp.save()
+            })
+            let newLoginOtp = await new UserOtpModel({
+                userId: supplier._id,
+                otp: crypto.randomInt(100000, 999999),
+                userType: 'SUPPLIER',
+                operationType: 'LOGIN',
+                status: 'NEW'
+            }).save();
+
+            sendEmail(supplier.email, 'Login OTP', `Your login OTP is: ${newLoginOtp.otp}`, false)
+
+            return res.status(200)
+                .json({
+                    success: true,
+                    userOtpId: newLoginOtp._id,
+                    otpRequired: true
+                })
+        } else {
+            const jwtToken = jwt.sign(
+                {
+                    supplierName: supplier.supplierName,
+                    email: supplier.email,
+                    supplierID: supplier.supplierID,
+                    supplierProduct: supplier.supplierProduct,
+                    role: supplier.role,
+                    _id: supplier._id
+                }, // يحتوي على المعلومات التي تريد تضمينها
+                process.env.JWT_SECRET, // هو مفتاح سري يستخدم لتوقيع الرمز
+                {expiresIn: '24h'} // optional ---> الرمز سينتهي بعد 24 ساعه من انشائه
+            )
+
+            return res.status(200)
+                .json({
+                    message: "Login Success",
+                    success: true,
+                    jwtToken,
+                    role: supplier.role,
+                    supplierProduct: supplier.supplierProduct,
+                    otpRequired: false
+                })
+        }
     } catch (err) {
-        res.status(500)
+        return res.status(500)
             .json({
                 message: "Internal server errror:" + err,
                 success: false
@@ -133,7 +158,7 @@ const loginOtp = async (req, res) => {
             {expiresIn: '24h'} // optional ---> الرمز سينتهي بعد 24 ساعه من انشائه
         )
 
-        res.status(200)
+        return res.status(200)
             .json({
                 message: "Login Success",
                 success: true,
@@ -142,7 +167,7 @@ const loginOtp = async (req, res) => {
                 supplierProduct: supplier.supplierProduct
             })
     } catch (err) {
-        res.status(500)
+        return res.status(500)
             .json({
                 message: "Internal server errror:" + err,
                 success: false

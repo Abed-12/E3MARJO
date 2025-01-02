@@ -63,34 +63,57 @@ const login = async (req, res) => {
             return res.status(403)
                 .json({message: errorMessage, success: false});
         }
-        const allPreviousNewLoginOtp = await UserOtpModel.find({
-            userId: company._id,
-            userType: 'COMPANY',
-            operationType: 'LOGIN',
-            status: 'NEW'
-        })
-        allPreviousNewLoginOtp.forEach(previousOtp => {
-            previousOtp.status = 'DENIED'
-            previousOtp.save()
-        })
-        let newLoginOtp = await new UserOtpModel({
-            userId: company._id,
-            otp: crypto.randomInt(100000, 999999),
-            userType: 'COMPANY',
-            operationType: 'LOGIN',
-            status: 'NEW'
-        }).save();
-
-        sendEmail(company.email, 'Login OTP', `Your login OTP is: ${newLoginOtp.otp}`, false)
-
-        res.status(200)
-            .json({
-                success: true,
-                userOtpId: newLoginOtp._id,
-                otpRequired: true
+        if (company.otpEnabled) {
+            const allPreviousNewLoginOtp = await UserOtpModel.find({
+                userId: company._id,
+                userType: 'COMPANY',
+                operationType: 'LOGIN',
+                status: 'NEW'
             })
+            allPreviousNewLoginOtp.forEach(previousOtp => {
+                previousOtp.status = 'DENIED'
+                previousOtp.save()
+            })
+            let newLoginOtp = await new UserOtpModel({
+                userId: company._id,
+                otp: crypto.randomInt(100000, 999999),
+                userType: 'COMPANY',
+                operationType: 'LOGIN',
+                status: 'NEW'
+            }).save();
+
+            sendEmail(company.email, 'Login OTP', `Your login OTP is: ${newLoginOtp.otp}`, false)
+
+            return res.status(200)
+                .json({
+                    success: true,
+                    userOtpId: newLoginOtp._id,
+                    otpRequired: true
+                })
+        } else {
+            const jwtToken = jwt.sign(
+                {
+                    companyName: company.companyName,
+                    email: company.email,
+                    companyID: company.companyID,
+                    role: company.role,
+                    _id: company._id,
+                }, // يحتوي على المعلومات التي تريد تضمينها
+                process.env.JWT_SECRET, // هو مفتاح سري يستخدم لتوقيع الرمز
+                {expiresIn: '24h'} // optional ---> الرمز سينتهي بعد 24 ساعه من انشائه
+            )
+
+            return res.status(200)
+                .json({
+                    message: "Login Success",
+                    success: true,
+                    jwtToken,
+                    role: company.role,
+                    otpRequired: false
+                })
+        }
     } catch (err) {
-        res.status(500)
+        return res.status(500)
             .json({
                 message: "Internal server errror:" + err,
                 success: false
@@ -128,7 +151,7 @@ const loginOtp = async (req, res) => {
             {expiresIn: '24h'} // optional ---> الرمز سينتهي بعد 24 ساعه من انشائه
         )
 
-        res.status(200)
+        return res.status(200)
             .json({
                 message: "Login Success",
                 success: true,
@@ -136,7 +159,7 @@ const loginOtp = async (req, res) => {
                 role: company.role
             })
     } catch (err) {
-        res.status(500)
+        return res.status(500)
             .json({
                 message: "Internal server errror:" + err,
                 success: false
