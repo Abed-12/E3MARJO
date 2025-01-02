@@ -29,7 +29,7 @@ function Profile() {
 
         navigate("/company/home/profile/edit-profile");
     };
-    
+
     const downloadCommercialRegisterPdf = async () => {
         try {
             const url = `http://localhost:8080/auth/company/company-commercial-register`;
@@ -46,7 +46,7 @@ function Profile() {
             handleError(err);
         }
     }
-    
+
     const fetchCompanyData = async () => {
         try {
             const url = `http://localhost:8080/auth/company/company-data`;
@@ -62,7 +62,7 @@ function Profile() {
             handleError(err);
         }
     }
-    
+
     useEffect(() => {
         fetchCompanyData();
     }, []);
@@ -98,6 +98,9 @@ function Profile() {
                         <p><strong>Company ID:</strong> {decodedData.companyID}</p>
                         <p><strong>Email:</strong> {decodedData.email}</p>
                         <p><strong>Phone:</strong> {companyData.companyPhone}</p>
+                        <p><strong>OTP Status: </strong>
+                            {companyData.otpEnabled ? '2FA Enabled' : '2FA Disabled'}
+                        </p>
                         <p>
                             <strong>Commercial register: </strong>
                             <button className={styles.profileDownloadButton} onClick={downloadCommercialRegisterPdf}>Download PDF</button>

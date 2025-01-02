@@ -141,6 +141,7 @@ SupplierRouter.get('/supplier-data', ensureAuthenticated, async (req, res) => {
         res.json({
             price: supplierData.price,
             supplierPhone: supplierData.supplierPhone,
+            otpEnabled: supplierData.otpEnabled,
         });
     } catch (error) {
         res.status(500).json({message: "Internal server errror: " + error.message, success: false});

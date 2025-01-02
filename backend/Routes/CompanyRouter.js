@@ -148,6 +148,7 @@ CompanyRouter.get('/company-data', ensureAuthenticated, async (req, res) => {
         if (!companyData) return res.status(404).json({message: 'Company not found', success: false});
         res.json({
             companyPhone: companyData.companyPhone,
+            otpEnabled: companyData.otpEnabled,
         });
     } catch (error) {
         res.status(500).json({message: "Internal server errror: " + error.message, success: false});

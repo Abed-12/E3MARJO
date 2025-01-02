@@ -92,6 +92,9 @@ function Profile() {
                         <p><strong>Email:</strong> {decodedData.email}</p>
                         <p><strong>Phone:</strong> {supplierData.supplierPhone}</p>
                         <p><strong>Product:</strong> {decodedData.supplierProduct}</p>
+                        <p><strong>OTP Status: </strong>
+                            {supplierData.otpEnabled ? '2FA Enabled' : '2FA Disabled'}
+                        </p>
                         <p>
                             <strong>Commercial register: </strong>
                             <button className={styles.profileDownloadButton} onClick={downloadCommercialRegisterPdf}>Download PDF</button>
