@@ -1,0 +1,85 @@
+.supplierBody {
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    background-image: url("../../../../../public/images/background.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+}
+
+.supplierLoginContainer {
+    background-color: #ffffff9a;
+    padding: 20px 48px;
+    width: 20%;
+    padding-top: 15px;
+    border-radius: 10px;
+    box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
+}
+
+.supplierLoginH1 {
+    font-size: 25pt;
+    text-align: center;
+}
+
+.supplierFormLogin {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.supplierLoginContainer .supplierDiv {
+    display: flex;
+    flex-direction: column;
+}
+
+.supplierLoginLabel {
+    font-size: 20px;
+}
+
+.supplierLoginContainer .supplierLoginInput {
+    width: 100%;
+    font-size: 20px;
+    padding: 10px;
+    border: none;
+    outline: none;
+    border-bottom: 1px solid black;
+    background-color: #ffffff00;
+}
+
+.supplierLoginContainer .supplierLoginInput::placeholder {
+    font-size: 12px;
+    font-style: italic;
+}
+
+.supplierLoginContainer .supplierFormLogin .supplierLoginButton {
+    background-color: rgb(109, 102, 109);
+    border: none;
+    font-size: 20px;
+    color: white;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    margin: 10px 0;
+    transition: background-color 0.3s ease;
+
+}
+
+.supplierLoginContainer .supplierFormLogin .supplierLoginButton:hover {
+    background-color: rgb(54, 54, 54);
+}
+
+.supplierLoginSpan {
+    grid-column: span 2;
+    font-size: 14px;
+    text-align: center;
+}
+
+.supplierLoginSpan .supplierLoginLink {
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.supplierLoginSpan .supplierLoginLink:hover {
+    text-decoration: underline;
+}
