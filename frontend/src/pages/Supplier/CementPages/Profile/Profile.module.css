@@ -30,7 +30,7 @@
 }
 
 .profileEditProfileButton {
-    position: absolute; 
+
     top: 25px; 
     right: 25px; 
     background-color: rgb(109, 102, 109); 
@@ -41,11 +41,28 @@
     padding: 8px 12px; 
     cursor: pointer;
     transition: background-color 0.3s ease; 
+}
 
+.profileMFAProfileButton {
+    top: 25px;
+    right: 25px;
+    background-color: rgb(109, 102, 109);
+    border: none;
+    font-size: 14px;
+    color: white;
+    border-radius: 5px;
+    padding: 8px 12px;
+    margin-left: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 .profileEditProfileButton:hover {
     background-color: rgb(54, 54, 54); 
+}
+
+.profileMFAProfileButton:hover {
+    background-color: rgb(54, 54, 54);
 }
 
 .profileRow p {

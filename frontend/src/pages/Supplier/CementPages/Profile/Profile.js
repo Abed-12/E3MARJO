@@ -29,6 +29,16 @@ function Profile() {
         navigate("/supplier/cement/profile/edit-profile");
     };
 
+    const handleEnableMFAClick = () => {
+        // call enable mfa api then navigate to the designated otp page
+        navigate("/supplier/cement/profile/enable-mfa");
+    };
+
+    const handleDisableMFAClick = () => {
+        // call disable mfa api then navigate to the designated otp page
+        navigate("/supplier/cement/profile/disable-mfa");
+    };
+
     const downloadCommercialRegisterPdf = async () => {
         try {
             const url = `http://localhost:8080/auth/supplier/supplier-commercial-register`;
@@ -44,7 +54,7 @@ function Profile() {
         } catch (err) {
             handleError(err);
         }
-        
+
     }
 
     const fetchSupplierData = async () => {
@@ -66,7 +76,7 @@ function Profile() {
     useEffect(() => {
         fetchSupplierData();
     }, []);
-    
+
     return (
         <section className={styles.profileBody}>
             <Navbar
@@ -85,19 +95,35 @@ function Profile() {
             {supplierData ? (
                 <div className={styles.profileContainer}>
                     <div className={styles.profileRow}>
-                        <h1 className={styles.profileH1}>{decodedData.supplierName} Profile</h1>
-                        <button className={styles.profileEditProfileButton} onClick={handleEditProfileClick}>Edit Profile</button>
+                        <div style={{display: 'flex', width: '100%', justifyContent: 'space-between'}}>
+                            <h1 className={styles.profileH1}>{decodedData.supplierName} Profile</h1>
+                            <div style={{alignItems: 'baseline'}}>
+                                <button className={styles.profileEditProfileButton}
+                                        onClick={handleEditProfileClick}>
+                                    Edit Profile
+                                </button>
+                                {supplierData.otpEnabled ? (
+                                    <button className={styles.profileMFAProfileButton}
+                                            onClick={handleDisableMFAClick}>Disable MFA</button>
+                                ) : (
+                                    <button className={styles.profileMFAProfileButton}
+                                            onClick={handleEnableMFAClick}>Enable MFA</button>)}
+                            </div>
+                        </div>
                         <p><strong>Supplier name:</strong> {decodedData.supplierName}</p>
                         <p><strong>Supplier ID:</strong> {decodedData.supplierID}</p>
                         <p><strong>Email:</strong> {decodedData.email}</p>
                         <p><strong>Phone:</strong> {supplierData.supplierPhone}</p>
                         <p><strong>Product:</strong> {decodedData.supplierProduct}</p>
-                        <p><strong>OTP Status: </strong>
-                            {supplierData.otpEnabled ? '2FA Enabled' : '2FA Disabled'}
+                        <p><strong>Multi-Factor Auth: </strong>
+                            {supplierData.otpEnabled ? <span style={{color: "green"}}>Enabled</span> :
+                                <span style={{color: "red"}}>Disabled</span>}
                         </p>
                         <p>
                             <strong>Commercial register: </strong>
-                            <button className={styles.profileDownloadButton} onClick={downloadCommercialRegisterPdf}>Download PDF</button>
+                            <button className={styles.profileDownloadButton}
+                                    onClick={downloadCommercialRegisterPdf}>Download PDF
+                            </button>
                         </p>
                         <p><strong>Price of one bag:</strong> {supplierData.price} JD</p>
                     </div>
