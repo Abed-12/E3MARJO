@@ -12,7 +12,7 @@ env.config();
 
 const registration = async (req, res) => {
     try {
-        const {companyName, email, companyID, password, companyPhone, role} = JSON.parse(req.fields.body[0]);
+        const {companyName, email, companyID, password, companyPhone} = JSON.parse(req.fields.body[0]);
         const filePath = req.files.commercialRegister[0].filepath;
         const commercialRegister = fs.readFileSync(filePath)
 
@@ -33,7 +33,7 @@ const registration = async (req, res) => {
             password: await bcrypt.hash(password, 10),
             phone: companyPhone,
             commercialRegister: commercialRegister,
-            role: role
+            role: 'company'
         });
 
         // Save the new user to the database

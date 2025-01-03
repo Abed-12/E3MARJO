@@ -17,8 +17,7 @@ const registration = async (req, res) => {
             supplierID,
             supplierPhone,
             password,
-            supplierProduct,
-            role
+            supplierProduct
         } = JSON.parse(req.fields.body[0]);
         const filePath = req.files.commercialRegister[0].filepath;
         const commercialRegister = fs.readFileSync(filePath)
@@ -38,7 +37,7 @@ const registration = async (req, res) => {
             password: await bcrypt.hash(password, 10),
             supplierProduct: supplierProduct,
             commercialRegister: commercialRegister,
-            role: role
+            role: 'supplier'
         });
 
         await newUser.save();

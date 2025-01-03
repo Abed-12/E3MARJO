@@ -1,4 +1,5 @@
 import Joi from "joi";
+import fs from "node:fs";
 
 const registrationValidation = (req, res, next) => {
     const dataSchema = Joi.object({
@@ -13,17 +14,26 @@ const registrationValidation = (req, res, next) => {
         confirmPassword: Joi.string().valid(Joi.ref('password')).required().messages(
             {'any.only': 'Passwords do not match'}),
         supplierPhone: Joi.string().length(10).required(),
-        supplierProduct: Joi.string().required(),
-        role: Joi.string()
+        supplierProduct: Joi.string().required()
     });
-    const fileSchema = Joi.object({
-        commercialRegister: Joi.binary().required().messages({'any.required': 'Commercial Register is required'})
-    });
-    const {dataError} = dataSchema.validate(JSON.parse(req.fields.body[0]));
-    const {fileError} = fileSchema.validate(req.files);
+    const fileSchema = Joi.array()
+        .items(
+            Joi.binary()
+                .required()
+                .messages({'any.required': 'Commercial Register is required'})
+        )
+        .min(1)
+        .required()
+        .messages({
+            'array.min': 'At least one file must be uploaded',
+            'any.required': 'Files are required',
+        });
+    const {error: dataError} = dataSchema.validate(JSON.parse(req.fields.body[0]));
+    let files = req.files.commercialRegister.map(file => fs.readFileSync(file.filepath));
+    const {error: fileError} = fileSchema.validate(files);
     if (dataError || fileError) {
         return res.status(400)
-            .json({message: "Bad request", dataError: dataError + fileError})
+            .json({message: `Bad request: ${dataError ?? '' + fileError ?? ''}`})
     }
     next();
 }
