@@ -1,0 +1,131 @@
+.expressOrderContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 62.2vh;
+    padding: 20px;
+    background-color: #998d77cb;
+    background-image: url("https://www.transparenttextures.com/patterns/groovepaper.png");
+}
+
+.expressOrderRow {
+    background-color: #ffffff9a;
+    text-align: center;
+    padding: 20px 5%;
+    margin: 30px auto;
+    width: 90%; /* استخدم عرضًا أكبر للشاشات الصغيرة */
+    max-width: 400px; /* تحديد الحد الأقصى للعرض */
+    border-radius: 10px;
+    box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
+}
+
+.expressOrderH1 {
+    text-align: center;
+    font-size: 20pt; /* تصغير الحجم قليلاً ليبدو مناسبًا */
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.expressOrderForm {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.expressOrderDiv {
+    display: flex;
+    flex-direction: column;
+}
+
+.expressOrderLabel {
+    text-align: left;
+    font-size: 18px; /* تقليل حجم الخط قليلاً للشاشات الصغيرة */
+}
+
+.expressOrderInput {
+    width: 95%; /* اجعل العرض كاملاً */
+    font-size: 18px; /* تقليل حجم الخط قليلاً */
+    padding: 10px;
+    border: none;
+    outline: none;
+    border-bottom: 1px solid black;
+    background-color: #ffffff00;
+}
+
+.expressOrderSelect {
+    width: 100%; /* اجعل العرض كاملاً */
+    font-size: 16px; /* تقليل حجم الخط قليلاً */
+    padding: 10px;
+    border: none;
+    outline: none;
+    border-bottom: 1px solid black;
+    background-color: #ffffff00;
+}
+
+.expressOrderInput::placeholder {
+    font-size: 12px;
+    font-style: italic;
+}
+
+.expressOrderButton {
+    background-color: rgb(109, 102, 109);
+    border: none;
+    font-size: 18px; /* تقليل حجم الخط */
+    color: white;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    margin: 10px 0;
+    transition: background-color 0.3s ease;
+}
+
+.expressOrderButton:hover {
+    background-color: rgb(54, 54, 54);
+}
+
+/* HTML: <div class="loader"></div> */
+.loader {
+    width: fit-content;
+    font-size: 40px;
+    font-family: system-ui,sans-serif;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #0000;
+    -webkit-text-stroke: 1px #000;
+    background: 
+        linear-gradient(-60deg,#0000 45%,#000 0 55%,#0000 0) 
+        0/300% 100% no-repeat text;
+    animation: l3 2s linear infinite;
+}
+.loader:before {
+    content: "Loading";
+}
+@keyframes l3 {
+    0%{background-position: 100%}
+}
+
+/* وسائط استعلام للشاشات الصغيرة */
+@media (max-width: 768px) {
+    .expressOrderH1 {
+        font-size: 18pt; /* تقليل حجم العنوان */
+    }
+
+    .expressOrderContainer {
+        padding: 15px 5%;
+        margin: 20px auto;
+    }
+
+    .expressOrderLabel {
+        font-size: 16px;
+    }
+
+    .expressOrderInput,
+    .expressOrderSelect {
+        font-size: 16px;
+    }
+
+    .expressOrderButton {
+        font-size: 16px;
+        padding: 8px;
+    }
+}

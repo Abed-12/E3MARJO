@@ -19,7 +19,9 @@ const registrationValidation = (req, res, next) => {
     const fileSchema = Joi.object({
         commercialRegister: Joi.binary().required().messages({'any.required': 'Commercial Register is required'})
     });
-    const {dataError} = dataSchema.validate(JSON.parse(req.fields.body[0]));
+    console.log((req.fields.body[0]))
+    const {dataError} = dataSchema.validate(req.fields.body[0]);
+    console.log(dataError);
     const {fileError} = fileSchema.validate(req.files);
     if (dataError || fileError) {
         return res.status(400)

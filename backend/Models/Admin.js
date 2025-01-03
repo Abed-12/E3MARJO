@@ -22,21 +22,21 @@ const AdminSchema = new mongoose.Schema({
     }
 });
 
-AdminSchema.pre('save', async function(next) {
-    if (this.isModified('password')) {
-        const salt = await bcrypt.genSalt(10);
-        this.password = await bcrypt.hash(this.password, salt);
-    }
-    next();
-});
+// AdminSchema.pre('save', async function(next) {
+//     if (this.isModified('password')) {
+//         const salt = await bcrypt.genSalt(10);
+//         this.password = await bcrypt.hash(this.password, salt);
+//     }
+//     next();
+// });
 
 const AdminModel = mongoose.model('admin', AdminSchema);
 
-const admin = new AdminModel({
-    email: "admin1@gmail.com",
-    password: "admin123",
-    adminName: "d7",
-}); 
+// const admin = new AdminModel({
+//     email: "admin1@gmail.com",
+//     password: "admin123",
+//     adminName: "d7",
+// }); 
 // admin.save();
 
 export default AdminModel;

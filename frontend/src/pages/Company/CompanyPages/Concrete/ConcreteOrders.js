@@ -31,8 +31,8 @@ function ConcreteOrders() {
     const handleCustomOrders = (e) => {
         e.preventDefault();
         setTimeout(() => { 
-            navigate('/company/home/concrete-orders/custom-orders') 
-        }, 500)
+            navigate('/company/home/concrete-orders/note') 
+        }, 500) 
     }
 
     return(

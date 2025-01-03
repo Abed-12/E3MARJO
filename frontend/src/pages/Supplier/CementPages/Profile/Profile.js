@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import {jwtDecode} from "jwt-decode";
 import {handleError, handleSuccess} from '../../../../utils/utils';
 import {ToastContainer} from 'react-toastify';
-import {useNavigate} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import styles from './Profile.module.css';
 import Navbar from '../../../../components/navbar/Navbar';
 import Footer from '../../../../components/footer/Footer';
@@ -12,12 +12,14 @@ function Profile() {
     const token = localStorage.getItem("token");
     const decodedData = jwtDecode(token);
 
+    const [dropdownActive, setDropdownActive] = useState(false);
     const [supplierData, setSupplierData] = useState(null);
 
     const navigate = useNavigate();
 
     const handleLogout = (e) => {
         localStorage.removeItem('token');
+        localStorage.removeItem('supplierProduct');
         localStorage.removeItem('role');
         handleSuccess('User Loggedout');
         setTimeout(() => {
@@ -25,8 +27,8 @@ function Profile() {
         }, 500)
     }
 
-    const handleEditProfileClick = () => {
-        navigate("/supplier/cement/profile/edit-profile");
+    const toggleDropdown = () => {
+        setDropdownActive(prev => !prev);
     };
 
     const downloadCommercialRegisterPdf = async () => {
@@ -86,17 +88,30 @@ function Profile() {
                 <div className={styles.profileContainer}>
                     <div className={styles.profileRow}>
                         <h1 className={styles.profileH1}>{decodedData.supplierName} Profile</h1>
-                        <button className={styles.profileEditProfileButton} onClick={handleEditProfileClick}>Edit Profile</button>
+                        <button
+                            className={`${styles.profileSettingsButton} ${styles.dropdownToggle}`}
+                            aria-expanded={dropdownActive}
+                            onClick={toggleDropdown}>
+                            Settings
+                        </button>
+                        <ul className={`${styles.dropdownMenu} ${dropdownActive ? styles.show : ''}`}>
+                            <li className={styles.dropdownItem}>
+                                <Link className={styles.Link} to='/supplier/cement/profile/edit-profile'>Edit profile</Link>
+                            </li>
+                            <li className={styles.dropdownItem}>
+                                <Link className={styles.Link} to='#'>#</Link>
+                            </li>
+                        </ul>
                         <p><strong>Supplier name:</strong> {decodedData.supplierName}</p>
                         <p><strong>Supplier ID:</strong> {decodedData.supplierID}</p>
                         <p><strong>Email:</strong> {decodedData.email}</p>
                         <p><strong>Phone:</strong> {supplierData.supplierPhone}</p>
                         <p><strong>Product:</strong> {decodedData.supplierProduct}</p>
+                        <p><strong>Price of one bag:</strong> {supplierData.price} JD</p>
                         <p>
                             <strong>Commercial register: </strong>
                             <button className={styles.profileDownloadButton} onClick={downloadCommercialRegisterPdf}>Download PDF</button>
                         </p>
-                        <p><strong>Price of one bag:</strong> {supplierData.price} JD</p>
                     </div>
                 </div>
             ) : (

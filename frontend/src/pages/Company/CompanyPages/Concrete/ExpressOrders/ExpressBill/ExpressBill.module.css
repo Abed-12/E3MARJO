@@ -1,0 +1,138 @@
+.expressBillContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 25px;
+    height: 125vh;
+    background-color: #998d77cb;
+    background-image: url("https://www.transparenttextures.com/patterns/groovepaper.png");
+}
+
+.expressBillRow {
+    background-color: #ffffff9a;
+    border-radius: 10px;
+    box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
+    padding: 15px 25px;
+    width: 80%;
+    max-width: 700px;
+}
+
+.expressBillH1 {
+    text-align: center;
+    color: #333;
+    font-size: 25pt;
+    margin-bottom: 20px;
+}
+
+.expressBillForm {
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+.expressBillDiv {
+    display: flex;
+    flex-direction: column;
+}
+
+.expressBillLabel {
+    font-size: 20px;
+}
+
+.expressBillInput, .expressBillInputTime {
+    margin-bottom: 15px;
+    padding: 10px;
+    font-size: 18px;
+    border: none;
+    outline: none;
+    width: 90%;
+    border-bottom: 1px solid black;
+    background-color: #ffffff00;
+}
+
+.expressBillInputTime {
+    font-size: 16px;
+}
+
+.expressBillInput::placeholder {
+    font-size: 12px;
+    font-style: italic;
+}
+
+.expressBillP {
+    margin-top: 5px;
+    font-size: 20px;
+}
+
+.expressBillButton {
+    background-color: rgb(109, 102, 109);
+    border: none;
+    font-size: 18px;
+    color: white;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    margin: 10px 0;
+    transition: background-color 0.3s ease;
+}
+
+.expressBillButton:hover {
+    background-color: rgb(54, 54, 54);
+}
+
+.expressBillDivTextarea{
+    grid-column: span 2;
+    margin-top: -5px;
+}
+
+.expressBillTextarea {
+    overflow-y: auto;
+    margin-top: -15px;
+    margin-bottom: 15px;
+    padding: 10px;
+    font-size: 18px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    width: 97%; /* Adjust to the parent container */
+    resize: none; /* Disable resizing for consistent design */
+    background-color: #ffffffcc; /* Slightly transparent background */
+    transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.expressBillTextarea:focus {
+    border-color: #666;
+    box-shadow: 0 0 5px rgba(102, 102, 102, 0.5);
+}
+
+/* HTML: <div class="loader"></div> */
+.loader {
+    width: fit-content;
+    font-size: 40px;
+    font-family: system-ui, sans-serif;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #0000;
+    -webkit-text-stroke: 1px #000;
+    background: 
+        linear-gradient(-60deg,#0000 45%,#000 0 55%,#0000 0) 
+        0/300% 100% no-repeat text;
+    animation: l3 2s linear infinite;
+}
+
+.loader:before {
+    content: "Loading";
+}
+
+@keyframes l3 {
+    0% { background-position: 100%; }
+}
+
+@media (min-width: 768px) {
+    .expressBillForm {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .expressBillButton {
+        grid-column: span 2;
+    }
+}

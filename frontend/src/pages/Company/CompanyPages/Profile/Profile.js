@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import {jwtDecode} from "jwt-decode";
 import {handleError, handleSuccess} from '../../../../utils/utils';
 import {ToastContainer} from 'react-toastify';
-import {useNavigate} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import styles from './Profile.module.css';
 import Navbar from '../../../../components/navbar/Navbar';
 import Footer from '../../../../components/footer/Footer';
@@ -12,6 +12,7 @@ function Profile() {
     const token = localStorage.getItem("token");
     const decodedData = jwtDecode(token);
 
+    const [dropdownActive, setDropdownActive] = useState(false);
     const [companyData, setCompanyData] = useState(null);
 
     const navigate = useNavigate();
@@ -25,9 +26,8 @@ function Profile() {
         }, 500)
     }
 
-    const handleEditProfileClick = () => {
-
-        navigate("/company/home/profile/edit-profile");
+    const toggleDropdown = () => {
+        setDropdownActive(prev => !prev);
     };
     
     const downloadCommercialRegisterPdf = async () => {
@@ -93,7 +93,20 @@ function Profile() {
                 <div className={styles.profileContainer}>
                     <div className={styles.profileRow}>
                         <h1 className={styles.profileH1}>{decodedData.companyName} Profile</h1>
-                        <button className={styles.profileEditProfileButton} onClick={handleEditProfileClick}>Edit Profile</button>
+                        <button
+                            className={`${styles.profileSettingsButton} ${styles.dropdownToggle}`}
+                            aria-expanded={dropdownActive}
+                            onClick={toggleDropdown}>
+                            Settings
+                        </button>
+                        <ul className={`${styles.dropdownMenu} ${dropdownActive ? styles.show : ''}`}>
+                            <li className={styles.dropdownItem}>
+                                <Link className={styles.Link} to='/company/home/profile/edit-profile'>Edit profile</Link>
+                            </li>
+                            <li className={styles.dropdownItem}>
+                                <Link className={styles.Link} to='#'>#</Link>
+                            </li>
+                        </ul>
                         <p><strong>Company name:</strong> {decodedData.companyName}</p>
                         <p><strong>Company ID:</strong> {decodedData.companyID}</p>
                         <p><strong>Email:</strong> {decodedData.email}</p>

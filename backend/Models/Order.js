@@ -52,7 +52,25 @@ const OrderSchema = new mongoose.Schema({
         }
     },
     // Special fields in concrete
-
+    concreteQuantity:{
+        type:Number,
+        required: function(){
+            return this.type === 'concrete';
+        }
+    },
+    concreteStrength:{
+        type:Object,
+        required: function(){
+            return this.type === 'concrete';
+        }
+    },
+    concreteNote:{
+        type:String,
+        default: function(){
+            if (this.type === 'concrete'){
+            return '';
+        }}
+    },
     // others
     supplierID:{
         type:String,

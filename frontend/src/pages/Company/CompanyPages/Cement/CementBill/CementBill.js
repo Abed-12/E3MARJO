@@ -7,7 +7,7 @@ import styles from './CementBill.module.css';
 import Navbar from '../../../../../components/navbar/Navbar';
 import Footer from '../../../../../components/footer/Footer';
 import moment from 'moment';
-import BackButtonHandler from '../../../../../components/ss/ss';
+import BackButtonHandler from '../../../../../components/backButtonHandler/BackButtonHandler';
 
 function CementBill() {
 
@@ -20,6 +20,7 @@ function CementBill() {
     const supplierName = queryParams.get('supplierName');
     const price = queryParams.get('price');
 
+    const [companyData, setCompanyData] = useState(null);
     const [currentDateTime, setCurrentDateTime] = useState("");
     const [cementBillInfo, setCementBillInfo] = useState({
         type: 'cement',
@@ -156,6 +157,27 @@ function CementBill() {
             window.removeEventListener('beforeunload', handleBeforeUnload);
         };
     }, []);  
+    
+
+    const fetchCompanyData = async () => {
+        try {
+            const url = `http://localhost:8080/auth/company/company-data`;
+            const headers = {
+                headers: {
+                    'Authorization': localStorage.getItem('token'),
+                }
+            }
+            const response = await fetch(url, headers);
+            const result = await response.json();
+            setCompanyData(result);
+        } catch (err) {
+            handleError(err);
+        }
+    }
+        
+    useEffect(() => {
+        fetchCompanyData();
+    }, []);
 
     return(
         <section className={styles.cementBillBody}>
@@ -179,82 +201,88 @@ function CementBill() {
             />
             
             <BackButtonHandler />
-
-            <div className={styles.cementBillContainer}>
-                <div className={styles.cementBillRow}>
-                    <h1 className={styles.cementBillH1}>Cement Bill</h1>
-                    <form className={styles.cementBillForm} onSubmit={handleCementBill} >
-                        <div className={styles.cementBillDiv}>
-                            <p className={styles.cementBillP}><strong>Company name:</strong> {decodedData.companyName}</p>
-                        </div>
-                        <div className={styles.cementBillDiv}>
-                            <p className={styles.cementBillP}><strong>Company phone:</strong> {decodedData.companyPhone}</p>
-                        </div>
-                        <div className={styles.cementBillDiv}>
-                            <label className={styles.cementBillLabel} htmlFor='recipientName'><strong>Recipient's name</strong></label>
-                            <input
-                                className={styles.cementBillInput}
-                                onChange={handleChange}
-                                type='text'
-                                name='recipientName'
-                                placeholder="Enter the recipient's name"
-                                value={cementBillInfo.recipientName}
-                                autoFocus
-                            />
-                        </div>
-                        <div className={styles.cementBillDiv}>
-                            <label className={styles.cementBillLabel} htmlFor='recipientPhone'><strong>Recipient's phone</strong></label>
-                            <input
-                                className={styles.cementBillInput}
-                                onChange={handleChange}
-                                onKeyPress={handleKeyPress}
-                                onBlur={(e) => handlePhoneValidation(e.target.value)}
-                                type='tel'
-                                name='recipientPhone'
-                                inputMode="numeric" 
-                                maxLength="10"
-                                placeholder="Enter the recipient's phone"
-                                value={cementBillInfo.recipientPhone}
-                            />
-                        </div>
-                        <div className={styles.cementBillDiv}>
-                            <label className={styles.cementBillLabel} htmlFor='location'><strong>Location</strong></label>
-                            <input
-                                className={styles.cementBillInput}
-                                onChange={handleChange}
-                                type='text'
-                                name='location'
-                                placeholder='ex:Governorate/City/Area/Neighborhood/Street Name'
-                                value={cementBillInfo.location}
-                            />
-                        </div>
-                        <div className={styles.cementBillDiv}>
-                            <label className={styles.cementBillLabel} htmlFor='deliveryTime'><strong>Delivery time</strong></label>
-                            <input
-                                className={styles.cementBillInputTime}
-                                onChange={handleChange}
-                                type='datetime-local'
-                                name='deliveryTime'
-                                min={currentDateTime}
-                                value={cementBillInfo.deliveryTime}
-                            />
-                        </div>
-                        <div className={styles.cementBillDiv}>
-                            <p className={styles.cementBillP}><strong>Quantity is:<br /></strong> {amountOfCement} ton</p>
-                        </div>
-                        <div className={styles.cementBillDiv}>
-                            <p className={styles.cementBillP}><strong>Number of bags:<br /></strong> {amountOfCement * 20} bags</p>
-                        </div>
-                        <div className={styles.cementBillDiv}>
-                            <p className={styles.cementBillP}><strong>The price:<br /></strong> {(amountOfCement * 20 * price).toFixed(2)} JD</p>
-                        </div>
-                        <div className={styles.cementBillDiv}>
-                            <p className={styles.cementBillP}><strong>Supplier name:<br /></strong> {supplierName} </p>
-                        </div>
-                        <button className={styles.cementBillButton} type='submit'>Confirm Order</button>
-                    </form>
+            
+            {companyData ? (
+                <div className={styles.cementBillContainer}>
+                    <div className={styles.cementBillRow}>
+                        <h1 className={styles.cementBillH1}>Cement Bill</h1>
+                        <form className={styles.cementBillForm} onSubmit={handleCementBill} >
+                            <div className={styles.cementBillDiv}>
+                                <p className={styles.cementBillP}><strong>Company name:</strong> {decodedData.companyName}</p>
+                            </div>
+                            <div className={styles.cementBillDiv}>
+                                <p className={styles.cementBillP}><strong>Company phone:</strong> {companyData.companyPhone}</p>
+                            </div>
+                            <div className={styles.cementBillDiv}>
+                                <label className={styles.cementBillLabel} htmlFor='recipientName'><strong>Recipient's name</strong></label>
+                                <input
+                                    className={styles.cementBillInput}
+                                    onChange={handleChange}
+                                    type='text'
+                                    name='recipientName'
+                                    placeholder="Enter the recipient's name"
+                                    value={cementBillInfo.recipientName}
+                                    autoFocus
+                                />
+                            </div>
+                            <div className={styles.cementBillDiv}>
+                                <label className={styles.cementBillLabel} htmlFor='recipientPhone'><strong>Recipient's phone</strong></label>
+                                <input
+                                    className={styles.cementBillInput}
+                                    onChange={handleChange}
+                                    onKeyPress={handleKeyPress}
+                                    onBlur={(e) => handlePhoneValidation(e.target.value)}
+                                    type='tel'
+                                    name='recipientPhone'
+                                    inputMode="numeric" 
+                                    maxLength="10"
+                                    placeholder="Enter the recipient's phone"
+                                    value={cementBillInfo.recipientPhone}
+                                />
+                            </div>
+                            <div className={styles.cementBillDiv}>
+                                <label className={styles.cementBillLabel} htmlFor='location'><strong>Location</strong></label>
+                                <input
+                                    className={styles.cementBillInput}
+                                    onChange={handleChange}
+                                    type='text'
+                                    name='location'
+                                    placeholder='ex:Governorate/City/Area/Neighborhood/Street Name'
+                                    value={cementBillInfo.location}
+                                />
+                            </div>
+                            <div className={styles.cementBillDiv}>
+                                <label className={styles.cementBillLabel} htmlFor='deliveryTime'><strong>Delivery time</strong></label>
+                                <input
+                                    className={styles.cementBillInputTime}
+                                    onChange={handleChange}
+                                    type='datetime-local'
+                                    name='deliveryTime'
+                                    min={currentDateTime}
+                                    value={cementBillInfo.deliveryTime}
+                                />
+                            </div>
+                            <div className={styles.cementBillDiv}>
+                                <p className={styles.cementBillP}><strong>Quantity:<br /></strong> {amountOfCement} ton</p>
+                            </div>
+                            <div className={styles.cementBillDiv}>
+                                <p className={styles.cementBillP}><strong>Number of bags:<br /></strong> {amountOfCement * 20} bags</p>
+                            </div>
+                            <div className={styles.cementBillDiv}>
+                                <p className={styles.cementBillP}><strong>The price:<br /></strong> {(amountOfCement * 20 * price).toFixed(2)} JD</p>
+                            </div>
+                            <div className={styles.cementBillDiv}>
+                                <p className={styles.cementBillP}><strong>Supplier name:<br /></strong> {supplierName} </p>
+                            </div>
+                            <button className={styles.cementBillButton} type='submit'>Confirm Order</button>
+                        </form>
+                    </div>
                 </div>
-            </div>
+            ) : (
+                <div className={styles.cementBillContainer}>
+                    <div className={styles.loader}></div>
+                </div>
+            )}
 
             <Footer 
                 one="Home"

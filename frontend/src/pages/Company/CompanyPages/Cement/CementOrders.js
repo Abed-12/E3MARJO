@@ -7,7 +7,7 @@ import Navbar from '../../../../components/navbar/Navbar';
 import Footer from '../../../../components/footer/Footer';
 
 function CementOrders() {
-    const [dataSupplier, setDataSupplier] = useState([]);
+    const [dataSupplier, setDataSupplier] = useState(null);
     const [inputValue, setInputValue] = useState({
         supplierName: '',
         amountOfCement: '',
@@ -126,45 +126,51 @@ function CementOrders() {
                 logout={handleLogout}
             />
 
-            <div className={styles.cementOrderContainer}>
-                <div className={styles.cementOrderRow}>
-                    <h1 className={styles.cementOrderH1}>Cement Order</h1>
-                    <form className={styles.cementOrderForm} onSubmit= {handleCheckout}>
-                        <div className={styles.cementOrderDiv}>
-                            <label className={styles.cementOrderLabel} htmlFor='supplierName'>Supplier Name</label>
-                            <select
-                                className={styles.cementOrderSelect}
-                                name="supplierName" 
-                                onChange={handleChange}
-                                value={inputValue.supplierName} 
-                            >
-                                <option value="">Select Supplier</option>
-                                {dataSupplier.map((supplier, index) => (
-                                    <option key={index} value={supplier.supplierName} data-price={supplier.price}>
-                                        {supplier.supplierName}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                        <div className={styles.cementOrderDiv}>
-                            <label className={styles.cementOrderLabel} htmlFor='amountOfCement'>Enter the required amount of Cement in ton</label>
-                            <input
-                                className={styles.cementOrderInput}
-                                onChange= {handleChange}
-                                type='text'
-                                name='amountOfCement' 
-                                placeholder='Enter the required amount of Cement in ton...'
-                                value={inputValue.amountOfCement}
-                                autoFocus
-                            />
-                        </div>
-                        <div className={styles.cementOrderDiv}>
-                            <p className={styles.cementOrderP}>20 bags of Cement equals 1 ton</p>
-                        </div>
-                        <button className={styles.cementOrderButton} type='submit'>Checkout</button>
-                    </form>
+            {dataSupplier ? (
+                <div className={styles.cementOrderContainer}>
+                    <div className={styles.cementOrderRow}>
+                        <h1 className={styles.cementOrderH1}>Cement Order</h1>
+                        <form className={styles.cementOrderForm} onSubmit= {handleCheckout}>
+                            <div className={styles.cementOrderDiv}>
+                                <label className={styles.cementOrderLabel} htmlFor='supplierName'>Supplier Name</label>
+                                <select
+                                    className={styles.cementOrderSelect}
+                                    name="supplierName" 
+                                    onChange={handleChange}
+                                    value={inputValue.supplierName} 
+                                >
+                                    <option value="">Select Supplier</option>
+                                    {dataSupplier.map((supplier, index) => (
+                                        <option key={index} value={supplier.supplierName} data-price={supplier.price}>
+                                            {supplier.supplierName}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className={styles.cementOrderDiv}>
+                                <label className={styles.cementOrderLabel} htmlFor='amountOfCement'>Enter the required amount of Cement in ton</label>
+                                <input
+                                    className={styles.cementOrderInput}
+                                    onChange= {handleChange}
+                                    type='text'
+                                    name='amountOfCement' 
+                                    placeholder='Enter the required amount of Cement in ton...'
+                                    value={inputValue.amountOfCement}
+                                    autoFocus
+                                />
+                            </div>
+                            <div className={styles.cementOrderDiv}>
+                                <p className={styles.cementOrderP}>20 bags of Cement equals 1 ton</p>
+                            </div>
+                            <button className={styles.cementOrderButton} type='submit'>Checkout</button>
+                        </form>
+                    </div>
                 </div>
-            </div>
+            ) : (
+                <div className={styles.cementOrderContainer}>
+                    <div className={styles.loader}></div>
+                </div>
+            )}
 
             <Footer 
                 one="Home"

@@ -24,6 +24,7 @@ function OldOrders() {
 
     // Function to handle the filtering logic
     const handleFilter = async (filterData) => {
+        console.log(filterData.selectedStatus)
         try {
             const response = await fetch(`http://localhost:8080/auth/company/order-data?statuses=${filterData.selectedStatus}&type=${filterData.type}&supplierID=${filterData.supplierID}&fromDate=${filterData.fromDate}&toDate=${filterData.toDate}`, {
                 method: 'GET',
@@ -89,56 +90,125 @@ function OldOrders() {
                     {filteredOrders && filteredOrders.length > 0 ? (
                         filteredOrders.map((order, index) => (
                             <div className={styles.oldOrdersRow} key={index}> 
-                                <p className={`${styles.oldOrdersData} ${styles.oldOrdersSupplierName}`}>
-                                    <strong>Supplier name:</strong> {order.supplierName} 
-                                </p>
-                                <div className={styles.oldOrdersDiv}>
-                                    <p className={`${styles.oldOrdersData} ${styles.oldOrdersStatus}`}>
-                                        <strong>Order status:</strong> {order.status} 
-                                    </p>
-                                    <p className={`${styles.oldOrdersData} ${styles.oldOrdersType}`}>
-                                        <strong>Order type:</strong> {order.type} 
-                                    </p>
-                                </div>
-                                <hr />
-                                <div className={styles.oldOrdersDiv}>
-                                    <p className={styles.oldOrdersData}>
-                                        <strong>Company name:</strong> {order.companyName} 
-                                    </p>
-                                    <p className={styles.oldOrdersData}>
-                                        <strong>Company phone:</strong> {order.companyPhone} 
-                                    </p>
-                                    <p className={styles.oldOrdersData}>
-                                        <strong>Recipient's name:</strong> {order.recipientName} 
-                                    </p>
-                                    <p className={styles.oldOrdersData}>
-                                        <strong>Recipient's phone:</strong> {order.recipientPhone} 
-                                    </p>
-                                    <p className={styles.oldOrdersData}>
-                                        <strong>Delivery time:</strong> {moment(order.deliveryTime * 1000).format('D/MM/YYYY - h:mm a')}  
-                                    </p>
-                                    <p className={styles.oldOrdersData}>
-                                        <strong>Location:</strong> {order.location} 
-                                    </p>
-                                </div>
-                                <div className={styles.oldOrdersDiv}>
-                                    <p className={styles.oldOrdersData}>
-                                        <strong>Cement quantity:</strong> {order.cementQuantity} ton
-                                    </p>
-                                    <p className={styles.oldOrdersData}>
-                                        <strong>Number of cement bags:</strong> {order.cementNumberBags} 
-                                    </p>
-                                    <p className={styles.oldOrdersData}>
-                                        <strong>Cement price:</strong> {order.price} JD
-                                    </p>
-                                    <p className={styles.oldOrdersData}>
-                                        <strong>Order request time:</strong> {moment(order.orderRequestTime * 1000).format('D/MM/YYYY - h:mm a')} 
-                                    </p>
-                                </div>
-                                {order.status === 'rejected' && (
-                                    <p className={styles.oldOrdersData}>
-                                        <strong>Reason for rejection:</strong> {order.rejectionReason} 
-                                    </p>
+                                {order.type === 'cement' && (
+                                    <>
+                                        <p className={`${styles.oldOrdersData} ${styles.oldOrdersSupplierName}`}>
+                                            <strong>Supplier name:</strong> {order.supplierName} 
+                                        </p>
+                                        <div className={styles.oldOrdersDiv}>
+                                            <p className={`${styles.oldOrdersData} ${styles.oldOrdersStatus}`}>
+                                                <strong>Order status:</strong> {order.status} 
+                                            </p>
+                                            <p className={`${styles.oldOrdersData} ${styles.oldOrdersType}`}>
+                                                <strong>Order type:</strong> {order.type} 
+                                            </p>
+                                        </div>
+                                        <hr />
+                                        <div className={styles.oldOrdersDiv}>
+                                            <p className={styles.oldOrdersData}>
+                                                <strong>Company name:</strong> {order.companyName} 
+                                            </p>
+                                            <p className={styles.oldOrdersData}>
+                                                <strong>Company phone:</strong> {order.companyPhone} 
+                                            </p>
+                                            <p className={styles.oldOrdersData}>
+                                                <strong>Recipient's name:</strong> {order.recipientName} 
+                                            </p>
+                                            <p className={styles.oldOrdersData}>
+                                                <strong>Recipient's phone:</strong> {order.recipientPhone} 
+                                            </p>
+                                            <p className={styles.oldOrdersData}>
+                                                <strong>Delivery time:</strong> {moment(order.deliveryTime * 1000).format('D/MM/YYYY - h:mm a')}  
+                                            </p>
+                                            <p className={styles.oldOrdersData}>
+                                                <strong>Location:</strong> {order.location} 
+                                            </p>
+                                        </div>
+                                        <div className={styles.oldOrdersDiv}>
+                                            <p className={styles.oldOrdersData}>
+                                                <strong>Cement quantity:</strong> {order.cementQuantity} ton
+                                            </p>
+                                            <p className={styles.oldOrdersData}>
+                                                <strong>Number of cement bags:</strong> {order.cementNumberBags} 
+                                            </p>
+                                            <p className={styles.oldOrdersData}>
+                                                <strong>Cement price:</strong> {order.price} JD
+                                            </p>
+                                            <p className={styles.oldOrdersData}>
+                                                <strong>Order request time:</strong> {moment(order.orderRequestTime * 1000).format('D/MM/YYYY - h:mm a')} 
+                                            </p>
+                                        </div>
+                                        {order.status === 'rejected' && (
+                                            <p className={styles.oldOrdersData}>
+                                                <strong>Reason for rejection:</strong> {order.rejectionReason} 
+                                            </p>
+                                        )}
+                                    </>
+                                )}
+                                {order.type === 'concrete' && (
+                                    <>
+                                        <p className={`${styles.oldOrdersData} ${styles.oldOrdersSupplierName}`}>
+                                            <strong>Supplier name:</strong> {order.supplierName}
+                                        </p>
+                                        <div className={styles.oldOrdersDiv}>
+                                            <p className={`${styles.oldOrdersData} ${styles.oldOrdersStatus}`}>
+                                                <strong>Order status:</strong> {order.status}
+                                            </p>
+                                            <p className={`${styles.oldOrdersData} ${styles.oldOrdersType}`}>
+                                                <strong>Order type:</strong> {order.type}
+                                            </p>
+                                        </div>
+                                        <hr />
+                                        <div className={styles.oldOrdersDiv}>
+                                            <p className={styles.oldOrdersData}>
+                                                <strong>Company name:</strong> {order.companyName}
+                                            </p>
+                                            <p className={styles.oldOrdersData}>
+                                                <strong>Company phone:</strong> {order.companyPhone}
+                                            </p>
+                                            <p className={styles.oldOrdersData}>
+                                                <strong>Recipient's name:</strong> {order.recipientName}
+                                            </p>
+                                            <p className={styles.oldOrdersData}>
+                                                <strong>Recipient's phone:</strong> {order.recipientPhone}
+                                            </p>
+                                            <p className={styles.oldOrdersData}>
+                                                <strong>Delivery time:</strong> {moment(order.deliveryTime * 1000).format('D/MM/YYYY - h:mm a')}
+                                            </p>
+                                            <p className={styles.oldOrdersData}>
+                                                <strong>Location:</strong> {order.location}
+                                            </p>
+                                        </div>
+                                        <div className={styles.oldOrdersDiv}>
+                                            <p className={styles.oldOrdersData}>
+                                                <strong>Concrete quantity:</strong> {order.concreteQuantity} m³
+                                            </p>
+                                            <p className={styles.oldOrdersData}>
+                                                <strong>Concrete strength:</strong>{" "}
+                                                {Object.entries(order.concreteStrength).map(([key]) => (
+                                                    <span key={key}>
+                                                        {key}
+                                                    </span>
+                                                ))}
+                                            </p>
+                                            <p className={styles.oldOrdersData}>
+                                                <strong>Concrete price:</strong> {order.price} JD
+                                            </p>
+                                            <p className={styles.oldOrdersData}>
+                                                <strong>Order request time:</strong> {moment(order.orderRequestTime * 1000).format('D/MM/YYYY - h:mm a')}
+                                            </p>
+                                            {order.concreteNote && (
+                                                <p className={styles.oldOrdersData}>
+                                                    <strong>Note:</strong> {order.concreteNote}
+                                                </p>
+                                            )}
+                                            {order.status === 'rejected' && (
+                                                <p className={styles.oldOrdersData}>
+                                                    <strong>Reason for rejection:</strong> {order.rejectionReason} 
+                                                </p>
+                                            )}
+                                        </div>
+                                    </>
                                 )}
                             </div>
                         ))
@@ -147,9 +217,9 @@ function OldOrders() {
                     )}
                 </div>
             ) : (
-                    <div className={styles.oldOrdersLoader}>
-                        <div className={styles.loader}></div>
-                    </div>
+                <div className={styles.oldOrdersLoader}>
+                    <div className={styles.loader}></div>
+                </div>
             )}
 
             <Footer 
