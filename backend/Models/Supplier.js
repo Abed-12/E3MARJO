@@ -57,7 +57,11 @@ const SupplierSchema = new mongoose.Schema({
     adminID: {
         type: String,
         default: 'admin'
-    }
+    },
+    otpEnabled: {
+        type: Boolean,
+        default: false
+    },
 });
 
 const SupplierModel = mongoose.model('suppliers', SupplierSchema);

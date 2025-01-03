@@ -14,8 +14,7 @@ function SupplierRegistration() {
         password: '',
         confirmPassword: '',
         supplierPhone: '',
-        supplierProduct: '',
-        role: 'supplier'
+        supplierProduct: ''
     })
 
     const [file, setFile] = useState(null);
