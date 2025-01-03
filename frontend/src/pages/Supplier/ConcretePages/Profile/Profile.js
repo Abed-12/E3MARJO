@@ -96,10 +96,12 @@ function Profile() {
                         </button>
                         <ul className={`${styles.dropdownMenu} ${dropdownActive ? styles.show : ''}`}>
                             <li className={styles.dropdownItem}>
-                                <Link className={styles.Link} to='/supplier/concrete/profile/edit-profile'>Edit profile</Link>
+                                <Link className={styles.Link} to='/supplier/concrete/profile/edit-profile'>Edit
+                                    profile</Link>
                             </li>
                             <li className={styles.dropdownItem}>
-                                <Link className={styles.Link} to='/supplier/concrete/profile/edit-concrete-strength'>Edit concrete strength</Link>
+                                <Link className={styles.Link} to='/supplier/concrete/profile/edit-concrete-strength'>Edit
+                                    concrete strength</Link>
                             </li>
                             <li className={styles.dropdownItem}>
                                 <Link className={styles.Link} to='#'>#</Link>
@@ -111,16 +113,22 @@ function Profile() {
                         <p><strong>Phone:</strong> {supplierData.supplierPhone}</p>
                         <p><strong>Product:</strong> {decodedData.supplierProduct}</p>
                         <p>
-                        <strong>Concrete strength:</strong><br />
+                            <strong>Concrete strength:</strong><br/>
                             {Object.entries(supplierData.concreteStrength).map(([key, value]) => (
                                 <span key={key}>
-                                    {key} : {value} JD <br />
+                                    {key} : {value} JD <br/>
                                 </span>
                             ))}
                         </p>
+                        <p><strong>Multi-Factor Auth: </strong>
+                            {supplierData.otpEnabled ? <span style={{color: "green"}}>Enabled</span> :
+                                <span style={{color: "red"}}>Disabled</span>}
+                        </p>
                         <p>
                             <strong>Commercial register: </strong>
-                            <button className={styles.profileDownloadButton} onClick={downloadCommercialRegisterPdf}>Download PDF</button>
+                            <button className={styles.profileDownloadButton}
+                                    onClick={downloadCommercialRegisterPdf}>Download PDF
+                            </button>
                         </p>
                     </div>
                 </div>

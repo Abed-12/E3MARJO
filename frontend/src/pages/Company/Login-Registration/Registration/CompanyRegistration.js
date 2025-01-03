@@ -12,8 +12,7 @@ function CompanyRegistration() {
         companyID: '',
         password: '',
         confirmPassword: '',
-        companyPhone: '',
-        role: 'company'
+        companyPhone: ''
     })
 
     const [file, setFile] = useState(null);

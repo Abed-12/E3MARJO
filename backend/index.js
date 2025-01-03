@@ -8,6 +8,8 @@ import RegistrationRouter from './Routes/RegistretionRouter.js';
 import cors from "cors";
 
 import './Models/db.js';
+import CompanyOtpRouter from "./Routes/CompanyOtpRouter.js";
+import SupplierOtpRouter from "./Routes/SupplierOtpRouter.js";
 
 const app = express();
 env.config();
@@ -20,6 +22,8 @@ app.use("/auth", AdminRouter);
 app.use("/auth/register", RegistrationRouter);
 app.use("/auth/supplier", SupplierRouter);
 app.use("/auth/company", CompanyRouter);
+app.use("/auth/supplier", SupplierOtpRouter);
+app.use("/auth/company", CompanyOtpRouter);
 
 
 app.listen(port, () => {

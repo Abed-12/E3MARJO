@@ -29,7 +29,7 @@ function Profile() {
     const toggleDropdown = () => {
         setDropdownActive(prev => !prev);
     };
-    
+
     const downloadCommercialRegisterPdf = async () => {
         try {
             const url = `http://localhost:8080/auth/company/company-commercial-register`;
@@ -111,9 +111,15 @@ function Profile() {
                         <p><strong>Company ID:</strong> {decodedData.companyID}</p>
                         <p><strong>Email:</strong> {decodedData.email}</p>
                         <p><strong>Phone:</strong> {companyData.companyPhone}</p>
+                        <p><strong>Multi-Factor Auth: </strong>
+                            {companyData.otpEnabled ? <span style={{color: "green"}}>Enabled</span> :
+                                <span style={{color: "red"}}>Disabled</span>}
+                        </p>
                         <p>
                             <strong>Commercial register: </strong>
-                            <button className={styles.profileDownloadButton} onClick={downloadCommercialRegisterPdf}>Download PDF</button>
+                            <button className={styles.profileDownloadButton}
+                                    onClick={downloadCommercialRegisterPdf}>Download PDF
+                            </button>
                         </p>
                     </div>
                 </div>

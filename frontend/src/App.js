@@ -56,10 +56,12 @@ import RequestRegister from './pages/Admin/AdminPages/RequestRegister/request';
 import RejectRegister from './pages/Admin/AdminPages/RejectRegister/Reject';
 import ApproveRegister from './pages/Admin/AdminPages/ApproveRegister/Approve';
 import AddAdmin from './pages/Admin/AdminPages/Add-admin/add-admin'
+import CompanyLoginOtp from "./pages/Company/Login-Registration/Login-Otp/CompanyLoginOtp";
+import SupplierLoginOtp from "./pages/Supplier/Login-Registration/Login-Otp/SupplierLoginOtp";
 
 function App() {
   // لادارة التنقل بين الصفحات
-  const [isAuthenticated, setIsAuthenticated] = useState(false); // ام لا authenticated تستخدم لتحديد اذا كان المستخدم تحقق ، false في البداية تكون الحالة
+  const [isAuthenticated, setIsAuthenticated] = useState(null); // ام لا authenticated تستخدم لتحديد اذا كان المستخدم تحقق ، false في البداية تكون الحالة
   const [role, setRole] = useState(null);
   const [supplierProduct, setSupplierProduct] = useState(null);
   
@@ -79,7 +81,8 @@ function App() {
         
         {/* Supplier */}
         <Route path="/supplier-login" element={<SupplierLogin />} /> 
-        <Route path="/supplier-registration" element={<SupplierRegistration />} /> 
+        <Route path="/supplier-login/otp" element={<SupplierLoginOtp />} />
+        <Route path="/supplier-registration" element={<SupplierRegistration />} />
         {/* Supplier-Concrete */}
         <Route path="/supplier/concrete/under-preparing-orders" element={<PrivateRoute
                                                 isAuthenticated={isAuthenticated}
@@ -162,7 +165,8 @@ function App() {
         
         {/* Company */}
         <Route path="/company-login" element={<CompanyLogin />} /> 
-        <Route path="/company-registration" element={<CompanyRegistration />} /> 
+        <Route path="/company-login/otp" element={<CompanyLoginOtp/>} />
+        <Route path="/company-registration" element={<CompanyRegistration />} />
         {/* Company-Cement */}
         <Route path="/company/home" element={<PrivateRoute
                                                 isAuthenticated={isAuthenticated}

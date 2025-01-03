@@ -46,7 +46,7 @@ function Profile() {
         } catch (err) {
             handleError(err);
         }
-        
+
     }
 
     const fetchSupplierData = async () => {
@@ -108,9 +108,15 @@ function Profile() {
                         <p><strong>Phone:</strong> {supplierData.supplierPhone}</p>
                         <p><strong>Product:</strong> {decodedData.supplierProduct}</p>
                         <p><strong>Price of one bag:</strong> {supplierData.price} JD</p>
+                        <p><strong>Multi-Factor Auth: </strong>
+                            {supplierData.otpEnabled ? <span style={{color: "green"}}>Enabled</span> :
+                                <span style={{color: "red"}}>Disabled</span>}
+                        </p>
                         <p>
                             <strong>Commercial register: </strong>
-                            <button className={styles.profileDownloadButton} onClick={downloadCommercialRegisterPdf}>Download PDF</button>
+                            <button className={styles.profileDownloadButton}
+                                    onClick={downloadCommercialRegisterPdf}>Download PDF
+                            </button>
                         </p>
                     </div>
                 </div>

@@ -36,8 +36,8 @@ SupplierRouter.get('/supplierData', ensureAuthenticated, async (req, res) => {
                 commercialRegister: 1,
                 adminID: 1,
             });
-        if(suppliers.length===0){            
-            return res.json({ error: "No data found" });       
+        if(suppliers.length===0){
+            return res.json({ error: "No data found" });
         }
 
         const suppliersWithAdmin = await Promise.all(suppliers.map(async (data) => {
@@ -61,7 +61,7 @@ SupplierRouter.get('/supplierData', ensureAuthenticated, async (req, res) => {
             };
         }));
         res.json(suppliersWithAdmin);
-    } catch (error) 
+    } catch (error)
     {
         res.status(500).json({ error: "Failed to fetch data" });
     }
@@ -146,6 +146,7 @@ SupplierRouter.get('/supplier-data', ensureAuthenticated, async (req, res) => {
             price: supplierData.price,
             supplierPhone: supplierData.supplierPhone,
             concreteStrength: supplierData.concreteStrength,
+            otpEnabled: supplierData.otpEnabled,
         });
     } catch (error) {
         res.status(500).json({message: "Internal server errror: " + error.message, success: false});
