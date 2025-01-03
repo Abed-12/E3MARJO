@@ -18,6 +18,7 @@ function PendingOrders() {
 
     const handleLogout = (e) => {
         localStorage.removeItem('token');
+        localStorage.removeItem('supplierProduct');
         localStorage.removeItem('role');
         handleSuccess('User Loggedout');
         setTimeout(() => {
@@ -214,9 +215,14 @@ function PendingOrders() {
                                         <textarea
                                             className={styles.rejectModalTextarea}
                                             value={rejectReason}
+                                            rows={4}
+                                            maxLength={500}
                                             onChange={(e) => setRejectReason(e.target.value)}
                                             placeholder="Enter reason for rejection"
                                         />
+                                        <div className={styles.textareaCharacterCount}>
+                                            <p>{rejectReason.length} / 500 characters</p> {/* Character counter */}
+                                        </div>
                                         <button className={styles.rejectModalButtonCancel} onClick={() => setShowRejectModal(false)}>Cancel</button>
                                         <button className={styles.rejectModalButtonSubmit} onClick={orderRejected}>Submit</button>
                                     </div>

@@ -17,6 +17,7 @@
     padding: 15px 20px;
     width: 80%; /* لجعل العنصر متجاوبًا */
     max-width: 640px; /* حد أقصى للعرض */
+    margin-bottom: 0.5%;
 }
 
 .underPreparingOrdersDiv {

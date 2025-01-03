@@ -18,51 +18,15 @@
     max-width: 600px; /* الحد الأقصى للعرض للشاشات الأكبر */
     border-radius: 10px;
     box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
+    margin-bottom: 0.5%;
 }
 
 .profileH1 {
     text-align: center;
     font-size: 20pt; /* حجم أصغر افتراضيًا */
     color: #333;
+    margin-bottom: 20px;
     margin-top: 0;
-    margin-bottom: 0;
-    padding-bottom: 20px;
-}
-
-.profileEditProfileButton {
-
-    top: 25px;
-    right: 25px; 
-    background-color: rgb(109, 102, 109); 
-    border: none;
-    font-size: 14px; 
-    color: white;
-    border-radius: 5px;
-    padding: 8px 12px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.profileMFAProfileButton {
-    top: 25px;
-    right: 25px;
-    background-color: rgb(109, 102, 109);
-    border: none;
-    font-size: 14px;
-    color: white;
-    border-radius: 5px;
-    padding: 8px 12px;
-    margin-left: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.profileEditProfileButton:hover {
-    background-color: rgb(54, 54, 54); 
-}
-
-.profileMFAProfileButton:hover {
-    background-color: rgb(54, 54, 54);
 }
 
 .profileRow p {
@@ -76,6 +40,24 @@
 
 .profileRow a:hover {
     text-decoration: underline;
+}
+
+.profileSettingsButton {
+    position: absolute; 
+    top: 25px; 
+    right: 25px; 
+    background-color: #776B5D; 
+    border: none;
+    font-size: 14px; 
+    color: #fff;
+    border-radius: 5px; 
+    padding: 8px 12px; 
+    cursor: pointer;
+    transition: background-color 0.3s ease; 
+}
+
+.profileSettingsButton:hover {
+    background-color: rgb(54, 54, 54); 
 }
 
 .profileDownloadButton {
@@ -95,6 +77,72 @@
 
 .profileDownloadButton:active {
     background-color: #3e8e41; 
+}
+
+/* Dropdown Menu */
+.dropdownMenu {
+    display: none;
+    position: absolute;
+    top: 45px; 
+    right: 5px; 
+    width: 175px;
+    background-color: #776B5D;
+    color: #fff;
+    box-shadow: 0 5px 10px 7px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    padding: 0.5rem 0;
+    text-align: center;
+    z-index: 999;
+    list-style: none;
+}
+
+.dropdownMenu.show {
+    display: block;
+}
+
+.dropdownItem .Link {
+    text-decoration: none;
+    color: #fff;
+    font-size: 1rem;
+    transition: color 0.3s ease, transform 0.3s ease;
+    position: relative;
+    display: inline-block;
+}
+
+.dropdownItem .Link:hover {
+    text-decoration: none;
+    color: yellow;
+}
+
+.Link {
+    text-decoration: none;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: color 0.3s ease, transform 0.3s ease;
+    position: relative;
+    display: inline-block;
+    padding: 0.5rem 0;
+}
+
+.Link:after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 2px;
+    background: yellow;
+    left: 0;
+    bottom: 0px;
+    transition: width 0.4s ease;
+}
+
+.Link:hover {
+    color: yellow;
+    transform: scale(1.05);
+}
+
+.Link:hover:after {
+    width: 100%;
 }
 
 /* HTML: <div class="loader"></div> */

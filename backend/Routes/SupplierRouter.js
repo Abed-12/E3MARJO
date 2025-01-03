@@ -9,6 +9,8 @@ import SupplierModel from "../Models/Supplier.js";
 import CompanyModel from "../Models/Company.js";
 import AdminModel from "../Models/Admin.js";
 import {formidableTransformer} from "../Middlewares/FormidableTransformer.js";
+import {concreteOrder} from "../Controllers/OrderController.js";
+
 
 const SupplierRouter = express.Router();
 
@@ -30,11 +32,13 @@ SupplierRouter.get('/supplierData', ensureAuthenticated, async (req, res) => {
                 supplierPhone:1,
                 supplierProduct:1,
                 price:1,
-                cementBreakingStrength:1,
+                concreteStrength:1,
                 commercialRegister: 1,
                 adminID: 1,
             });
-        if(suppliers.length===0){            return res.json({ error: "No data found" });        }
+        if(suppliers.length===0){
+            return res.json({ error: "No data found" });
+        }
 
         const suppliersWithAdmin = await Promise.all(suppliers.map(async (data) => {
             // Find admin email using adminID
@@ -50,14 +54,14 @@ SupplierRouter.get('/supplierData', ensureAuthenticated, async (req, res) => {
                 supplierID: data.supplierID,
                 supplierPhone: data.supplierPhone,
                 price: data.price,
-                cementBreakingStrength: data.cementBreakingStrength,
+                concreteStrength: data.concreteStrength,
                 commercialRegister: data.commercialRegister,
                 supplierProduct: data.supplierProduct,
                 adminName: admin ? admin.adminName : null,
             };
         }));
         res.json(suppliersWithAdmin);
-       } catch (error) 
+    } catch (error)
     {
         res.status(500).json({ error: "Failed to fetch data" });
     }
@@ -141,6 +145,7 @@ SupplierRouter.get('/supplier-data', ensureAuthenticated, async (req, res) => {
         res.json({
             price: supplierData.price,
             supplierPhone: supplierData.supplierPhone,
+            concreteStrength: supplierData.concreteStrength,
             otpEnabled: supplierData.otpEnabled,
         });
     } catch (error) {
@@ -169,34 +174,55 @@ SupplierRouter.get('/order-data', ensureAuthenticated, async (req, res) => {
             }
         }
 
-        const dataCementOrders = await OrderModel.find(query).sort({orderRequestTime: -1});
-        if (!dataCementOrders || dataCementOrders.length === 0) return res.json([]);
+        const dataOrders = await OrderModel.find(query).sort({orderRequestTime: -1});
+        if (!dataOrders || dataOrders.length === 0) return res.json([]);
 
         // جلب بيانات المورد والشركة من قاعدة البيانات
-        const companyIDs = dataCementOrders.map(item => item.companyID);
+        const companyIDs = dataOrders.map(item => item.companyID);
         const dataSupplier = await SupplierModel.findById(id);
         const dataCompanies = await CompanyModel.find({_id: {$in: companyIDs}});
 
         // تحويل البيانات حسب الحاجة
-        const result = dataCementOrders.map(item => {
+        const result = dataOrders.map(item => {
             const company = dataCompanies.find(c => c._id.toString() === item.companyID.toString());
-            return {
-                id: item._id,
-                type: item.type,
-                recipientName: item.recipientName,
-                recipientPhone: item.recipientPhone,
-                location: item.location,
-                deliveryTime: item.deliveryTime,
-                orderRequestTime: item.orderRequestTime,
-                status: item.status,
-                price: item.price,
-                rejectionReason: item.rejectionReason,
-                cementQuantity: item.cementQuantity,
-                cementNumberBags: item.cementNumberBags,
-                supplierName: dataSupplier.supplierName,
-                companyName: company.companyName,
-                companyPhone: company.companyPhone
-            };
+            if (item.type == 'cement') {
+                return {
+                    id: item._id,
+                    type: item.type,
+                    recipientName: item.recipientName,
+                    recipientPhone: item.recipientPhone,
+                    location: item.location,
+                    deliveryTime: item.deliveryTime,
+                    orderRequestTime: item.orderRequestTime,
+                    status: item.status,
+                    price: item.price,
+                    rejectionReason: item.rejectionReason,
+                    cementQuantity: item.cementQuantity,
+                    cementNumberBags: item.cementNumberBags,
+                    supplierName: dataSupplier.supplierName,
+                    companyName: company.companyName,
+                    companyPhone: company.companyPhone
+                };
+            } else if (item.type == 'concrete') {
+                return {
+                    id: item._id,
+                    type: item.type,
+                    recipientName: item.recipientName,
+                    recipientPhone: item.recipientPhone,
+                    location: item.location,
+                    deliveryTime: item.deliveryTime,
+                    orderRequestTime: item.orderRequestTime,
+                    status: item.status,
+                    price: item.price,
+                    rejectionReason: item.rejectionReason,
+                    concreteQuantity: item.concreteQuantity,
+                    concreteStrength: item.concreteStrength,
+                    concreteNote: item.concreteNote,
+                    supplierName: dataSupplier.supplierName,
+                    companyName: company.companyName,
+                    companyPhone: company.companyPhone
+                };
+            }
         });
 
         res.json(result);
@@ -232,6 +258,33 @@ SupplierRouter.patch('/update-profile', updateValidation, ensureAuthenticated, a
     }
 });
 
+// PUT route to update concreteStrength
+SupplierRouter.put('/update-concrete-strength', ensureAuthenticated, async (req, res) => {
+    try {
+        const id = jwt.decode(req.headers.authorization)._id;
+        const { concreteStrength } = req.body;
+        console.log(concreteStrength)
+
+        if (!concreteStrength) {
+            return res.status(400).json({ success: false, message: 'Concrete strength is required' });
+        }
+
+        // Find the supplier and update their concreteStrength
+        const updatedSupplier = await SupplierModel.findByIdAndUpdate( id, { concreteStrength });
+
+        if (!updatedSupplier) {
+            return res.status(404).json({ success: false, message: 'Supplier not found' });
+        }
+
+        return res.status(200).json({ success: true, message: 'Concrete strength updated successfully', data: updatedSupplier });
+    } catch (error) {
+        res.status(500).json({message: "Internal server errror: " + error, success: false});
+    }
+});
+
 // ----------------------------- Concrete -----------------------------
+
+SupplierRouter.post('/concrete-order', ensureAuthenticated, concreteOrder);
+
 
 export default SupplierRouter;

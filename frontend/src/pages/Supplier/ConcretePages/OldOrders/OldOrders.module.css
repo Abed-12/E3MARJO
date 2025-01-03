@@ -1,0 +1,97 @@
+.oldOrdersBody{
+    background-color: #998d77cb;
+    background-image: url("https://www.transparenttextures.com/patterns/groovepaper.png");
+}
+
+.oldOrdersContainer {
+    display: grid;
+    grid-template-columns: 2fr; /* افتراضيًا عمود واحد للشاشات الصغيرة */
+    gap: 20px; /* مسافة بين الصفوف */
+    padding: 25px;
+    justify-items: center; /* يجعل العناصر في المنتصف أفقيًا */
+}
+
+.oldOrdersRow {
+    background-color: #ffffff9a;
+    border-radius: 10px;
+    box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
+    padding: 15px 20px;
+    width: 80%; /* لجعل العنصر متجاوبًا */
+    max-width: 640px; /* حد أقصى للعرض */
+    margin-bottom: 0.5%;
+
+}
+
+.oldOrdersDiv {
+    display: grid;
+    grid-template-columns: 1fr; /* افتراضيًا عمود واحد */
+}
+
+.oldOrdersData {
+    font-size: 17px;
+    margin-bottom: 8px;
+}
+
+.oldOrdersSupplierName, .oldOrdersType, .oldOrdersStatus{
+    font-size: 18pt;
+    margin-top: 0;
+}
+
+.oldOrdersSupplierName{
+    text-align: center;
+    margin-bottom: 15px;    
+}
+
+.oldOrdersH2 {
+    text-align: center;
+    font-size: 25pt;
+    margin-bottom: 1px;
+}
+
+.oldOrdersLoader{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 45.7vh;
+    padding: 20px; 
+}
+
+.oldOrdersP{
+    display: flex;
+    align-items: center; 
+    font-size: 17px;
+    justify-items: center;
+    height: 38.9vh;
+}
+
+/* HTML: <div class="loader"></div> */
+.loader {
+    width: fit-content;
+    font-size: 40px;
+    font-family: system-ui,sans-serif;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #0000;
+    -webkit-text-stroke: 1px #000;
+    background: 
+        linear-gradient(-60deg,#0000 45%,#000 0 55%,#0000 0) 
+        0/300% 100% no-repeat text;
+    animation: l3 2s linear infinite;
+}
+.loader:before {
+    content: "Loading";
+}
+@keyframes l3 {
+    0%{background-position: 100%}
+}
+
+/* استعلام الوسائط للشاشات الأكبر */
+@media (min-width: 768px) {
+    .oldOrdersContainer {
+        grid-template-columns: repeat(1, 2fr); /* عمودان للشاشات الأكبر */
+    }
+
+    .oldOrdersDiv {
+        grid-template-columns: repeat(2, 1fr); /* تنظيم العناصر بعمودين */
+    }
+}

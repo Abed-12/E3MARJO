@@ -205,7 +205,7 @@ function ApproveRegister()
                                         // Handle the object display for concrete
                                         <div>
                                             <strong>Supplier strength/price:</strong>{" "}
-                                            {Object.entries(field.cementBreakingStrength).map(([strength, price]) => (
+                                            {Object.entries(field.concreteStrength).map(([strength, price]) => (
                                                 <div key={strength}>
                                                     Strength {strength}: {price} JD
                                                 </div>

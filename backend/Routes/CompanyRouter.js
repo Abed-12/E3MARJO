@@ -6,7 +6,7 @@ import ensureAuthenticated from "../Middlewares/Auth.js"
 import express from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import cementOrder from "../Controllers/OrderController.js";
+import {cementOrder} from "../Controllers/OrderController.js";
 import SupplierModel from "../Models/Supplier.js";
 import OrderModel from "../Models/Order.js";
 import AdminModel from "../Models/Admin.js";
@@ -115,7 +115,7 @@ CompanyRouter.get('/company-commercial-register', ensureAuthenticated, async (re
     }
 });
 
-// Get Price in Collection Supplier - in CementOrder
+// Get Price in Collection Supplier 
 CompanyRouter.get('/data-supplier', ensureAuthenticated, async (req, res) => {
     try {
         const supplierProducts = req.query.supplierProducts.split(',');
@@ -128,11 +128,23 @@ CompanyRouter.get('/data-supplier', ensureAuthenticated, async (req, res) => {
         const dataSupplier = await SupplierModel.find(query);
         if (!dataSupplier) return res.status(404).json({message: 'Supplier not found', success: false});
         res.json(dataSupplier.map(item => {
-            return {
-                supplierID: item._id,
-                supplierName: item.supplierName,
-                price: item.price,
-                type: item.supplierProduct
+            if(supplierProducts == 'cement'){
+                return {
+                    supplierName: item.supplierName,
+                    price: item.price,
+                }
+            } else if (supplierProducts == 'concrete'){
+                return {
+                    supplierName: item.supplierName,
+                    concreteStrength: item.concreteStrength,
+                }
+            }
+            else{
+                return {
+                    supplierID: item._id,
+                    supplierName: item.supplierName,
+                    type: item.supplierProduct
+                }
             }
         }));
     } catch (error) {
@@ -188,8 +200,8 @@ CompanyRouter.delete('/order-delete/:id', ensureAuthenticated, async (req, res) 
 CompanyRouter.get('/order-data', ensureAuthenticated, async (req, res) => {
     try {
         const statuses = req.query.statuses.split(',');
-        const type = req.query.type;
-        const supplierID = req.query.supplierID;
+        const type = req.query?.type?.split(',');
+        const supplierID = req.query?.supplierID?.split(',');
         const fromDate = req.query.fromDate;
         const toDate = req.query.toDate;
         const id = jwt.decode(req.headers.authorization)._id;
@@ -215,7 +227,6 @@ CompanyRouter.get('/order-data', ensureAuthenticated, async (req, res) => {
 
         const dataOrders = await OrderModel.find(query).sort({orderRequestTime: -1});
         if (!dataOrders || dataOrders.length === 0) return res.json([]);
-        ;
 
         // جلب بيانات المورد والشركة من قاعدة البيانات
         const supplierIDs = dataOrders.map(item => item.supplierID);
@@ -254,8 +265,10 @@ CompanyRouter.get('/order-data', ensureAuthenticated, async (req, res) => {
                     orderRequestTime: item.orderRequestTime,
                     status: item.status,
                     price: item.price,
-                    // field cocrete
-
+                    rejectionReason: item.rejectionReason,
+                    concreteQuantity: item.concreteQuantity,
+                    concreteStrength: item.concreteStrength,
+                    concreteNote: item.concreteNote,
                     supplierName: supplier.supplierName,
                     companyName: dataCompany.companyName,
                     companyPhone: dataCompany.companyPhone

@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import {jwtDecode} from "jwt-decode";
 import {handleError, handleSuccess} from '../../../../utils/utils';
 import {ToastContainer} from 'react-toastify';
-import {useNavigate} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import styles from './Profile.module.css';
 import Navbar from '../../../../components/navbar/Navbar';
 import Footer from '../../../../components/footer/Footer';
@@ -12,6 +12,7 @@ function Profile() {
     const token = localStorage.getItem("token");
     const decodedData = jwtDecode(token);
 
+    const [dropdownActive, setDropdownActive] = useState(false);
     const [companyData, setCompanyData] = useState(null);
 
     const navigate = useNavigate();
@@ -25,9 +26,8 @@ function Profile() {
         }, 500)
     }
 
-    const handleEditProfileClick = () => {
-
-        navigate("/company/home/profile/edit-profile");
+    const toggleDropdown = () => {
+        setDropdownActive(prev => !prev);
     };
 
     const handleEnableMFAClick = () => {
@@ -44,8 +44,8 @@ function Profile() {
         try {
             const url = `http://localhost:8080/auth/company/company-commercial-register`;
             const options = {
-                method: 'GET',
-                headers: {Authorization: localStorage.getItem('token')}
+                method:'GET',
+                headers: { Authorization: localStorage.getItem('token') }
             }
             const response = await fetch(url, options);
             const contentDisposition = response.headers.get('content-disposition');
@@ -56,7 +56,7 @@ function Profile() {
             handleError(err);
         }
     }
-
+    
     const fetchCompanyData = async () => {
         try {
             const url = `http://localhost:8080/auth/company/company-data`;
@@ -72,7 +72,7 @@ function Profile() {
             handleError(err);
         }
     }
-
+    
     useEffect(() => {
         fetchCompanyData();
     }, []);
@@ -102,21 +102,21 @@ function Profile() {
             {companyData ? (
                 <div className={styles.profileContainer}>
                     <div className={styles.profileRow}>
-                        <div style={{display: 'flex', width: '100%', justifyContent: 'space-between'}}>
-                            <h1 className={styles.profileH1}>{decodedData.companyName} Profile</h1>
-                            <div style={{alignItems:'baseline'}}>
-                                <button className={styles.profileEditProfileButton}
-                                        onClick={handleEditProfileClick}>
-                                    Edit Profile
-                                </button>
-                                {companyData.otpEnabled ? (
-                                    <button className={styles.profileMFAProfileButton}
-                                            onClick={handleDisableMFAClick}>Disable MFA</button>
-                                ) : (
-                                    <button className={styles.profileMFAProfileButton}
-                                            onClick={handleEnableMFAClick}>Enable MFA</button>)}
-                            </div>
-                        </div>
+                        <h1 className={styles.profileH1}>{decodedData.companyName} Profile</h1>
+                        <button
+                            className={`${styles.profileSettingsButton} ${styles.dropdownToggle}`}
+                            aria-expanded={dropdownActive}
+                            onClick={toggleDropdown}>
+                            Settings
+                        </button>
+                        <ul className={`${styles.dropdownMenu} ${dropdownActive ? styles.show : ''}`}>
+                            <li className={styles.dropdownItem}>
+                                <Link className={styles.Link} to='/company/home/profile/edit-profile'>Edit profile</Link>
+                            </li>
+                            <li className={styles.dropdownItem}>
+                                <Link className={styles.Link} to='#'>#</Link>
+                            </li>
+                        </ul>
                         <p><strong>Company name:</strong> {decodedData.companyName}</p>
                         <p><strong>Company ID:</strong> {decodedData.companyID}</p>
                         <p><strong>Email:</strong> {decodedData.email}</p>

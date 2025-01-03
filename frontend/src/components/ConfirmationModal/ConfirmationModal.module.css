@@ -1,0 +1,130 @@
+.modalBackdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    z-index: 1000;
+}
+
+.modal {
+    background-color: white;
+    border-radius: 1rem;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    max-width: 28rem;
+    width: 100%;
+    position: relative;
+    padding: 1.5rem;
+    transform: translateY(0);
+    transition: transform 0.3s ease-in-out;
+}
+
+.modal:hover {
+    transform: scale(1.02);
+}
+
+/* Decorative elements */
+.modal::before,
+.modal::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    z-index: -1;
+}
+
+.modal::before {
+    background-color: rgba(153, 101, 21, 0.2); /* Brown */
+    width: 4rem;
+    height: 4rem;
+    top: -1rem;
+    right: -1rem;
+}
+
+.modal::after {
+    background-color: rgba(95, 58, 23, 0.2); /* Darker Brown */
+    width: 3rem;
+    height: 3rem;
+    bottom: -1rem;
+    left: -1rem;
+}
+
+.modal p {
+    font-size: 1.125rem;
+    color: #4B3F32; /* Dark Brown */
+    text-align: center;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+.modalActions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    padding-top: 1rem;
+}
+
+.confirmButton {
+    padding: 0.5rem 1.5rem;
+    background-image: linear-gradient(to right, #8B5E3C, #6D4C41); /* Brown Gradient */
+    color: white;
+    border-radius: 9999px;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+    border: none;
+    cursor: pointer;
+}
+
+.confirmButton:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.confirmButton:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px white, 0 0 0 4px #8B5E3C;
+}
+
+.cancelButton {
+    padding: 0.5rem 1.5rem;
+    background-color: white;
+    color: #6B4F29; /* Brown */
+    border: 2px solid #E5E7EB;
+    border-radius: 9999px;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.cancelButton:hover {
+    border-color: #D1D5DB;
+    background-color: #F9FAFB;
+}
+
+.cancelButton:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px white, 0 0 0 4px #E5E7EB;
+}
+
+/* Animations */
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-1rem);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal {
+    animation: modalFadeIn 0.3s ease-out;
+}

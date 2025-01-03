@@ -6,6 +6,11 @@
     color: #fff;
     padding: 20px 0;
     text-align: center;  
+    font-family: 'Times New Roman', sans-serif;
+}
+
+.footer *{
+    font-family: inherit !important;
 }
 
 .container {

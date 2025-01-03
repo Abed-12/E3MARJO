@@ -1,11 +1,11 @@
 import { useNavigate } from 'react-router-dom';
-import { handleError, handleSuccess } from '../../../../../utils/utils';
+import { handleSuccess } from '../../../../../utils/utils';
 import { ToastContainer } from 'react-toastify';
-import styles from './CustomOrders.module.css';
+import styles from './NoteCustomOrders.module.css';
 import Navbar from '../../../../../components/navbar/Navbar';
 import Footer from '../../../../../components/footer/Footer';
 
-function CustomOrders() {
+function NoteCustomOrders() {
 
     const navigate = useNavigate();
     
@@ -38,8 +38,16 @@ function CustomOrders() {
                 pathFive="/company/home/profile"
                 logout={handleLogout}
             />
+    <div>
+        <button onClick={
+            ()=>{
+            setTimeout(() => {
+            navigate('/company/home/concrete-orders/custom-orders');
+        }, 500)}}>
 
-            
+            next
+        </button>
+    </div>   
             <Footer 
                 one="Home"
                 pathOne="/company/home"
@@ -63,4 +71,4 @@ function CustomOrders() {
     );
 }
 
-export default CustomOrders;
+export default NoteCustomOrders;

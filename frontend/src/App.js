@@ -12,7 +12,13 @@ import PrivateRoute from './routes/PrivateRoute';//يستخدم لحماية ا�
 import SupplierLogin from "./pages/Supplier/Login-Registration/Login/SupplierLogin";
 import SupplierRegistration from "./pages/Supplier/Login-Registration/Registration/SupplierRegistration";
 // Supplier-Concrete
-import ConcreteHome from "./pages/Supplier/ConcretePages/ConcreteHome";
+import { UnderPreparingOrders as SupplierConcreteUnderPreparingOrders } from './pages/Supplier/ConcretePages/UnderPreparingOrders/UnderPreparingOrders';
+import {PendingOrders as SupplierConcretePendingOrders} from "./pages/Supplier/ConcretePages/PendingOrders/PendingOrders";
+import { OldOrders as SupplierConcreteOldOrders } from './pages/Supplier/ConcretePages/OldOrders/OldOrders';
+import { Profile as SupplierConcreteProfile } from './pages/Supplier/ConcretePages/Profile/Profile';
+import { EditProfile as SupplierConcreteProfileEdit } from './pages/Supplier/ConcretePages/Profile/EditProfile/EditProfile';
+import { EditConcreteStrength } from './pages/Supplier/ConcretePages/Profile/EditConcreteStrength/EditConcreteStrength';
+
 // Supplier-Cement
 import { UnderPreparingOrders as SupplierCementUnderPreparingOrders } from './pages/Supplier/CementPages/UnderPreparingOrders/UnderPreparingOrders';
 import { PendingOrders as SupplierCementPendingOrders } from './pages/Supplier/CementPages/PendingOrders/PendingOrders';
@@ -34,9 +40,13 @@ import CementOrders from './pages/Company/CompanyPages/Cement/CementOrders';
 import CementBill from './pages/Company/CompanyPages/Cement/CementBill/CementBill';
 // Company-Concrete
 import ConcreteOrders from './pages/Company/CompanyPages/Concrete/ConcreteOrders';
+// Company-Concrete (Custom)
+import NoteCustomOrders from './pages/Company/CompanyPages/Concrete/CustomOrders/NoteCustemOrders';
+import CustomOrders from './pages/Company/CompanyPages/Concrete/CustomOrders/CustomOrder/CustomOrders';
+import CustomBill from './pages/Company/CompanyPages/Concrete/CustomOrders/CustomOrderBill/CustomOrderBill';
+// Company-Concrete (Express)
 import ExpressOrders from './pages/Company/CompanyPages/Concrete/ExpressOrders/ExpressOrders';
-import CustomOrders from './pages/Company/CompanyPages/Concrete/CustomOrders/CustomOrders';
-
+import ExpressBill from './pages/Company/CompanyPages/Concrete/ExpressOrders/ExpressBill/ExpressBill';
 
 
 
@@ -74,13 +84,48 @@ function App() {
         <Route path="/supplier-login/otp" element={<SupplierLoginOtp />} />
         <Route path="/supplier-registration" element={<SupplierRegistration />} />
         {/* Supplier-Concrete */}
-        <Route path="/supplier/concrete/home" element={<PrivateRoute
+        <Route path="/supplier/concrete/under-preparing-orders" element={<PrivateRoute
                                                 isAuthenticated={isAuthenticated}
                                                 role={role}
                                                 supplierProduct= {supplierProduct}
                                                 allowedRoles={['supplier']}
-                                                element={<ConcreteHome />}
+                                                element={<SupplierConcreteUnderPreparingOrders />}
+                                              />}/>
+        <Route path="/supplier/concrete/pending-orders" element={<PrivateRoute
+                                                isAuthenticated={isAuthenticated}
+                                                role={role}
+                                                supplierProduct= {supplierProduct}
+                                                allowedRoles={['supplier']}
+                                                element={<SupplierConcretePendingOrders />}
                                               />} /> 
+        <Route path="/supplier/concrete/old-orders" element={<PrivateRoute
+                                                isAuthenticated={isAuthenticated}
+                                                role={role}
+                                                supplierProduct= {supplierProduct}
+                                                allowedRoles={['supplier']}
+                                                element={<SupplierConcreteOldOrders />}
+                                              />}/>
+        <Route path="/supplier/concrete/profile" element={<PrivateRoute
+                                                isAuthenticated={isAuthenticated}
+                                                role={role}
+                                                supplierProduct= {supplierProduct}
+                                                allowedRoles={['supplier']}
+                                                element={<SupplierConcreteProfile />}
+                                              />}/>
+        <Route path="/supplier/concrete/profile/edit-profile" element={<PrivateRoute
+                                                isAuthenticated={isAuthenticated}
+                                                role={role}
+                                                supplierProduct= {supplierProduct}
+                                                allowedRoles={['supplier']}
+                                                element={<SupplierConcreteProfileEdit />}
+                                              />}/>
+        <Route path="/supplier/concrete/profile/edit-concrete-strength" element={<PrivateRoute
+                                                isAuthenticated={isAuthenticated}
+                                                role={role}
+                                                supplierProduct= {supplierProduct}
+                                                allowedRoles={['supplier']}
+                                                element={<EditConcreteStrength />}
+                                              />}/>
         {/* Supplier-Cement */}
         <Route path="/supplier/cement/under-preparing-orders" element={<PrivateRoute
                                                 isAuthenticated={isAuthenticated}
@@ -179,11 +224,25 @@ function App() {
                                                 allowedRoles={['company']}
                                                 element={<ConcreteOrders />}
                                               />}/>
+        {/* Company-Concrete (Express) */}
         <Route path="/company/home/concrete-orders/express-orders" element={<PrivateRoute
                                                 isAuthenticated={isAuthenticated}
                                                 role={role}
                                                 allowedRoles={['company']}
                                                 element={<ExpressOrders />}
+                                              />}/>
+        <Route path="/company/home/concrete-orders/express-orders/express-bill" element={<PrivateRoute
+                                                isAuthenticated={isAuthenticated}
+                                                role={role}
+                                                allowedRoles={['company']}
+                                                element={<ExpressBill />}
+                                              />}/>
+        {/* Company-Concrete (Custom) */}
+        <Route path="/company/home/concrete-orders/note" element={<PrivateRoute
+                                                isAuthenticated={isAuthenticated}
+                                                role={role}
+                                                allowedRoles={['company']}
+                                                element={<NoteCustomOrders />}
                                               />}/>
         <Route path="/company/home/concrete-orders/custom-orders" element={<PrivateRoute
                                                 isAuthenticated={isAuthenticated}
@@ -191,6 +250,12 @@ function App() {
                                                 allowedRoles={['company']}
                                                 element={<CustomOrders />}
                                               />}/>
+        <Route path="/company/home/concrete-order/custom-order/custom-bill" element={<PrivateRoute
+                                        isAuthenticated={isAuthenticated}
+                                        role={role}
+                                        allowedRoles={['company']}
+                                        element={<CustomBill />}
+                                      />}/>
                   
 
         {/* Admin */}

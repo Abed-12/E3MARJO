@@ -21,9 +21,9 @@ function RefrshHandler({ setIsAuthenticated, setRole, setSupplierProduct }) {
       const allowedPaths = {
         supplier: {
           cement: ['/supplier/cement/under-preparing-orders', '/supplier/cement/pending-orders', '/supplier/cement/old-orders', '/supplier/cement/profile', '/supplier/cement/profile/edit-profile'],
-          concrete: ['/supplier/concrete/home'],
+          concrete: ['/supplier/concrete/under-preparing-orders', '/supplier/concrete/pending-orders', '/supplier/concrete/old-orders', '/supplier/concrete/profile', '/supplier/concrete/profile/edit-profile', '/supplier/concrete/profile/edit-concrete-strength'],
         },
-        company: ['/company/home', '/company/home/cement-orders', '/company/home/concrete-orders', '/company/home/profile', '/company/home/profile/edit-profile', '/company/home/under-preparing-orders', '/company/home/pending-orders', '/company/home/old-orders', '/company/home/cement-order/cement-bill', '/company/home/concrete-orders/express-orders', '/company/home/concrete-orders/custom-orders'],
+        company: ['/company/home', '/company/home/cement-orders', '/company/home/concrete-orders', '/company/home/profile', '/company/home/profile/edit-profile', '/company/home/under-preparing-orders', '/company/home/pending-orders', '/company/home/old-orders', '/company/home/cement-order/cement-bill', '/company/home/concrete-orders/express-orders', '/company/home/concrete-orders/express-orders/express-bill', '/company/home/concrete-orders/custom-orders', '/company/home/concrete-orders/custom-orders', '/company/home/concrete-orders/note','/company/home/concrete-order/custom-order/custom-bill'],
         admin: ['/admin/request-user', '/admin/approve-user', "/admin/reject-user","/admin/add-admin" ],
       };
 

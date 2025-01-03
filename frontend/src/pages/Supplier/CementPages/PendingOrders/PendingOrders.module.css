@@ -18,6 +18,8 @@
     padding: 15px 20px;
     width: 80%; /* لجعل العنصر متجاوبًا */
     max-width: 640px; /* حد أقصى للعرض */
+    margin-bottom: 0.5%;
+
 }
 
 .pendingOrdersDiv {
@@ -103,7 +105,6 @@
 .rejectModalDiv {
     width: 95%;
     padding: 15px;
-    background-color: #fff;
     border-radius: 8px;
     text-align: center;
     margin-top: -22px;
@@ -117,18 +118,25 @@
 }
 
 .rejectModalTextarea {
-    width: 95%;
-    height: 100px;
+    overflow-y: auto;
     padding: 10px;
+    font-size: 18px;
     border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 14px;
-    resize: none;
+    border-radius: 5px;
     outline: none;
+    width: 97%; /* Adjust to the parent container */
+    resize: none; /* Disable resizing for consistent design */
+    background-color: #ffffffcc; /* Slightly transparent background */
+    transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
 .rejectModalTextarea::placeholder {
     color: #aaa;
+}
+
+.rejectModalTextarea:focus{
+    border-color: #666;
+    box-shadow: 0 0 5px rgba(102, 102, 102, 0.5);
 }
 
 .rejectModalButtonSubmit, .rejectModalButtonCancel {

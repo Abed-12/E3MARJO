@@ -10,7 +10,7 @@ const OrderFilter = (props) => {
     const [supplierID, setSupplier] = useState('');
     const [fromDate, setFromDate] = useState('');
     const [toDate, setToDate] = useState('');
-    const [selectedStatus, setSelectedStatus] = useState('');
+    const [selectedStatus, setSelectedStatus] = useState(props.statuses);
     const [isSidebarVisible, setIsSidebarVisible] = useState(false);
     
     const toggleSidebar = () => {
@@ -30,9 +30,12 @@ const OrderFilter = (props) => {
                 const response = await fetch(url, headers);
                 const result = await response.json();
                 setdataSuppliers(result); 
-                setSupplierTypes([...new Set(result.map((supplier)=> {
+                const types = [...new Set(result.map((supplier)=> {
                     return supplier.type
-                }))]); 
+                }))]
+                setSupplier(result.map(dataSupplier => dataSupplier.supplierID))
+                setSupplierTypes(types); 
+                setType(types)
             } catch (err) {
                 handleError(err);
             }
@@ -73,7 +76,7 @@ const OrderFilter = (props) => {
                                     onChange={(e) => setType(e.target.value)}
                                     value={type}
                                 >
-                                    <option value="">All</option>
+                                    <option value={supplierTypes}>All</option>
                                     {supplierTypes.map((type, index) => (
                                         <option key={index} value={type}>
                                             {type}
@@ -88,7 +91,7 @@ const OrderFilter = (props) => {
                                     onChange={(e) => setSupplier(e.target.value)}
                                     value={supplierID}
                                 >
-                                    <option value="">All</option>
+                                    <option value={dataSuppliers.map(dataSupplier => dataSupplier.supplierID)}>All</option>
                                     {dataSuppliers.map((supplier, index) => (
                                         <option key={index} value={supplier.supplierID}>
                                             {supplier.supplierName}
@@ -106,7 +109,7 @@ const OrderFilter = (props) => {
                                 onChange={(e) => setSelectedStatus(e.target.value)}
                                 value={selectedStatus}
                             >
-                                <option value={props.statuses}>All</option>
+                                <option value={props?.statuses}>All</option>
                                 {props.statuses.map((status, index) => (
                                     <option key={index} value={status}>
                                         {status}

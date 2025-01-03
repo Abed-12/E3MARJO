@@ -1,0 +1,182 @@
+.customOrderBody {
+    min-height: 62.2vh;
+    background-color: #998d77cb;
+    background-image: url("https://www.transparenttextures.com/patterns/groovepaper.png");
+}
+
+.concretOrderRow {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: 20px;
+    background-color: #ffffff9a;
+    padding: 20px 5%;
+    margin: 30px auto;
+    width: 80%;
+    border-radius: 10px;
+    box-shadow: 5px 5px 24px 0px rgba(66, 68, 90, 1);
+    min-height: 50vh;
+}
+
+.numberOfInput {
+    grid-row: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 20px;
+}
+
+.numberOfInput input,
+.numberOfInput select {
+    min-width: 200px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+.table {
+    border: soild 50px yellow;
+    border-color: aqua;
+    grid-row: 2;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    overflow-x: auto;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th {
+    background-color: rgb(109, 102, 109);
+    color: white;
+    text-align: left;
+    padding: 12px 15px;
+    font-weight: bold;
+    border-top: 1px solid #ddd;
+}
+
+.table td {
+    padding: 12px 15px;
+    align-items: center;
+    justify-items: center ;
+    border-bottom: 1px solid #ddd;
+}
+
+.table input,
+.table select {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+}
+.table .price{
+    width: 95%;   
+}
+
+.concreteOrderButton {
+    grid-row: 4;
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    align-items: center;
+    gap: 15px;
+    padding: 20px;
+}
+
+.concreteOrderButton button {
+    background-color: #6d666d;
+    color: white;
+    border: none;
+    padding: 10px 30px;
+    font-size: 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.concreteOrderButton button:hover {
+    background-color: #857f85;
+    color: rgb(54, 54, 54);
+    transform: translateY(-2px);
+}
+
+.totalCount {
+    grid-row: 3;
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    padding: 20px;
+    font-size: 16px; /* Adjust as needed */
+    color: #333; /* Default text color */
+    font-weight: bold; /* Optional: Match the bold style of table headers */
+}
+
+.customOrderLoader{
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+    padding-top: 25%;
+}
+
+/* HTML: <div class="loader"></div> */
+.loader {
+    width: fit-content;
+    font-size: 40px;
+    font-family: system-ui,sans-serif;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #0000;
+    -webkit-text-stroke: 1px #000;
+    background: 
+        linear-gradient(-60deg,#0000 45%,#000 0 55%,#0000 0) 
+        0/300% 100% no-repeat text;
+    animation: l3 2s linear infinite;
+}
+.loader:before {
+    content: "Loading";
+}
+@keyframes l3 {
+    0%{background-position: 100%}
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .concretOrderRow {
+        width: 95%;
+        padding: 10px 2%;
+    }
+
+    .numberOfInput {
+        flex-direction: column;
+    }
+
+    .numberOfInput input,
+    .numberOfInput select {
+        width: 100%;
+    }
+    
+    .table {
+        font-size: 14px;
+        padding: 10px;
+    }
+}
+
+.concreteTableContainer{    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 62.2vh;
+    padding: 20px;
+    background-color: #998d77cb;
+    background-image: url("https://www.transparenttextures.com/patterns/groovepaper.png");}
+    
+    
+    
+    

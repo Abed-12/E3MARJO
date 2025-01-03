@@ -43,7 +43,7 @@ const SupplierSchema = new mongoose.Schema({
             }
         }
     },
-    cementBreakingStrength: {
+    concreteStrength: {
         type: Object,
         default: function(){
             if (  this.supplierProduct === 'concrete') { 

@@ -15,6 +15,7 @@ function UnderPreparingOrders() {
 
     const handleLogout = (e) => {
         localStorage.removeItem('token');
+        localStorage.removeItem('supplierProduct');
         localStorage.removeItem('role');
         handleSuccess('User Loggedout');
         setTimeout(() => {
