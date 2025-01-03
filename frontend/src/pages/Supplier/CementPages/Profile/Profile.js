@@ -31,16 +31,6 @@ function Profile() {
         setDropdownActive(prev => !prev);
     };
 
-    const handleEnableMFAClick = () => {
-        // call enable mfa api then navigate to the designated otp page
-        navigate("/supplier/cement/profile/enable-mfa");
-    };
-
-    const handleDisableMFAClick = () => {
-        // call disable mfa api then navigate to the designated otp page
-        navigate("/supplier/cement/profile/disable-mfa");
-    };
-
     const downloadCommercialRegisterPdf = async () => {
         try {
             const url = `http://localhost:8080/auth/supplier/supplier-commercial-register`;
