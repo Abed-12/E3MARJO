@@ -85,7 +85,7 @@ function EnableOTP() {
                     </div>
                     <button className={styles.otpButton} type='submit'>Send</button>
                 </form>
-                <button className={styles.otpButton} onCancle={(e)=> cancelOTP()} type='cancel'> Cancel</button>
+                <button className={styles.otpButton} onClick={(e)=> cancelOTP()} type='cancel'> Cancel</button>
                 <ToastContainer/>
 
             </div>
