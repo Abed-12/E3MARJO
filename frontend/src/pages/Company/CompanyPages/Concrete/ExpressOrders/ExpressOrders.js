@@ -166,7 +166,7 @@ function ExpressOrders() {
                             </div>
                             <div className={styles.expressOrderDiv}>
                                 <label className={styles.expressOrderLabel} htmlFor="concreteStrength">
-                                    Cement breaking strength
+                                    Concrete strength
                                 </label>
                                 <select
                                     className={styles.expressOrderSelect}

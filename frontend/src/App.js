@@ -18,14 +18,16 @@ import { OldOrders as SupplierConcreteOldOrders } from './pages/Supplier/Concret
 import { Profile as SupplierConcreteProfile } from './pages/Supplier/ConcretePages/Profile/Profile';
 import { EditProfile as SupplierConcreteProfileEdit } from './pages/Supplier/ConcretePages/Profile/EditProfile/EditProfile';
 import { EditConcreteStrength } from './pages/Supplier/ConcretePages/Profile/EditConcreteStrength/EditConcreteStrength';
-
+import { DisableOTP as SupplierConcreteDisableOTP } from './pages/Supplier/ConcretePages/Profile/OTP/DisableOTP';
+import { EnableOTP as SupplierConcreteEnableOTP } from './pages/Supplier/ConcretePages/Profile/OTP/EnableOTP';
 // Supplier-Cement
 import { UnderPreparingOrders as SupplierCementUnderPreparingOrders } from './pages/Supplier/CementPages/UnderPreparingOrders/UnderPreparingOrders';
 import { PendingOrders as SupplierCementPendingOrders } from './pages/Supplier/CementPages/PendingOrders/PendingOrders';
 import { OldOrders as SupplierCementOldOrders } from './pages/Supplier/CementPages/OldOrders/OldOrders';
 import { Profile as SupplierCementProfile } from './pages/Supplier/CementPages/Profile/Profile';
 import { EditProfile as SupplierCementProfileEdit } from './pages/Supplier/CementPages/Profile/EditProfile/EditProfile';
-
+import { DisableOTP as SupplierCementDisableOTP } from './pages/Supplier/CementPages/Profile/OTP/DisableOTP';
+import { EnableOTP as SupplierCementEnableOTP } from './pages/Supplier/CementPages/Profile/OTP/EnableOTP';
 // Company
 import CompanyLogin from "./pages/Company/Login-Registration/Login/CompanyLogin";
 import CompanyRegistration from "./pages/Company/Login-Registration/Registration/CompanyRegistration";
@@ -35,6 +37,9 @@ import { PendingOrders as CompanyPendingOrders } from './pages/Company/CompanyPa
 import { OldOrders as CompanyOldOrders } from './pages/Company/CompanyPages/OldOrders/OldOrders';
 import { Profile as CompanyProfile } from './pages/Company/CompanyPages/Profile/Profile';
 import { EditProfile as CompanyProfileEdit } from './pages/Company/CompanyPages/Profile/EditProfile/EditProfile';
+import {EnableOTP as CompanyEnableOTP} from './pages/Company/CompanyPages/Profile/OTP/EnableOTP';
+import {DisableOTP as CompanyDisableOTP} from './pages/Company/CompanyPages/Profile/OTP/DisableOTP';
+
 // Company-Cement
 import CementOrders from './pages/Company/CompanyPages/Cement/CementOrders';
 import CementBill from './pages/Company/CompanyPages/Cement/CementBill/CementBill';
@@ -126,6 +131,20 @@ function App() {
                                                 allowedRoles={['supplier']}
                                                 element={<EditConcreteStrength />}
                                               />}/>
+        <Route path="/supplier/concrete/profile/disabled-otp" element={<PrivateRoute
+                                                isAuthenticated={isAuthenticated}
+                                                role={role}
+                                                supplierProduct= {supplierProduct}
+                                                allowedRoles={['supplier']}
+                                                element={<SupplierConcreteDisableOTP />}
+                                              />}/>
+        <Route path="/supplier/concrete/profile/enabled-otp" element={<PrivateRoute
+                                                isAuthenticated={isAuthenticated}
+                                                role={role}
+                                                supplierProduct= {supplierProduct}
+                                                allowedRoles={['supplier']}
+                                                element={<SupplierConcreteEnableOTP />}
+                                              />}/>
         {/* Supplier-Cement */}
         <Route path="/supplier/cement/under-preparing-orders" element={<PrivateRoute
                                                 isAuthenticated={isAuthenticated}
@@ -162,7 +181,21 @@ function App() {
                                                 allowedRoles={['supplier']}
                                                 element={<SupplierCementProfileEdit />}
                                               />}/>
-        
+        <Route path="/supplier/cement/profile/enabled-otp" element={<PrivateRoute
+                                                isAuthenticated={isAuthenticated}
+                                                role={role}
+                                                supplierProduct= {supplierProduct}
+                                                allowedRoles={['supplier']}
+                                                element={<SupplierCementEnableOTP />}
+                                              />}/>
+          <Route path="/supplier/cement/profile/disabled-otp" element={<PrivateRoute
+                                                isAuthenticated={isAuthenticated}
+                                                role={role}
+                                                supplierProduct= {supplierProduct}
+                                                allowedRoles={['supplier']}
+                                                element={<SupplierCementDisableOTP />}
+                                              />}/>
+
         {/* Company */}
         <Route path="/company-login" element={<CompanyLogin />} /> 
         <Route path="/company-login/otp" element={<CompanyLoginOtp/>} />
@@ -216,6 +249,20 @@ function App() {
                                                 supplierProduct= {supplierProduct}
                                                 allowedRoles={['company']}
                                                 element={<CompanyProfileEdit />}
+                                              />}/>
+        <Route path="/company/home/profile/enabled-otp" element={<PrivateRoute
+                                                isAuthenticated={isAuthenticated}
+                                                role={role}
+                                                supplierProduct= {supplierProduct}
+                                                allowedRoles={['company']}
+                                                element={<CompanyEnableOTP />}
+                                              />}/>
+          <Route path="/company/home/profile/disabled-otp" element={<PrivateRoute
+                                                isAuthenticated={isAuthenticated}
+                                                role={role}
+                                                supplierProduct= {supplierProduct}
+                                                allowedRoles={['company']}
+                                                element={<CompanyDisableOTP/>}
                                               />}/>
         {/* Company-Concrete */}
         <Route path="/company/home/concrete-orders" element={<PrivateRoute

@@ -20,10 +20,10 @@ function RefrshHandler({ setIsAuthenticated, setRole, setSupplierProduct }) {
       // تعريف المسارات المسموحة لكل دور
       const allowedPaths = {
         supplier: {
-          cement: ['/supplier/cement/under-preparing-orders', '/supplier/cement/pending-orders', '/supplier/cement/old-orders', '/supplier/cement/profile', '/supplier/cement/profile/edit-profile'],
-          concrete: ['/supplier/concrete/under-preparing-orders', '/supplier/concrete/pending-orders', '/supplier/concrete/old-orders', '/supplier/concrete/profile', '/supplier/concrete/profile/edit-profile', '/supplier/concrete/profile/edit-concrete-strength'],
+          cement: ['/supplier/cement/under-preparing-orders', '/supplier/cement/pending-orders', '/supplier/cement/old-orders', '/supplier/cement/profile', '/supplier/cement/profile/edit-profile','/supplier/cement/profile/disabled-otp','/supplier/cement/profile/enabled-otp'],
+          concrete: ['/supplier/concrete/under-preparing-orders', '/supplier/concrete/pending-orders', '/supplier/concrete/old-orders', '/supplier/concrete/profile', '/supplier/concrete/profile/edit-profile', '/supplier/concrete/profile/edit-concrete-strength','/supplier/concrete/profile/enabled-otp','/supplier/concrete/profile/disabled-otp'],
         },
-        company: ['/company/home', '/company/home/cement-orders', '/company/home/concrete-orders', '/company/home/profile', '/company/home/profile/edit-profile', '/company/home/under-preparing-orders', '/company/home/pending-orders', '/company/home/old-orders', '/company/home/cement-order/cement-bill', '/company/home/concrete-orders/express-orders', '/company/home/concrete-orders/express-orders/express-bill', '/company/home/concrete-orders/custom-orders', '/company/home/concrete-orders/custom-orders', '/company/home/concrete-orders/note','/company/home/concrete-order/custom-order/custom-bill'],
+        company: ['/company/home', '/company/home/cement-orders', '/company/home/concrete-orders', '/company/home/profile', '/company/home/profile/edit-profile', '/company/home/under-preparing-orders', '/company/home/pending-orders', '/company/home/old-orders', '/company/home/cement-order/cement-bill', '/company/home/concrete-orders/express-orders', '/company/home/concrete-orders/express-orders/express-bill', '/company/home/concrete-orders/custom-orders', '/company/home/concrete-orders/custom-orders', '/company/home/concrete-orders/note','/company/home/concrete-order/custom-order/custom-bill','/company/home/profile/disabled-otp','/company/home/profile/enabled-otp'],
         admin: ['/admin/request-user', '/admin/approve-user', "/admin/reject-user","/admin/add-admin" ],
       };
 

@@ -43,7 +43,7 @@ function NoteCustomOrders() {
             <div className={styles.steps}>
                 <ul type="none">
                     <li className={styles.listSteps}>
-                        Step-1: Select a supplier
+                        ➢ Step-1: Select a supplier
                             <ul type="disc">
                                 <li>
                                     Choose your preferred supplier from the dropdown menu
@@ -52,7 +52,7 @@ function NoteCustomOrders() {
                     </li>
 
                     <li className={styles.listSteps}>
-                        Step-2: Specify the Number of Concrete Pouring Locations(Number of rows):
+                        ➢ Step-2: Specify the Number of Concrete Pouring Locations(Number of rows):
                         <ul type="disc">
                             <li>
                                 Enter the total number of concrete pouring locations you need to calculate concrete for. 
@@ -63,7 +63,7 @@ function NoteCustomOrders() {
                     </li>
 
                     <li className={styles.listSteps}>
-                        Step-3: Fill in the Details for Each Concrete Pouring Location(item name):
+                        ➢ Step-3: Fill in the Details for Each Concrete Pouring Location(item name):
                         <ul type="disc">
                             <li>
                                 Item  Name: Enter the name of the location where the concrete will be poured (e.g., foundation, column, slab).
@@ -81,11 +81,11 @@ function NoteCustomOrders() {
                     </li>
 
                     <li className={styles.listSteps}>
-                        Step-4: Calculate the Quantity and Price
+                        ➢ Step-4: Calculate the Quantity and Price
                         <ul type="disc">
                             <li>
                                 Click the Calculate button to view the following:
-                                <ul type="square">
+                                <ul type="circle">
                                     <li>The concrete quantity and price for each row.</li>
                                     <li>The total quantity and total price at the bottom of the form.</li>
                                 </ul>
@@ -94,9 +94,19 @@ function NoteCustomOrders() {
                     </li>
                     
                     <li className={styles.listSteps}>
-                        Step-5: Proceed to Checkout:
+                        ➢ Step-5: Proceed to Checkout:
                             <ul type="disc">
                                 <li>Once all details are correct, click the Checkout button to proceed to the bill page and finalize your order.</li>
+                            </ul>   
+                    </li>
+
+                    <li className={styles.listSteps}>
+                        Notes:                        
+                            <ul className={styles.NoteList}>
+                                <li>➢ If you have a concrete slab, make sure to subtract the volume of the bricks inside the slab from the total volume of the slab.</li>
+                                <li>➢ Ensure to add at least 1 cubic meter, as the concrete pump does not empty the full amount of concrete in the mixers.</li>
+                                <li>➢ Quantities are rounded up to the nearest whole number, for example, 2.3m is rounded to 3m.</li>
+                                <li>➢ Check the weather condition before ordering concrete by clicking on the following link <a href='https://www.facebook.com/profile.php?id=100092444557078&mibextid=ZbWKwL' target="_blank">NashmiWeather</a></li>
                             </ul>   
                     </li>
 
