@@ -1,5 +1,5 @@
 .orderFilterAside {
-    background-color: #776B5D;
+    background-color: #7f7d7f;
     padding: 20px;
     width: 15%;   
     position: fixed;
@@ -21,7 +21,7 @@
     display: none;
     position: absolute;
     font-size: 16px;
-    background-color: #776B5D; /* لون أزرق */
+    background-color: #7f7d7f;
     color: hsl(0, 0%, 100%); /* لون النص */
     border: none; /* إزالة الحدود */
     padding: 10px 20px; /* مساحة داخلية */
@@ -32,7 +32,7 @@
 }
 
 .orderFilterToggleBtn:hover {
-    color: yellow;
+    color: #eeba5a;
     transform: scale(1.05); /* تكبير بسيط عند التمرير */
 }
 
@@ -79,20 +79,24 @@
 }
 
 .submitButton {
-    background-color:  rgba(253, 228, 0, 0.555);
+    background-color: #eeba5a;
     border: none;
     font-size: 18px; /* تقليل حجم الخط */
     color: #fff;
-    border: 1px solid rgba(253, 228, 0, 0.555);
     border-radius: 5px;
     padding: 10px;
     cursor: pointer;
     margin: 10px 0;
+    transition: background-color 0.3s ease;
 }
 
 .submitButton:hover {
-    background-color: rgba(253, 228, 0, 0.76);
+    background-color:#d88c00;
     color: #fff;
+    padding: 10px;
+
+    margin: 10px 0;
+
 }
 
 @media screen and (max-width: 768px) {

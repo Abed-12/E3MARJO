@@ -1,7 +1,8 @@
 .customOrderBody {
     min-height: 62.2vh;
-    background-color: #998d77cb;
-    background-image: url("https://www.transparenttextures.com/patterns/groovepaper.png");
+    background-color: #d1d1d1;
+background-image: url("https://www.transparenttextures.com/patterns/45-degree-fabric-dark.png");
+
 }
 
 .concretOrderRow {
@@ -35,7 +36,7 @@
 }
 
 .table {
-    border: soild 50px yellow;
+    border: soild 50px #eeba5a;
     border-color: aqua;
     grid-row: 2;
     display: flex;
@@ -174,7 +175,7 @@
     align-items: center;
     min-height: 62.2vh;
     padding: 20px;
-    background-color: #998d77cb;
+    background-color: #7f7d7f;
     background-image: url("https://www.transparenttextures.com/patterns/groovepaper.png");}
     
     

@@ -7,8 +7,9 @@
     flex-direction: row;
     gap: 10px;
     flex-wrap: wrap; /* يجعل العناصر تتكيف مع أحجام الشاشات الأصغر */
-    background-color: #998d77cb;
-    background-image: url("https://www.transparenttextures.com/patterns/groovepaper.png");
+    background-color: #d1d1d1;
+background-image: url("https://www.transparenttextures.com/patterns/45-degree-fabric-dark.png");
+;
 
 }
 
@@ -25,7 +26,7 @@
 }
 
 .cardContent {
-    background-color: #776B5D;
+    background-color: #7f7d7f;
     text-align: center;
 }
 
