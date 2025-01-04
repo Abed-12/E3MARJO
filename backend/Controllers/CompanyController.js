@@ -170,7 +170,7 @@ const loginOtp = async (req, res) => {
 const enableOtp = async (req, res) => {
     try {
         const companyId = jwt.decode(req.headers.authorization)._id
-        const company = await CompanyModel.findOne({companyID: companyId});
+        const company = await CompanyModel.findOne({_id: companyId});
         if (!company) {
             return res.status(403)
                 .json({message: "Unauthorized Operation", success: false})
@@ -213,7 +213,7 @@ const enableOtpConfirm = async (req, res) => {
     try {
         const {otp} = req.body
         const companyId = jwt.decode(req.headers.authorization)._id
-        const company = await CompanyModel.findOne({companyID: companyId});
+        const company = await CompanyModel.findOne({_id: companyId});
         if (!company) {
             return res.status(403)
                 .json({message: "Unauthorized Operation", success: false})
@@ -251,7 +251,7 @@ const enableOtpConfirm = async (req, res) => {
 const disableOtp = async (req, res) => {
     try {
         const companyId = jwt.decode(req.headers.authorization)._id
-        const company = await CompanyModel.findOne({companyID: companyId});
+        const company = await CompanyModel.findOne({_id: companyId});
         if (!company) {
             return res.status(403)
                 .json({message: "Unauthorized Operation", success: false})
@@ -294,7 +294,7 @@ const disableOtpConfirm = async (req, res) => {
     try {
         const {otp} = req.body
         const companyId = jwt.decode(req.headers.authorization)._id
-        const company = await CompanyModel.findOne({companyID: companyId});
+        const company = await CompanyModel.findOne({_id: companyId});
         if (!company) {
             return res.status(403)
                 .json({message: "Unauthorized Operation", success: false})

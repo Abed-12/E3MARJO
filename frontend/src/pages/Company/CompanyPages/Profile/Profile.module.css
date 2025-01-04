@@ -6,8 +6,9 @@
     padding: 20px; /* إضافة تباعد داخلي للشاشات الصغيرة */
     margin-bottom: -1.4%;
     margin-top: -1.55%;    
-    background-color: #998d77cb;
-    background-image: url("https://www.transparenttextures.com/patterns/groovepaper.png");
+    background-color: #d1d1d1;
+    background-image: url("https://www.transparenttextures.com/patterns/45-degree-fabric-dark.png");
+    
 }
 
 .profileRow {
@@ -46,7 +47,7 @@
     position: absolute; 
     top: 25px; 
     right: 25px; 
-    background-color: #776B5D; 
+    background-color: #7f7d7f;
     border: none;
     font-size: 14px; 
     color: #fff;
@@ -86,7 +87,7 @@
     top: 45px; 
     right: 5px; 
     width: 175px;
-    background-color: #776B5D;
+    background-color: #7f7d7f;
     color: #fff;
     box-shadow: 0 5px 10px 7px rgba(0, 0, 0, 0.1);
     border-radius: 4px;
@@ -111,7 +112,7 @@
 
 .dropdownItem .Link:hover {
     text-decoration: none;
-    color: yellow;
+    color: #eeba5a;
 }
 
 .Link {
@@ -130,14 +131,14 @@
     position: absolute;
     width: 0;
     height: 2px;
-    background: yellow;
+    background: #eeba5a;
     left: 0;
     bottom: 0px;
     transition: width 0.4s ease;
 }
 
 .Link:hover {
-    color: yellow;
+    color: #eeba5a;
     transform: scale(1.05);
 }
 
