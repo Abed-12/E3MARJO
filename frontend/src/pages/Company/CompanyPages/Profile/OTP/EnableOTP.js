@@ -25,7 +25,6 @@ function EnableOTP() {
 
     async function cancelOTP (e)
     {
-        e.preventDefault();
             handleSuccess("Cancle successfully");
             setTimeout(() => {
                 navigate('/company/home/profile');
