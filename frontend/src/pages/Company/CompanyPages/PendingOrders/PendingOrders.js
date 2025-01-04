@@ -6,10 +6,15 @@ import styles from './PendingOrders.module.css';
 import Navbar from '../../../../components/navbar/Navbar';
 import Footer from '../../../../components/footer/Footer';
 import OrderFilter from '../../../../components/orderFilter/OrderFilter';
+import ConfirmationModal from '../../../../components/ConfirmationModal/ConfirmationModal'; // Import the modal
 import moment from 'moment';
+
 
 function PendingOrders() {
     const [filteredOrders, setFilteredOrders] = useState(null);
+    const [showModal, setShowModal] = useState(false); // State to control modal visibility
+    const [deleteOrder, setDeleteOrder] = useState(null); // Store the concrete strength to be deleted
+    
 
     const navigate = useNavigate();
 
@@ -21,6 +26,17 @@ function PendingOrders() {
             navigate('/company-login');
         }, 500)
     }    
+
+    // Delete message
+    const handleDelete = (orderId) => {
+        setDeleteOrder(orderId);
+        setShowModal(true); // Show the confirmation modal
+    };
+
+    const cancelDelete = () => {
+        setShowModal(false); // Close the modal without deletion
+    };
+    
 
     const orderDelete= async (orderId) => {
         try{
@@ -35,6 +51,7 @@ function PendingOrders() {
             const { success, message } = result;
             if (success) {
                 handleSuccess(message + "Order has been deleted");
+                setShowModal(false);
             } else if (!success) {
                 handleError(message);
             }
@@ -166,9 +183,9 @@ function PendingOrders() {
                                         <div className={styles.pendingOrdersDivButton}>
                                             <button
                                                 className={styles.pendingOrdersButtonDeleted}
-                                                onClick={() => orderDelete(order.id)}
+                                                onClick={() => handleDelete(order.id)}
                                             >
-                                                Delete
+                                                Cancel
                                             </button>
                                         </div>
                                     </>
@@ -234,9 +251,9 @@ function PendingOrders() {
                                         <div className={styles.pendingOrdersDivButton}>
                                             <button
                                                 className={styles.pendingOrdersButtonDeleted}
-                                                onClick={() => orderDelete(order.id)}
+                                                onClick={() => handleDelete(order.id)}
                                             >
-                                                Delete
+                                                Cancel
                                             </button>
                                         </div>
                                     </>
@@ -253,6 +270,13 @@ function PendingOrders() {
                 </div>
             )}
 
+            {showModal && (
+                <ConfirmationModal
+                    message={`Are you sure you want to cancel order?`}
+                    onConfirm={() => orderDelete(deleteOrder)}
+                    onCancel={cancelDelete}
+                />
+            )}
 
             <Footer 
                 one="Home"
