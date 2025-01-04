@@ -92,9 +92,14 @@ function OldOrders() {
                             <div className={styles.oldOrdersRow} key={index}> 
                                 {order.type === 'cement' && (
                                     <>
-                                        <p className={`${styles.oldOrdersData} ${styles.oldOrdersSupplierName}`}>
-                                            <strong>Supplier name:</strong> {order.supplierName} 
-                                        </p>
+                                        <div className={styles.oldOrdersDiv}>
+                                            <p className={`${styles.oldOrdersData} ${styles.oldOrdersSupplierName}`}>
+                                                <strong>Supplier name:</strong> {order.supplierName}
+                                            </p>
+                                            <p className={`${styles.oldOrdersData} ${styles.oldOrdersSupplierName}`}>
+                                                <strong>Supplier phone:</strong> {order.supplierPhone}
+                                            </p>
+                                        </div>
                                         <div className={styles.oldOrdersDiv}>
                                             <p className={`${styles.oldOrdersData} ${styles.oldOrdersStatus}`}>
                                                 <strong>Order status:</strong> {order.status} 
@@ -147,9 +152,14 @@ function OldOrders() {
                                 )}
                                 {order.type === 'concrete' && (
                                     <>
-                                        <p className={`${styles.oldOrdersData} ${styles.oldOrdersSupplierName}`}>
-                                            <strong>Supplier name:</strong> {order.supplierName}
-                                        </p>
+                                        <div className={styles.oldOrdersDiv}>
+                                            <p className={`${styles.oldOrdersData} ${styles.oldOrdersSupplierName}`}>
+                                                <strong>Supplier name:</strong> {order.supplierName}
+                                            </p>
+                                            <p className={`${styles.oldOrdersData} ${styles.oldOrdersSupplierName}`}>
+                                                <strong>Supplier phone:</strong> {order.supplierPhone}
+                                            </p>
+                                        </div>
                                         <div className={styles.oldOrdersDiv}>
                                             <p className={`${styles.oldOrdersData} ${styles.oldOrdersStatus}`}>
                                                 <strong>Order status:</strong> {order.status}

@@ -38,35 +38,33 @@ function NoteCustomOrders() {
                 pathFive="/company/home/profile"
                 logout={handleLogout}
             />
-    <div>
-        <div className={styles.noteContainer}>
+    <div className={styles.noteContainer}>
+            <div className={styles.stepsContainer}>
             <div className={styles.steps}>
-                <ol>
-                    <li> Step 1: 
-                    <ul>
-                    <li>
-                        Select a Supplier
-                            <ul>
+                <ul type="none">
+                    <li className={styles.listSteps}>
+                        Step-1: Select a supplier
+                            <ul type="disc">
                                 <li>
                                     Choose your preferred supplier from the dropdown menu
                                 </li>
                             </ul>
                     </li>
-                    </ul>
-                    </li>
-                    <li>
-                        Specify the Number of Concrete Pouring Locations(Number of rows):
-                        <ul>
+
+                    <li className={styles.listSteps}>
+                        Step-2: Specify the Number of Concrete Pouring Locations(Number of rows):
+                        <ul type="disc">
                             <li>
                                 Enter the total number of concrete pouring locations you need to calculate concrete for. 
-                                <br></br>
+                                <br></  br>
                                 The form will generate the exact number of rows based on your input.
                             </li>
                         </ul>
                     </li>
-                    <li>
-                        Fill in the Details for Each Concrete Pouring Location(item name):
-                        <ul>
+
+                    <li className={styles.listSteps}>
+                        Step-3: Fill in the Details for Each Concrete Pouring Location(item name):
+                        <ul type="disc">
                             <li>
                                 Item  Name: Enter the name of the location where the concrete will be poured (e.g., foundation, column, slab).
                             </li>
@@ -81,26 +79,30 @@ function NoteCustomOrders() {
                             </li>
                         </ul>
                     </li>
-                    <li>
-                        Calculate the Quantity and Price
-                        <ul>
+
+                    <li className={styles.listSteps}>
+                        Step-4: Calculate the Quantity and Price
+                        <ul type="disc">
                             <li>
                                 Click the Calculate button to view the following:
-                                <ul>
+                                <ul type="square">
                                     <li>The concrete quantity and price for each row.</li>
                                     <li>The total quantity and total price at the bottom of the form.</li>
                                 </ul>
                             </li>
                         </ul>
                     </li>
-                    <li>Proceed to Checkout:
-                        <ul>
-                            <li>Once all details are correct, click the Checkout button to proceed to the bill page and finalize your order.</li>
-                        </ul>
+                    
+                    <li className={styles.listSteps}>
+                        Step-5: Proceed to Checkout:
+                            <ul type="disc">
+                                <li>Once all details are correct, click the Checkout button to proceed to the bill page and finalize your order.</li>
+                            </ul>   
                     </li>
-                </ol>
+
+                </ul>
             </div>
-        </div>
+       
 
 
 
@@ -109,11 +111,12 @@ function NoteCustomOrders() {
             setTimeout(() => {
             navigate('/company/home/concrete-orders/custom-orders');
         }, 500)}}
-        className='{}'
+        className={styles.noteButton}
         >
 
             next
         </button>
+        </div>
     </div>   
             <Footer 
                 one="Home"

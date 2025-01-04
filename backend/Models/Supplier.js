@@ -23,7 +23,6 @@ const SupplierSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-
     commercialRegister: {
         type: Buffer, // Store the file as binary data
         // contentType: String, // Store the MIME type (e.g., application/pdf)

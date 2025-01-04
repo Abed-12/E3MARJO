@@ -134,9 +134,14 @@ function PendingOrders() {
                             <div className={styles.pendingOrdersRow} key={index}>
                                 {order.type === 'cement' && (
                                     <>
-                                        <p className={`${styles.pendingOrdersData} ${styles.pendingOrdersSupplierName}`}>
-                                            <strong>Supplier name:</strong> {order.supplierName}
-                                        </p>
+                                        <div className={styles.pendingOrdersDiv}>
+                                            <p className={`${styles.pendingOrdersData} ${styles.pendingOrdersSupplierName}`}>
+                                                <strong>Supplier name:</strong> {order.supplierName}
+                                            </p>
+                                            <p className={`${styles.pendingOrdersData} ${styles.pendingOrdersSupplierName}`}>
+                                                <strong>Supplier phone:</strong> {order.supplierPhone}
+                                            </p>
+                                        </div>
                                         <div className={styles.pendingOrdersDiv}>
                                             <p className={`${styles.pendingOrdersData} ${styles.pendingOrdersStatus}`}>
                                                 <strong>Order status:</strong> {order.status}
@@ -192,9 +197,14 @@ function PendingOrders() {
                                 )}
                                 {order.type === 'concrete' && (
                                     <>
-                                        <p className={`${styles.pendingOrdersData} ${styles.pendingOrdersSupplierName}`}>
-                                            <strong>Supplier name:</strong> {order.supplierName}
-                                        </p>
+                                        <div className={styles.pendingOrdersDiv}>
+                                            <p className={`${styles.pendingOrdersData} ${styles.pendingOrdersSupplierName}`}>
+                                                <strong>Supplier name:</strong> {order.supplierName}
+                                            </p>
+                                            <p className={`${styles.pendingOrdersData} ${styles.pendingOrdersSupplierName}`}>
+                                                <strong>Supplier phone:</strong> {order.supplierPhone}
+                                            </p>
+                                        </div>
                                         <div className={styles.pendingOrdersDiv}>
                                             <p className={`${styles.pendingOrdersData} ${styles.pendingOrdersStatus}`}>
                                                 <strong>Order status:</strong> {order.status}

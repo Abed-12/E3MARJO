@@ -126,9 +126,14 @@ function UnderPreparingOrders() {
                             <div className={styles.underPreparingOrdersRow} key={index}>
                                 {order.type === 'cement' && (
                                     <>
-                                        <p className={`${styles.underPreparingOrdersData} ${styles.underPreparingOrdersSupplierName}`}>
-                                            <strong>Supplier name:</strong> {order.supplierName} 
-                                        </p>
+                                        <div className={styles.underPreparingOrdersDiv}>
+                                            <p className={`${styles.underPreparingOrdersData} ${styles.underPreparingOrdersSupplierName}`}>
+                                                <strong>Supplier name:</strong> {order.supplierName} 
+                                            </p>
+                                            <p className={`${styles.underPreparingOrdersData} ${styles.underPreparingOrdersSupplierName}`}>
+                                                <strong>Supplier name:</strong> {order.supplierPhone} 
+                                            </p>
+                                        </div>
                                         <div className={styles.underPreparingOrdersDiv}>
                                             <p className={`${styles.underPreparingOrdersData} ${styles.underPreparingOrdersStatus}`}>
                                                 <strong>Order status:</strong> {order.status} 
@@ -181,9 +186,14 @@ function UnderPreparingOrders() {
                                 )}
                                 {order.type === 'concrete' && (
                                     <>
-                                        <p className={`${styles.underPreparingOrdersData} ${styles.underPreparingOrdersSupplierName}`}>
-                                            <strong>Supplier name:</strong> {order.supplierName}
-                                        </p>
+                                        <div className={styles.underPreparingOrdersDiv}>
+                                            <p className={`${styles.underPreparingOrdersData} ${styles.underPreparingOrdersSupplierName}`}>
+                                                <strong>Supplier name:</strong> {order.supplierName} 
+                                            </p>
+                                            <p className={`${styles.underPreparingOrdersData} ${styles.underPreparingOrdersSupplierName}`}>
+                                                <strong>Supplier name:</strong> {order.supplierPhone} 
+                                            </p>
+                                        </div>
                                         <div className={styles.underPreparingOrdersDiv}>
                                             <p className={`${styles.underPreparingOrdersData} ${styles.underPreparingOrdersStatus}`}>
                                                 <strong>Order status:</strong> {order.status}

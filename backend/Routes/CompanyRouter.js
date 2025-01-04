@@ -251,6 +251,7 @@ CompanyRouter.get('/order-data', ensureAuthenticated, async (req, res) => {
                     cementQuantity: item.cementQuantity,
                     cementNumberBags: item.cementNumberBags,
                     supplierName: supplier.supplierName,
+                    supplierPhone: supplier.supplierPhone,
                     companyName: dataCompany.companyName,
                     companyPhone: dataCompany.companyPhone
                 };
@@ -270,6 +271,7 @@ CompanyRouter.get('/order-data', ensureAuthenticated, async (req, res) => {
                     concreteStrength: item.concreteStrength,
                     concreteNote: item.concreteNote,
                     supplierName: supplier.supplierName,
+                    supplierPhone: supplier.supplierPhone,
                     companyName: dataCompany.companyName,
                     companyPhone: dataCompany.companyPhone
                 };

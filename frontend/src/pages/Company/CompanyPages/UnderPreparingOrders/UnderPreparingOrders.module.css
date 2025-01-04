@@ -33,12 +33,11 @@ background-image: url("https://www.transparenttextures.com/patterns/45-degree-fa
 
 .underPreparingOrdersSupplierName, .underPreparingOrdersType, .underPreparingOrdersStatus {
     font-size: 18pt;
-    text-align: center;
+    
     margin-top: 0;
 }
 
 .underPreparingOrdersSupplierName {
-    text-align: center;
     margin-bottom: 15px;
 }
 
