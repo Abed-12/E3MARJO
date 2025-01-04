@@ -1,3 +1,4 @@
+/* Backdrop styling */
 .modalBackdrop {
     position: fixed;
     top: 0;
@@ -13,6 +14,7 @@
     z-index: 1000;
 }
 
+/* Modal styling */
 .modal {
     background-color: white;
     border-radius: 1rem;
@@ -39,7 +41,7 @@
 }
 
 .modal::before {
-    background-color: rgba(153, 101, 21, 0.2); /* Brown */
+    background-color: rgba(238, 186, 90, 0.2); /* Updated to #eeba5a */
     width: 4rem;
     height: 4rem;
     top: -1rem;
@@ -47,7 +49,7 @@
 }
 
 .modal::after {
-    background-color: rgba(95, 58, 23, 0.2); /* Darker Brown */
+    background-color: rgba(238, 186, 90, 0.2); /* Updated to #eeba5a */
     width: 3rem;
     height: 3rem;
     bottom: -1rem;
@@ -56,7 +58,7 @@
 
 .modal p {
     font-size: 1.125rem;
-    color: #4B3F32; /* Dark Brown */
+    color: #eeba5a; /* Updated to #eeba5a */
     text-align: center;
     font-weight: 500;
     margin-bottom: 1.5rem;
@@ -73,7 +75,7 @@
 
 .confirmButton {
     padding: 0.5rem 1.5rem;
-    background-image: linear-gradient(to right, #8B5E3C, #6D4C41); /* Brown Gradient */
+    background-image: linear-gradient(to right, #d3ae68, #eca520); /* Updated to #eeba5a gradient */
     color: white;
     border-radius: 9999px;
     font-weight: 500;
@@ -89,13 +91,13 @@
 
 .confirmButton:focus {
     outline: none;
-    box-shadow: 0 0 0 2px white, 0 0 0 4px #8B5E3C;
+    box-shadow: 0 0 0 2px white, 0 0 0 4px #eeba5a;
 }
 
 .cancelButton {
     padding: 0.5rem 1.5rem;
     background-color: white;
-    color: #6B4F29; /* Brown */
+    color: #eeba5a; /* Updated to #eeba5a */
     border: 2px solid #E5E7EB;
     border-radius: 9999px;
     font-weight: 500;

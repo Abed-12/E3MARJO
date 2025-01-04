@@ -272,7 +272,7 @@ function PendingOrders() {
 
             {showModal && (
                 <ConfirmationModal
-                    message={`Are you sure you want to delete order?`}
+                    message={`Are you sure you want to cancel order?`}
                     onConfirm={() => orderDelete(deleteOrder)}
                     onCancel={cancelDelete}
                 />
