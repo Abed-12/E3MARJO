@@ -17,6 +17,33 @@ function Profile() {
 
     const navigate = useNavigate();
 
+    async function sendOTP(status) 
+    {
+        try 
+        {
+            const url = `http://localhost:8080/auth/supplier/otp/${status}`;
+            const options = {
+                method: 'POST',
+                headers: { Authorization: localStorage.getItem("token") }
+            }
+            const response = await fetch(url, options);
+            const result = await response.json();
+            
+            if (result.success) 
+            {
+                handleSuccess("OTP sent successfully");
+            } else {
+                handleError(result.message);
+            }
+        } 
+        catch (err) 
+        {
+            handleError("Failed to send OTP");
+            console.log(err);
+        }
+    };
+
+
     const handleLogout = (e) => {
         localStorage.removeItem('token');
         localStorage.removeItem('supplierProduct');
@@ -99,11 +126,11 @@ function Profile() {
                                 <Link className={styles.Link} to='/supplier/cement/profile/edit-profile'>Edit profile</Link>
                             </li>
                             <li className={styles.dropdownItem}>
-                            <li className={styles.dropdownItem}>
                                 {supplierData.otpEnabled ? 
-                                <span style={{color: "green"}}><Link className={styles.Link} to='/supplier/cement/profile/disabled-otp'>Disabled otp</Link></span>  :
-                                <span style={{color: "red"}}><Link className={styles.Link} to='/supplier/cement/profile/enabled-otp'>Enabled otp</Link></span>}
-                            </li>
+                                    <span><Link className={styles.Link} to='/supplier/cement/profile/disabled-otp'  onClick={()=>sendOTP("disable")}>Disabled OTP</Link></span>  
+                                    :
+                                    <span><Link className={styles.Link} to='/supplier/cement/profile/enabled-otp' onClick={()=>sendOTP("enable")}>Enabled OTP</Link></span>
+                                }
                             </li>
                         </ul>
                         <p><strong>Supplier name:</strong> {decodedData.supplierName}</p>

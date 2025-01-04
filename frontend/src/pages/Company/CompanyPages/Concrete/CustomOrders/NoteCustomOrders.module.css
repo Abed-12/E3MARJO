@@ -4,12 +4,13 @@
   }
   
   .noteContainer {
+    text-align:left;
     background-color: #cac2c2;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     font-family: Arial, sans-serif;
-    max-width: 800px;
+    max-width: 850px;
     margin: 20px auto;
   }
   
@@ -40,10 +41,20 @@
   }
   
   .steps .listSteps ul ul {
-    list-style-type: square; /* Optional: Customize deeper nested list markers */
+    list-style-type: circle; /* Optional: Customize deeper nested list markers */
     margin-left: 20px;
   }
-  
+  /* .listSteps ul ul li::before {
+    content: circle; 
+    margin-right: 10px;
+    display: inline-block;
+    width: 0.5em;
+    height: 0.5em; 
+    background: none; 
+} 
+    
+use it for ->
+*/
   .noteButton {
     display: inline-block;
     background-color: rgb(109, 102, 109);
@@ -56,7 +67,7 @@
     cursor: pointer;
     width: 10%;
     transition: background-color 0.3s ease;
-    margin-top: 10px;
+    margin-top: 25px;
   }
   
   .noteButton:hover {
@@ -66,4 +77,9 @@
   .noteButton:active {
     background-color: #d1d1d1;
   }
+
+  .listSteps  .NoteList {
+      content: "➢";
+     }
+      
   

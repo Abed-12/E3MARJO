@@ -29,7 +29,25 @@ function Profile() {
     const toggleDropdown = () => {
         setDropdownActive(prev => !prev);
     };
-
+    async function sendOTP(status) {
+        try {
+            const url = `http://localhost:8080/auth/company/otp/${status}`;
+            const options = {
+                method: 'POST',
+                headers: { Authorization: localStorage.getItem("token") }
+            }
+            const response = await fetch(url, options);
+            const result = await response.json();
+            
+            if (result.success) {
+                handleSuccess("OTP sent successfully");
+            } else {
+                handleError(result.message);
+            }
+        } catch (err) {
+            handleError("Failed to send OTP");
+            console.log(err);
+        }}
     const downloadCommercialRegisterPdf = async () => {
         try {
             const url = `http://localhost:8080/auth/company/company-commercial-register`;
@@ -104,8 +122,14 @@ function Profile() {
                                 <Link className={styles.Link} to='/company/home/profile/edit-profile'>Edit profile</Link>
                             </li>
                             <li className={styles.dropdownItem}>
-                                <Link className={styles.Link} to='#'>#</Link>
+                                {companyData.otpEnabled ? 
+                                    <span><Link className={styles.Link} to='/company/home/profile/disabled-otp'  onClick={()=>sendOTP("disable")}>Disabled OTP</Link></span>  
+                                    :
+                                    <span><Link className={styles.Link} to='/company/home/profile/enabled-otp' onClick={()=>sendOTP("enable")}>Enabled OTP</Link></span>
+                                }
                             </li>
+                            
+
                         </ul>
                         <p><strong>Company name:</strong> {decodedData.companyName}</p>
                         <p><strong>Company ID:</strong> {decodedData.companyID}</p>
