@@ -42,6 +42,8 @@ function NoteCustomOrders() {
         <div className={styles.noteContainer}>
             <div className={styles.steps}>
                 <ol>
+                    <li> Step 1: 
+                    <ul>
                     <li>
                         Select a Supplier
                             <ul>
@@ -49,6 +51,8 @@ function NoteCustomOrders() {
                                     Choose your preferred supplier from the dropdown menu
                                 </li>
                             </ul>
+                    </li>
+                    </ul>
                     </li>
                     <li>
                         Specify the Number of Concrete Pouring Locations(Number of rows):

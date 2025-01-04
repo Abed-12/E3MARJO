@@ -42,11 +42,7 @@ SupplierRouter.get('/supplierData', ensureAuthenticated, async (req, res) => {
 
         const suppliersWithAdmin = await Promise.all(suppliers.map(async (data) => {
             // Find admin email using adminID
-            const admin = await AdminModel.findOne(
-                { _id: data.adminID },
-                { adminName: 1 }
-            );
-
+            const admin = await AdminModel.findById(data.adminID);
             return {
                 _id: data._id,
                 supplierName: data.supplierName,

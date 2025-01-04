@@ -5,99 +5,109 @@ import 'react-toastify/dist/ReactToastify.css';
 import styles from './Reject.module.css';
 import Navbar from '../../../../components/navbar/Navbar';
 import { handleSuccess, handleError } from '../../../../utils/utils';
-import {saveAs} from 'file-saver';
-
+import { saveAs } from 'file-saver';
+import ConfirmationModal from "../../../../components/ConfirmationModal/ConfirmationModal";
 
 function RejectRegister() {
     const navigate = useNavigate();
-    const [rejected, setRejected] = useState(null); // Initialize as an empty array
+    const [rejected, setRejected] = useState(null);
+    const [showModal, setShowModal] = useState(false);
+    const [userToDelete, setUserToDelete] = useState(null);
+
     useEffect(() => {
-        const getData = async () => 
-        {
-            try 
-            {
-                const rejectedData = await fetchdata(); // Fetch company data
-                setRejected(rejectedData || []); // Ensure fallback to an empty array if data is null/undefined
-            } 
-            catch (error) 
-            {
-                console.error("Failed to fetch rejected data :", error);
+        const getData = async () => {
+            try {
+                const rejectedData = await fetchdata();
+                setRejected(rejectedData || []);
+            } catch (error) {
+                console.error("Failed to fetch rejected data:", error);
             }
         };
 
         getData();
-    }, []); // Runs once when the component mounts
-const handleLogout = (e) =>
-    {
+    }, []);
+
+    const handleLogout = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('role');
-        handleSuccess('User Loggedout');
-        setTimeout(() => 
-        {
+        handleSuccess('User Logged out');
+        setTimeout(() => {
             navigate('/admin');
-        }, 500)
-    }
-    async function fetchdata()
-    {
-        try
-        {
-            const response = await fetch('http://localhost:8080/auth/register/fetchRegistrationData?status=rejected',
-            {
-                method:'GET',
-                headers: { Authorization: localStorage.getItem('token') }
-            });
+        }, 500);
+    };
+
+    const fetchdata = async () => {
+        try {
+            const response = await fetch(
+                'http://localhost:8080/auth/register/fetchRegistrationData?status=rejected',
+                {
+                    method: 'GET',
+                    headers: { Authorization: localStorage.getItem('token') }
+                }
+            );
             const data = await response.json();
             return data;
+        } catch (err) {
+            console.error(err.message);
+            return [];
         }
-        catch(err)
-        {
-            console.log(err.message);
-        }
-    }
+    };
 
-    async function dropUser(Id) {
-        // pop message for check about drop user
-        const confirmDrop = window.confirm('Are you sure you want to drop this user?');
-        if (!confirmDrop) return; // If the user clicks "Cancel", exit the function and API don't call
-    
+    const initiateDelete = (id) => {
+        setUserToDelete(id);
+        setShowModal(true);
+    };
+
+    const handleDelete = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/auth/register/delete/${Id}`, {
-                method: 'DELETE',
-                headers: { Authorization: localStorage.getItem('token') },
-            });
-    
+            const response = await fetch(
+                `http://localhost:8080/auth/register/delete/${userToDelete}`,
+                {
+                    method: 'DELETE',
+                    headers: { Authorization: localStorage.getItem('token') },
+                }
+            );
+
             if (response.ok) {
-                setRejected(deleteUser => deleteUser.filter(user => user.ID !== Id));
-                handleSuccess('User successfully dropped'); // Show success message
+                setRejected(currentUsers => 
+                    currentUsers.filter(user => user.ID !== userToDelete)
+                );
+                handleSuccess('User successfully dropped');
             } else {
                 console.error('Failed to delete user:', response.statusText);
             }
         } catch (err) {
             console.error(err);
+        } finally {
+            setShowModal(false);
+            setUserToDelete(null);
         }
-    }
+    };
 
-    async function downloadCommercialRegisterPdf(ID) 
-    {
-        try 
-        {
+    const cancelDelete = () => {
+        setShowModal(false);
+        setUserToDelete(null);
+    };
+
+    const downloadCommercialRegisterPdf = async (ID) => {
+        try {
             const url = `http://localhost:8080/auth/register/registration-commercial-register/${ID}`;
-            const options = {
-                method:'GET',
+            const response = await fetch(url, {
+                method: 'GET',
                 headers: { Authorization: localStorage.getItem('token') }
-            }
-            const response = await fetch(url, options);
+            });
+            
             const contentDisposition = response.headers.get('content-disposition');
-            const filename = contentDisposition ? contentDisposition.split('filename=')[1].replace(/"/g, '') : `file.pdf`;
+            const filename = contentDisposition 
+                ? contentDisposition.split('filename=')[1].replace(/"/g, '') 
+                : 'file.pdf';
+            
             const file = await response.blob();
-            saveAs(file, filename)
+            saveAs(file, filename);
         } catch (err) {
             handleError(err);
         }
-
-    }
-
-
+    };
 
     return (
         <div className={styles.body}>
@@ -107,13 +117,10 @@ const handleLogout = (e) =>
                 pathThree="/admin/approve-user"
                 four="Rejected"
                 pathFour="/admin/reject-user"
-
                 five="Pending"
                 pathFive="/admin/request-user"
-
                 six="Add Admin"
                 pathSix="/admin/add-admin"
-
                 logout={handleLogout}
             />
 
@@ -126,22 +133,38 @@ const handleLogout = (e) =>
                             if (rejectedUsers.length > 0) {
                                 return rejectedUsers.map((field) => (
                                     <div className={styles.profileRow} key={field._id}>
-                                        <p><strong>{field.role === "company" ? "Company" : "Supplier"} name:</strong> {field.name}</p>
-                                        <p><strong>{field.role === "company" ? "Company" : "Supplier"} email:</strong> {field.email}</p>
-                                        <p><strong>{field.role === "company" ? "Company" : "Supplier"} ID:</strong> {field.ID}</p>
-                                        <p><strong>{field.role === "company" ? "Company" : "Supplier"} phone:</strong> {field.phone}</p>
+                                        <p>
+                                            <strong>{field.role === "company" ? "Company" : "Supplier"} name:</strong> {field.name}
+                                        </p>
+                                        <p>
+                                            <strong>{field.role === "company" ? "Company" : "Supplier"} email:</strong> {field.email}
+                                        </p>
+                                        <p>
+                                            <strong>{field.role === "company" ? "Company" : "Supplier"} ID:</strong> {field.ID}
+                                        </p>
+                                        <p>
+                                            <strong>{field.role === "company" ? "Company" : "Supplier"} phone:</strong> {field.phone}
+                                        </p>
                                         {field.role === "supplier" && (
-                                            <p><strong>Supplier product:</strong> {field.supplierProduct}</p>
+                                            <p>
+                                                <strong>Supplier product:</strong> {field.supplierProduct}
+                                            </p>
                                         )}
-                                        <p><strong>Commercial register:</strong> 
-                                            <button className={styles.rejectDownloadButton} onClick={() => downloadCommercialRegisterPdf(field.ID)}>
+                                        <p>
+                                            <strong>Commercial register:</strong> 
+                                            <button 
+                                                className={styles.rejectDownloadButton} 
+                                                onClick={() => downloadCommercialRegisterPdf(field.ID)}
+                                            >
                                                 Download PDF
                                             </button> 
                                         </p>                                 
-                                        <p><strong>Admin name:</strong> {field.adminName} </p>
+                                        <p>
+                                            <strong>Admin name:</strong> {field.adminName}
+                                        </p>
                                         <button
                                             className={styles.pendingButtonDrop}
-                                            onClick={() => dropUser(field.ID)}
+                                            onClick={() => initiateDelete(field.ID)}
                                         >
                                             Drop
                                         </button>
@@ -158,7 +181,16 @@ const handleLogout = (e) =>
                     <div className={styles.loader}></div>
                 </div>
             )}
+
+            {showModal && (
+                <ConfirmationModal
+                    message="Are you sure you want to drop this user?"
+                    onConfirm={handleDelete}
+                    onCancel={cancelDelete}
+                />
+            )}
         </div>
     );
 }
+
 export default RejectRegister;
