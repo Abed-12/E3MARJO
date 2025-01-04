@@ -7,6 +7,7 @@ import styles from './CustomOrderBill.module.css';
 import Navbar from '../../../../../../components/navbar/Navbar';
 import Footer from '../../../../../../components/footer/Footer';
 import moment from 'moment';
+import BackButtonHandler from "../../../../../../components/backButtonHandler/BackButtonHandler";
 
 function CustomBill() {
     const token = localStorage.getItem("token");
@@ -181,6 +182,7 @@ function CustomBill() {
     return (
 <section className={styles.customBillBody}>
     <Navbar 
+        confirmationRequired="true"
         one="Home"
         pathOne="/company/home"
         two="Orders"
@@ -198,7 +200,9 @@ function CustomBill() {
         pathFive="/company/home/profile"
         logout={handleLogout}
     />
-    
+
+    <BackButtonHandler />
+
     {companyData ? (
         <div className={styles.customBillContainer}>
             <div className={styles.customBillRow}>
