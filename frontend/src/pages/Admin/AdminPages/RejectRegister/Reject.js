@@ -6,7 +6,7 @@ import styles from './Reject.module.css';
 import Navbar from '../../../../components/navbar/Navbar';
 import { handleSuccess, handleError } from '../../../../utils/utils';
 import { saveAs } from 'file-saver';
-import ConfirmationModal from "../../../../components/ConfirmationModal/ConfirmationModal";
+import ConfirmationModal from "../../../../components/confirmationModal/confirmationModal";
 
 function RejectRegister() {
     const navigate = useNavigate();

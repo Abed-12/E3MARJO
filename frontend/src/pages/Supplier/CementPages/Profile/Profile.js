@@ -99,7 +99,11 @@ function Profile() {
                                 <Link className={styles.Link} to='/supplier/cement/profile/edit-profile'>Edit profile</Link>
                             </li>
                             <li className={styles.dropdownItem}>
-                                <Link className={styles.Link} to='#'>#</Link>
+                            <li className={styles.dropdownItem}>
+                                {supplierData.otpEnabled ? 
+                                <span style={{color: "green"}}><Link className={styles.Link} to='/supplier/cement/profile/disabled-otp'>Disabled otp</Link></span>  :
+                                <span style={{color: "red"}}><Link className={styles.Link} to='/supplier/cement/profile/enabled-otp'>Enabled otp</Link></span>}
+                            </li>
                             </li>
                         </ul>
                         <p><strong>Supplier name:</strong> {decodedData.supplierName}</p>
