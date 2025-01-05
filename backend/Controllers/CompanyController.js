@@ -18,12 +18,19 @@ const registration = async (req, res) => {
 
         // Check if the company already exists
         const checkRegister = await RegisterModel.findOne({
-            $or: [{name: companyName}, {ID: companyID}]
+            $or: [
+                { name: { $regex: companyName, $options: "i" } },
+                { ID: companyID }
+            ]
         });
         
         const checkCompany = await CompanyModel.findOne({
-            $or: [{companyName}, {companyID}]
+            $or: [
+                { companyName: { $regex: companyName, $options: "i" } },
+                { companyID }
+            ]
         });
+        
 
         if (checkRegister || checkCompany) {
             return res.status(406)

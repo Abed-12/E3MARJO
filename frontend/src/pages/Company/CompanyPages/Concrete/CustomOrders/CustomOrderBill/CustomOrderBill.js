@@ -276,7 +276,7 @@ function CustomBill() {
                 </div>
                 <div className={styles.customOrdersDiv}>
                     <p className={styles.customOrdersP}>
-                        <strong>Concrete prices:</strong><br />
+                        <strong>Price per m³:</strong><br />
                         {priceValues.map((value, index) => (
                             <span key={index}>
                                 {value} <br />
@@ -302,12 +302,6 @@ function CustomBill() {
                     <p className={styles.customOrdersP}>
                         <strong>Supplier name:</strong><br />
                         {supplierName}
-                    </p>
-                </div>
-                <div className={styles.customOrdersDiv}>
-                    <p className={styles.customOrdersP}>
-                        <strong>Concrete mixer count:</strong><br />
-                        {Math.ceil(totalQuantity / 8)}
                     </p>
                 </div>
                 <div className={styles.customOrdersDivTextarea}>

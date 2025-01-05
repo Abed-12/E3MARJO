@@ -23,11 +23,17 @@ const registration = async (req, res) => {
         const commercialRegister = fs.readFileSync(filePath)
 
         const checkRegister = await RegisterModel.findOne({
-            $or: [{name: supplierName}, {ID: supplierID}]
+            $or: [
+                {name: { $regex: supplierName, $options: "i" } }, 
+                {ID: supplierID}
+            ]
         });
         
         const checkSupplier = await SupplierModel.findOne({
-            $or: [{supplierName}, {supplierID}]
+            $or: [
+                {supplierName: { $regex: supplierName, $options: "i" }}, 
+                {supplierID}
+            ]
         });
 
         if (checkRegister || checkSupplier) {
