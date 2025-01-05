@@ -26,7 +26,7 @@ function DisableOTP() {
         e.preventDefault();
         try {
             // Validation check
-            if (otp.length != 6 || !/^\d+$/.test(otp)) {
+            if (otp.length !== 6 || !/^\d+$/.test(otp)) {
                 handleError("Invalid OTP - must be 6 digits");
                 return;
             }

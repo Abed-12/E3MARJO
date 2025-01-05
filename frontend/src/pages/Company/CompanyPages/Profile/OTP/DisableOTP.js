@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './OTP.module.css';
 import { ToastContainer } from 'react-toastify';
@@ -25,7 +25,7 @@ function DisableOTP() {
         e.preventDefault();
         try {
             // Validation check
-            if (otp.length != 6 || !/^\d+$/.test(otp)) {
+            if (otp.length !== 6 || !/^\d+$/.test(otp)) {
                 handleError("Invalid OTP - must be 6 digits");
                 return;
             }
@@ -59,6 +59,7 @@ function DisableOTP() {
     return (
         <section className={styles.otpBody}>
             <div className={styles.otpContainer}>
+
                 <h1 className={styles.otpH1}>Disable OTP</h1>
                 <form className={styles.otpForm} onSubmit={confirmDisable}>
                     <div className={styles.otpDiv}>

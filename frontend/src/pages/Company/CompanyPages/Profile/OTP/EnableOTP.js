@@ -69,6 +69,8 @@ function EnableOTP() {
     return (
         <section className={styles.otpBody}>
             <div className={styles.otpContainer}>
+    
+
                 <h1 className={styles.otpH1}>Enter OTP</h1>
                 <form className={styles.otpForm} onSubmit={confirmOTP} >
                     <div className={styles.otpDiv}>
