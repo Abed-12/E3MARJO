@@ -61,11 +61,16 @@ function SupplierRegistration() {
     const handleRegistration = async (e) => {
         e.preventDefault();
         // تحديد الحقول المطلوبة
-        const requiredFields = ['supplierName', 'email', 'supplierID', 'supplierPhone', 'password', 'confirmPassword',  'supplierProduct'];
+        const requiredFields = ['supplierName', 'email', 'supplierID', 'supplierPhone', 'password', 'confirmPassword',  'supplierProduct', 'commercialRegister'];
 
         // التحقق من وجود الحقول المطلوبة
-        const missingFields = requiredFields.filter(field => !registrationInfo[field]);
-
+        const missingFields = requiredFields.filter((field) => {
+            if (field === 'commercialRegister') {
+                return !file; // Check if a file has been uploaded
+            }
+            return !registrationInfo[field];
+        });
+        
         if (missingFields.length > 0) {
             return handleError(`The following fields are required: ${missingFields.join(', ')}`);
         }

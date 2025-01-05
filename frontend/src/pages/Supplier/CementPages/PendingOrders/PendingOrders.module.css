@@ -1,9 +1,12 @@
 .PendingOrdersBody{
     background-color: #d1d1d1;
     background-image: url("https://www.transparenttextures.com/patterns/45-degree-fabric-dark.png");
-}
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;}
 
 .pendingOrdersContainer {
+    flex: 1;
     display: grid;
     grid-template-columns: 2fr; /* افتراضيًا عمود واحد للشاشات الصغيرة */
     gap: 20px; /* مسافة بين الصفوف */
@@ -99,7 +102,6 @@
     align-items: center; 
     font-size: 17px;
     justify-items: center;
-    height: 38.9vh;
 }
 
 .rejectModalDiv {

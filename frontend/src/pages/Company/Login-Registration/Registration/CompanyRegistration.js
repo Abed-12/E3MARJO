@@ -59,10 +59,15 @@ function CompanyRegistration() {
     const handleRegistration = async (e) => {
         e.preventDefault();
         // تحديد الحقول المطلوبة
-        const requiredFields = ['companyName', 'email', 'companyID', 'password', 'confirmPassword', 'companyPhone'];
+        const requiredFields = ['companyName', 'email', 'companyID', 'password', 'confirmPassword', 'companyPhone', 'commercialRegister'];
 
         // التحقق من وجود الحقول المطلوبة
-        const missingFields = requiredFields.filter(field => !registrationInfo[field]);
+        const missingFields = requiredFields.filter((field) => {
+            if (field === 'commercialRegister') {
+                return !file; // Check if a file has been uploaded
+            }
+            return !registrationInfo[field];
+        });
 
         if (missingFields.length > 0) {
             return handleError(`The following fields are required: ${missingFields.join(', ')}`);

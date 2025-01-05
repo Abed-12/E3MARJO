@@ -1,9 +1,12 @@
 .editConcreteStrengthBody{
     background-color: #d1d1d1;
     background-image: url("https://www.transparenttextures.com/patterns/45-degree-fabric-dark.png");
-}
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;}
 
 .editConcreteStrengthContainer {
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -48,7 +51,7 @@
 }
 
 .editConcreteStrengthInput:focus {
-    background-color: #7f7d7f;
+    border-bottom: 1px solid #6d6d6d;
     outline: none;
 }
 

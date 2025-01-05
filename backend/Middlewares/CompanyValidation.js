@@ -20,14 +20,20 @@ const registrationValidation = (req, res, next) => {
     const fileSchema = Joi.array()
         .items(
             Joi.binary()
+                .max(5 * 1024 * 1024)
                 .required()
-                .messages({'any.required': 'Commercial Register is required'})
+                .messages({
+                    'any.required': 'Commercial Register is required',
+                    'binary.max': 'File size must not exceed 5 MB', 
+                })
         )
         .min(1)
+        .max(1)
         .required()
         .messages({
             'array.min': 'At least one file must be uploaded',
             'any.required': 'Files are required',
+            'array.max': 'At most one file can be uploaded',            
         });
     const {error: dataError} = dataSchema.validate(JSON.parse(req.fields.body[0]));
     let files = req.files.commercialRegister.map(file => fs.readFileSync(file.filepath));

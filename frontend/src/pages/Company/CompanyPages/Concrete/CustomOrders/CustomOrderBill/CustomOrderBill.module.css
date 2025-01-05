@@ -1,8 +1,9 @@
 .customBillBody{
     background-color: #d1d1d1;
-background-image: url("https://www.transparenttextures.com/patterns/45-degree-fabric-dark.png");
-
+    background-image: url("https://www.transparenttextures.com/patterns/45-degree-fabric-dark.png");
     min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .customBillContainer {
@@ -11,6 +12,7 @@ background-image: url("https://www.transparenttextures.com/patterns/45-degree-fa
     align-items: center;
     padding: 25px;
     height: 125vh;
+    flex: 1;
 }
 .customBillRow{ 
     background-color: #ffffff9a;

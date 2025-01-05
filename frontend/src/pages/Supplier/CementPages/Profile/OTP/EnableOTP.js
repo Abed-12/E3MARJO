@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {jwtDecode} from "jwt-decode";
 import styles from './OTP.module.css';
 import {ToastContainer} from 'react-toastify';
@@ -7,7 +7,7 @@ import {handleError, handleSuccess} from '../../../../../utils/utils';
 import { useNavigate } from 'react-router-dom';
 
 function EnableOTP() {
-   const navigate = useNavigate();
+    const navigate = useNavigate();
 
     const decodedData = jwtDecode(localStorage.getItem("token"));
 
@@ -22,7 +22,8 @@ function EnableOTP() {
         copyOTPInfo[name] = value;
         setOTPInfo(copyOTPInfo);
     }
- async function cancelOTP (e)
+    
+    async function cancelOTP (e)
     {
             handleSuccess("Cancle successfully");
             setTimeout(() => {
@@ -34,7 +35,7 @@ function EnableOTP() {
         e.preventDefault();
         try {
             // Validation check
-            if (OTPInfo.otp.length != 6 || !/^\d+$/.test(OTPInfo.otp)) {
+            if (OTPInfo.otp.length !== 6 || !/^\d+$/.test(OTPInfo.otp)) {
                 handleError("Invalid OTP - must be 6 digits");
                 return;
             }
