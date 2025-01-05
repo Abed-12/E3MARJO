@@ -249,6 +249,18 @@ function CustomOrders() {
         }, 500)
     }
     
+    useEffect(() => {
+        const handleBeforeUnload = (event) => {
+            const message = 'Are you sure you want to leave?';
+            event.returnValue = message; // Standard for most browsers
+        };
+
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+    }, []);
 
     return (
         <section className={styles.customOrderBody}>
