@@ -21,11 +21,16 @@ const registration = async (req, res) => {
         } = JSON.parse(req.fields.body[0]);
         const filePath = req.files.commercialRegister[0].filepath;
         const commercialRegister = fs.readFileSync(filePath)
-        const checkSupplier = await RegisterModel.findOne({
+
+        const checkRegister = await RegisterModel.findOne({
             $or: [{name: supplierName}, {ID: supplierID}]
         });
+        
+        const checkSupplier = await SupplierModel.findOne({
+            $or: [{supplierName}, {supplierID}]
+        });
 
-        if (checkSupplier) {
+        if (checkRegister || checkSupplier) {
             return res.status(409).json({message: 'Supplier already exists', success: false});
         }
 
