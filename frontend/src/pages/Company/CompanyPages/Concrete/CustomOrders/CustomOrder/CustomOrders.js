@@ -4,7 +4,8 @@ import { ToastContainer } from 'react-toastify';
 import styles from './CustomOrders.module.css'; 
 import Navbar from '../../../../../../components/navbar/Navbar';
 import Footer from '../../../../../../components/footer/Footer';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import BackButtonHandler from "../../../../../../components/backButtonHandler/BackButtonHandler";
 
 function CustomOrders() {
     const navigate = useNavigate();
@@ -248,10 +249,23 @@ function CustomOrders() {
         }, 500)
     }
     
+    useEffect(() => {
+        const handleBeforeUnload = (event) => {
+            const message = 'Are you sure you want to leave?';
+            event.returnValue = message; // Standard for most browsers
+        };
+
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+    }, []);
 
     return (
         <section className={styles.customOrderBody}>
             <Navbar 
+                confirmationRequired="true"
                 one="Home"
                 pathOne="/company/home"
                 two="Orders"
@@ -269,6 +283,8 @@ function CustomOrders() {
                 pathFive="/company/home/profile"
                 logout={handleLogout}
             />
+
+            <BackButtonHandler />
 
             {dataSupplier ? (
                 <div className={styles.concreteTableContainer }>

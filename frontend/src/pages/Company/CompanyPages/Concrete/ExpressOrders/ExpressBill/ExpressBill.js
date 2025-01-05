@@ -182,6 +182,7 @@ function ExpressBill() {
     return(
         <section className={styles.expressBillBody}>
             <Navbar 
+                confirmationRequired="true"
                 one="Home"
                 pathOne="/company/home"
                 two="Orders"
