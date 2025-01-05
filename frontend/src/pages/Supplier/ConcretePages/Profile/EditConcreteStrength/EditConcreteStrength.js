@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import styles from './EditConcreteStrength.module.css';
 import Navbar from '../../../../../components/navbar/Navbar';
 import Footer from '../../../../../components/footer/Footer';
-import ConfirmationModal from '../../../../../components/ConfirmationModal/ConfirmationModal';
+import ConfirmationModal from '../../../../../components/confirmationModal/ConfirmationModal';
 
 function EditConcreteStrength() {
     const [supplierData, setSupplierData] = useState(null);

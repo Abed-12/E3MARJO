@@ -6,7 +6,7 @@ import styles from './PendingOrders.module.css';
 import Navbar from '../../../../components/navbar/Navbar';
 import Footer from '../../../../components/footer/Footer';
 import OrderFilter from '../../../../components/orderFilter/OrderFilter';
-import ConfirmationModal from '../../../../components/ConfirmationModal/ConfirmationModal';
+import ConfirmationModal from '../../../../components/confirmationModal/ConfirmationModal';
 import moment from 'moment';
 
 
