@@ -135,7 +135,7 @@
 .loader {
     width: fit-content;
     font-size: 40px;
-    font-family: system-ui,sans-serif;
+    font-family: system-ui, sans-serif;
     font-weight: bold;
     text-transform: uppercase;
     color: #0000;
@@ -145,11 +145,13 @@
         0/300% 100% no-repeat text;
     animation: l3 2s linear infinite;
 }
+
 .loader:before {
     content: "Loading";
 }
+
 @keyframes l3 {
-    0%{background-position: 100%}
+    0% { background-position: 100%; }
 }
 
 /* Responsive adjustments */

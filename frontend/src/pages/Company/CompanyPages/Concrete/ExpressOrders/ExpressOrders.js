@@ -123,7 +123,7 @@ function ExpressOrders() {
     
 
     return(
-        <section className={styles.expressOrdersBody}>
+        <section className={styles.expressOrderBody}>
             <Navbar 
                 one="Home"
                 pathOne="/company/home"

@@ -74,7 +74,6 @@ const OrderFilter = (props) => {
                                 <select
                                     className={styles.orderFilterSelect}
                                     onChange={(e) => setType(e.target.value)}
-                                    value={type}
                                 >
                                     <option value={supplierTypes}>All</option>
                                     {supplierTypes.map((type, index) => (
@@ -89,7 +88,6 @@ const OrderFilter = (props) => {
                                 <select
                                     className={styles.orderFilterSelect}
                                     onChange={(e) => setSupplier(e.target.value)}
-                                    value={supplierID}
                                 >
                                     <option value={dataSuppliers.map(dataSupplier => dataSupplier.supplierID)}>All</option>
                                     {dataSuppliers.map((supplier, index) => (
@@ -107,7 +105,6 @@ const OrderFilter = (props) => {
                             <select
                                 className={styles.orderFilterSelect}
                                 onChange={(e) => setSelectedStatus(e.target.value)}
-                                value={selectedStatus}
                             >
                                 <option value={props?.statuses}>All</option>
                                 {props.statuses.map((status, index) => (
@@ -123,7 +120,6 @@ const OrderFilter = (props) => {
                         <input
                             className={styles.orderFilterInput}
                             type="date"
-                            value={fromDate}
                             title='A date greater than or equal to the from date'
                             onChange={(e) => setFromDate(e.target.value)}
                         />
@@ -133,7 +129,6 @@ const OrderFilter = (props) => {
                         <input
                             className={styles.orderFilterInput}
                             type="date"
-                            value={toDate}
                             title='A date less than or equal to the to date'
                             onChange={(e) => setToDate(e.target.value)}
                         />
