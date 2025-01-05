@@ -2,7 +2,8 @@
     background-color: #d1d1d1;
     background-image: url("https://www.transparenttextures.com/patterns/45-degree-fabric-dark.png");
     min-height: 100vh;
-    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .profileContainer {
@@ -12,6 +13,7 @@
     align-items: center;
     min-height: 6vh;
     gap: 20px;  /* Adds spacing between each profile */
+    margin-bottom: 1%;
 }
 
 .profileRow {

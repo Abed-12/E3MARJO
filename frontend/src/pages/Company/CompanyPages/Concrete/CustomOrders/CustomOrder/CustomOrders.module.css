@@ -1,8 +1,13 @@
 .customOrderBody {
-    min-height: 62.2vh;
     background-color: #d1d1d1;
-background-image: url("https://www.transparenttextures.com/patterns/45-degree-fabric-dark.png");
+    background-image: url("https://www.transparenttextures.com/patterns/45-degree-fabric-dark.png");
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
 
+.concreteTableContainer{
+    flex: 1;
 }
 
 .concretOrderRow {

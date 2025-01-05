@@ -1,85 +1,92 @@
 .customOrdersBody {
-    background-color: #d1d1d1;
-    background-image: url("https://www.transparenttextures.com/patterns/45-degree-fabric-dark.png");
-  }
-  
-  .noteContainer {
-    text-align:left;
-    background-color: #cac2c2;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    font-family: Arial, sans-serif;
-    max-width: 850px;
-    margin: 20px auto;
-  }
-  
-  .stepsContainer {
-    margin-bottom: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .steps ul {
-    list-style: none; /* Removes all markers */
-    padding: 0;
-    margin: 0;
-  }
-  
-  .steps .listSteps {
-    list-style: none; /* Specifically removes markers for Step-X */
-    margin-bottom: 15px;
-    font-size: 16px;
-    line-height: 1.5;
-    color: #333;
-  }
-  
-  .steps .listSteps ul {
-    list-style-type: disc; /* Restores markers for nested lists under Step-X */
-    margin-left: 20px;
-  }
-  
-  .steps .listSteps ul ul {
-    list-style-type: circle; /* Optional: Customize deeper nested list markers */
-    margin-left: 20px;
-  }
-  /* .listSteps ul ul li::before {
-    content: circle; 
-    margin-right: 10px;
-    display: inline-block;
-    width: 0.5em;
-    height: 0.5em; 
-    background: none; 
-} 
-    
-use it for ->
-*/
-  .noteButton {
-    display: inline-block;
-    background-color: rgb(109, 102, 109);
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 14px;
-    cursor: pointer;
-    width: 10%;
-    transition: background-color 0.3s ease;
-    margin-top: 25px;
-  }
-  
-  .noteButton:hover {
-    background-color: rgb(70, 66, 70);
-  }
-  
-  .noteButton:active {
-    background-color: #d1d1d1;
-  }
+  background-color: #d1d1d1;
+  background-image: url("https://www.transparenttextures.com/patterns/45-degree-fabric-dark.png");
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
 
-  .listSteps  .NoteList {
-      content: "➢";
-     }
-      
-  
+.noteContainer {
+  text-align: left;
+  background-color: #cac2c2;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-family: system-ui, sans-serif;
+  max-width: 850px;
+  margin: 20px auto;
+  flex: 1;
+}
+
+.stepsContainer {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.steps {
+  width: 100%;
+}
+
+.steps ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Remove the ::before pseudo-element that was causing double arrows */
+.listSteps {
+  margin-bottom: 15px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+}
+
+.steps .listSteps ul {
+  list-style-type: disc;
+  margin-left: 40px;
+  padding-left: 0;
+}
+
+.steps .listSteps ul ul {
+  list-style-type: circle;
+  margin-left: 40px;
+  padding-left: 0;
+}
+
+.steps .listSteps ul li {
+  margin-bottom: 8px;
+}
+
+.NoteList {
+  margin-left: 20px !important;
+  list-style: none !important;
+}
+
+.NoteList li {
+  margin-bottom: 10px;
+}
+
+.noteButton {
+  display: inline-block;
+  background-color: rgb(109, 102, 109);
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  width: 10%;
+  transition: background-color 0.3s ease;
+  margin-top: 25px;
+}
+
+.noteButton:hover {
+  background-color: rgb(70, 66, 70);
+}
+
+.noteButton:active {
+  background-color: #d1d1d1;
+}

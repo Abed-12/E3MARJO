@@ -6,7 +6,7 @@ import styles from './Approve.module.css';
 import Navbar from '../../../../components/navbar/Navbar';
 import { handleSuccess, handleError } from '../../../../utils/utils';
 import { saveAs } from 'file-saver';
-import ConfirmationModal from "../../../../components/confirmationModal/confirmationModal";
+import ConfirmationModal from "../../../../components/confirmationModal/ConfirmationModal";
 
 function ApproveRegister() {
     const navigate = useNavigate();

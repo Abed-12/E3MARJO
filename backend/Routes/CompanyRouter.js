@@ -309,7 +309,4 @@ CompanyRouter.patch('/update-profile', updateValidation, ensureAuthenticated, as
     }
 });
 
-// ----------------------------- Concrete -----------------------------
-
-
 export default CompanyRouter;
