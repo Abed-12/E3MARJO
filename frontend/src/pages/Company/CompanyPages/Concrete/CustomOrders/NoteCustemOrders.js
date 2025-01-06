@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { handleSuccess } from '../../../../../utils/utils';
 import { ToastContainer } from 'react-toastify';
 import styles from './NoteCustomOrders.module.css';
@@ -106,13 +106,12 @@ function NoteCustomOrders() {
                                 <li>➢ If you have a concrete slab, make sure to subtract the volume of the bricks inside the slab from the total volume of the slab.</li>
                                 <li>➢ Ensure to add at least 1 cubic meter, as the concrete pump does not empty the full amount of concrete in the mixers.</li>
                                 <li>➢ Quantities are rounded up to the nearest whole number, for example, 2.3m is rounded to 3m.</li>
-                                <li>➢ Check the weather condition before ordering concrete by clicking on the following link <a href='https://www.facebook.com/profile.php?id=100092444557078&mibextid=ZbWKwL' target="_blank">NashmiWeather</a></li>
+                                <li>➢ Check the weather condition before ordering concrete by clicking on the following link <Link to='https://www.facebook.com/profile.php?id=100092444557078&mibextid=ZbWKwL' target="_blank">NashmiWeather</Link></li>
                             </ul>   
                     </li>
 
                 </ul>
             </div>
-       
 
 
 

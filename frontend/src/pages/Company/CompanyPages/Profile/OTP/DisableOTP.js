@@ -1,4 +1,4 @@
-import React, {useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './OTP.module.css';
 import { ToastContainer } from 'react-toastify';
@@ -14,7 +14,7 @@ function DisableOTP() {
         setOtp(e.target.value);
     }
 
-      async function cancelOTP (e)
+    async function cancelOTP (e)
     {
             handleSuccess("Cancle successfully");
             setTimeout(() => {

@@ -1,7 +1,9 @@
 .PendingOrdersBody{
     background-color: #d1d1d1;
-background-image: url("https://www.transparenttextures.com/patterns/45-degree-fabric-dark.png");
-
+    background-image: url("https://www.transparenttextures.com/patterns/45-degree-fabric-dark.png");
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .pendingOrdersContainer {
@@ -11,6 +13,7 @@ background-image: url("https://www.transparenttextures.com/patterns/45-degree-fa
     padding: 25px;
     justify-items: center; /* يجعل العناصر في المنتصف أفقيًا */
     margin-bottom: 2.98%;
+    flex: 1;
 }
 
 .pendingOrdersRow {
@@ -83,7 +86,6 @@ background-image: url("https://www.transparenttextures.com/patterns/45-degree-fa
     align-items: center; 
     font-size: 17px;
     justify-items: center;
-    height: 38.9vh;
 }
 
 /* HTML: <div class="loader"></div> */

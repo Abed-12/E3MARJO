@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './OTP.module.css';
 import { ToastContainer } from 'react-toastify';
@@ -6,15 +6,15 @@ import 'react-toastify/dist/ReactToastify.css';
 import { handleError, handleSuccess } from '../../../../../utils/utils';
 
 function DisableOTP() {
-   const navigate = useNavigate();
-     const token = localStorage.getItem("token");
-     const [otp, setOtp] = useState('');
+    const navigate = useNavigate();
+    const token = localStorage.getItem("token");
+    const [otp, setOtp] = useState('');
 
     const handleChange = (e) => {
         setOtp(e.target.value);
     }
 
-      async function cancelOTP (e)
+    async function cancelOTP (e)
     {
             handleSuccess("Cancle successfully");
             setTimeout(() => {
