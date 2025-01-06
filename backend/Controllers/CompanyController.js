@@ -17,14 +17,26 @@ const registration = async (req, res) => {
         const commercialRegister = fs.readFileSync(filePath)
 
         // Check if the company already exists
-        const checkCompany = await RegisterModel.findOne({
-            $or: [{name: companyName}, {ID: companyID}]
+        const checkRegister = await RegisterModel.findOne({
+            $or: [
+                { name: { $regex: companyName, $options: "i" } },
+                { ID: companyID }
+            ]
         });
+        
+        const checkCompany = await CompanyModel.findOne({
+            $or: [
+                { companyName: { $regex: companyName, $options: "i" } },
+                { companyID }
+            ]
+        });
+        
 
-        if (checkCompany) {
+        if (checkRegister || checkCompany) {
             return res.status(406)
                 .json({message: 'Company already exists', success: false});
         }
+
         // Create a new user object with proper field mappings
         const newUser = new RegisterModel({
             name: companyName,

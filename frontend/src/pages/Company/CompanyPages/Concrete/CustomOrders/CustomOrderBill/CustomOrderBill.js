@@ -7,6 +7,7 @@ import styles from './CustomOrderBill.module.css';
 import Navbar from '../../../../../../components/navbar/Navbar';
 import Footer from '../../../../../../components/footer/Footer';
 import moment from 'moment';
+import BackButtonHandler from "../../../../../../components/backButtonHandler/BackButtonHandler";
 
 function CustomBill() {
     const token = localStorage.getItem("token");
@@ -181,6 +182,7 @@ function CustomBill() {
     return (
 <section className={styles.customBillBody}>
     <Navbar 
+        confirmationRequired="true"
         one="Home"
         pathOne="/company/home"
         two="Orders"
@@ -198,7 +200,9 @@ function CustomBill() {
         pathFive="/company/home/profile"
         logout={handleLogout}
     />
-    
+
+    <BackButtonHandler />
+
     {companyData ? (
         <div className={styles.customBillContainer}>
             <div className={styles.customBillRow}>
@@ -272,7 +276,7 @@ function CustomBill() {
                 </div>
                 <div className={styles.customOrdersDiv}>
                     <p className={styles.customOrdersP}>
-                        <strong>Concrete prices:</strong><br />
+                        <strong>Price per m³:</strong><br />
                         {priceValues.map((value, index) => (
                             <span key={index}>
                                 {value} <br />
@@ -298,12 +302,6 @@ function CustomBill() {
                     <p className={styles.customOrdersP}>
                         <strong>Supplier name:</strong><br />
                         {supplierName}
-                    </p>
-                </div>
-                <div className={styles.customOrdersDiv}>
-                    <p className={styles.customOrdersP}>
-                        <strong>Concrete mixer count:</strong><br />
-                        {Math.ceil(totalQuantity / 8)}
                     </p>
                 </div>
                 <div className={styles.customOrdersDivTextarea}>

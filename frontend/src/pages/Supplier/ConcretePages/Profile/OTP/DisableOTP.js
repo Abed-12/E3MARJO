@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { handleError, handleSuccess } from '../../../../../utils/utils';
 
 function DisableOTP() {
+    
     const navigate = useNavigate();
     const token = localStorage.getItem("token");
     const [otp, setOtp] = useState('');

@@ -98,7 +98,18 @@ function ExpressOrders() {
             navigate(`/company/home/concrete-orders/express-orders/express-bill?supplierName=${inputValue.supplierName}&amountOfConcrete=${inputValue.amountOfConcrete}&concreteStrength=${inputValue.concreteStrength}&price=${inputValue.price}`) // (function) سيتم تنفيذها بعد انتهاء الوقت
         }, 500)
     }
+    useEffect(() => {
+        const handleBeforeUnload = (event) => {
+            const message = 'Are you sure you want to leave?';
+            event.returnValue = message; // Standard for most browsers
+        };
 
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+    }, []);
     useEffect(() => {
         const fetchDataSupplier = async () => {
             try {
@@ -123,7 +134,7 @@ function ExpressOrders() {
     
 
     return(
-        <section className={styles.expressOrdersBody}>
+        <section className={styles.expressOrderBody}>
             <Navbar 
                 one="Home"
                 pathOne="/company/home"

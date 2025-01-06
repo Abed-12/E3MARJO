@@ -181,7 +181,8 @@ function CementBill() {
 
     return(
         <section className={styles.cementBillBody}>
-            <Navbar 
+            <Navbar
+                confirmationRequired="true"
                 one="Home"
                 pathOne="/company/home"
                 two="Orders"
