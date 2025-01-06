@@ -9,6 +9,8 @@ import PrivateRoute from './routes/PrivateRoute';//يستخدم لحماية ا�
 // مكون  يُستخدم عادةً لحماية المسارات  بحيث لا يمكن للمستخدمين الوصول إليها إلا إذا كانوا مُصادق عليهم أو لديهم الدور المناسب  إذا حاول مستخدم غير مُصادق عليه الوصول إلى هذه المسارات، يتم إعادة توجيهه إلى صفحة تسجيل الدخول.
 
 // الصفحات
+// Homepage
+import HomePage from './pages/Home/Home';
 // Supplier
 import SupplierLogin from "./pages/Supplier/Login-Registration/Login/SupplierLogin";
 import SupplierRegistration from "./pages/Supplier/Login-Registration/Registration/SupplierRegistration";
@@ -83,7 +85,8 @@ function App() {
           - path: هو العنصر الذي يحدد المسار الذي سيتم توجيه إليه
           - element: هو العنصر الذي سيتم عرضه عند الوصول إلى المسار
         */}
-        <Route path="/" element={<Navigate to="/supplier-login" />} /> {/* supplier page انه عند مطابقة المسار سيتم تحويلك الى   */}
+        {/* change this into home file  */}
+        <Route path="/" element={<HomePage/>} /> {/* supplier page انه عند مطابقة المسار سيتم تحويلك الى   */}
         
         {/* Supplier */}
         <Route path="/supplier-login" element={<SupplierLogin />} /> 

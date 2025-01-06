@@ -1,0 +1,96 @@
+.containerImg{
+    
+    background-image: linear-gradient(rgba(255, 255, 255, 0.175), rgba(255, 255, 255, 0.17)),url("../../../public/images/HomeBackground.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    height: 65vh;
+    width: 100%;
+    box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
+
+}
+img{
+    max-width: 100px;
+    max-height: 100px;
+}
+.container{
+    width:100%;
+    height:40vh;
+}
+.CardInfoContainer{
+    background-color: #7b787898;
+    padding: 20px;
+    border-radius: 10px;
+    width: 50%;
+    text-align: left; /* Align text to the left */
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Adds space between elements */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: system-ui, sans-serif;
+}
+
+
+.container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 62.2vh;
+    flex-direction: row;
+    gap: 10px;
+    flex-wrap: wrap; /* يجعل العناصر تتكيف مع أحجام الشاشات الأصغر */
+}
+
+.cementCardMedia {
+    background-size: cover; /* يجعل الخلفية تتكيف مع حجم العنصر */
+    background-position: center;
+    width: 100%;
+}
+
+.concreteCardMedia {
+    background-size: cover; /* يجعل الخلفية تتكيف مع حجم العنصر */
+    background-position: center;
+    width: 100%;
+}
+.cementCardMedia, .concreteCardMedia {
+    height: 200px; /* Set the desired height */
+    width: 100%;   /* Ensure the image fills the card width */
+    object-fit: cover; /* Ensures the image scales proportionally */
+}
+
+.cardContent {
+    background-color: #7f7d7f;
+    text-align: center;
+}
+
+
+
+
+
+
+
+
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column; /* العناصر تتحول إلى عمودي للشاشات الصغيرة */
+        gap: 20px;
+        width: auto;
+        margin-top: 3%;
+        margin-bottom: 3%;
+    }
+
+    .cementCardMedia {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .cardContent {
+        font-size: 14px; /* تصغير النص للشاشات الصغيرة */
+    }
+}

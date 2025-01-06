@@ -96,6 +96,18 @@ function Navbar(props) {
                                 </button>
                             </li>
                         )}
+                        {props.Login && (
+                            <li className={styles.navItem}>
+                                <button className={`${styles.navLink} ${styles.logout}`} onClick={props.Login}>Login
+                                </button>
+                            </li>
+                        )}
+                        {props.Register && (
+                            <li className={styles.navItem}>
+                                <button className={`${styles.navLink} ${styles.logout}`} onClick={props.Register}>Register
+                                </button>
+                            </li>
+                        )}
                     </ul>
                 </div>
             </div>
