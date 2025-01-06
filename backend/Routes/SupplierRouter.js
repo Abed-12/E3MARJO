@@ -259,7 +259,6 @@ SupplierRouter.put('/update-concrete-strength', ensureAuthenticated, async (req,
     try {
         const id = jwt.decode(req.headers.authorization)._id;
         const { concreteStrength } = req.body;
-        console.log(concreteStrength)
 
         if (!concreteStrength) {
             return res.status(400).json({ success: false, message: 'Concrete strength is required' });
