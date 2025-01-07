@@ -18,18 +18,6 @@
     flex-wrap: wrap; /* يجعل العناصر تتكيف مع أحجام الشاشات الأصغر */
 }
 
-.cementCardMedia {
-    background-image: url('../../../../public/images/cement.jpg');
-    background-size: cover; /* يجعل الخلفية تتكيف مع حجم العنصر */
-    background-position: center;
-}
-
-.concreteCardMedia {
-    background-image: url('../../../../public/images/concrete.jpg');
-    background-size: cover; /* يجعل الخلفية تتكيف مع حجم العنصر */
-    background-position: center;
-}
-
 .cardContent {
     background-color: #7f7d7f;
     text-align: center;
@@ -43,10 +31,6 @@
         width: auto;
         margin-top: 3%;
         margin-bottom: 3%;
-    }
-
-    .cementCardMedia {
-        width: 100%;
     }
 }
 

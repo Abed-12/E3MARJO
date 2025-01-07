@@ -18,36 +18,9 @@
     flex-wrap: wrap; /* يجعل العناصر تتكيف مع أحجام الشاشات الأصغر */
 }
 
-.expressOrdersCardMedia {
-    background-image: url('../../../../../public/images/expressOrders.png');
-    background-size: 50vh ; 
-    background-position: center;
-}
-
-.customOrdersCardMedia {
-    background-image: url('../../../../../public/images/customOrders.png');
-    background-size: cover;
-    background-position: center;
-}
-
 .cardContent {
     background-color: #7f7d7f;
     text-align: center;
-}
-
-/* Responsive Styles */
-@media (max-width: 768px) {
-    .concreteOrdersCard {
-        flex-direction: column; /* العناصر تتحول إلى عمودي للشاشات الصغيرة */
-        gap: 20px;
-        width: auto;
-        margin-top: 3%;
-        margin-bottom: 3%;
-    }
-
-    .expressOrdersCardMedia {
-        width: 100%;
-    }
 }
 
 @media (max-width: 480px) {

@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { handleError, handleSuccess } from '../../../../utils/utils';
+import { handleSuccess } from '../../../../utils/utils';
 import { ToastContainer } from 'react-toastify';
 import styles from './ConcreteOrders.module.css';
 import Navbar from '../../../../components/navbar/Navbar';
@@ -60,7 +60,6 @@ function ConcreteOrders() {
                 
                 {/* First Card */}
                 <Card
-                    className={styles.concreteOrdersCard}
                     sx={{
                         width: {
                             xs: 250,  // for extra small screens
@@ -75,6 +74,8 @@ function ConcreteOrders() {
                             className={styles.expressOrdersCardMedia}
                             component="img"
                             height="170"
+                            image="/images/expressOrders.png"
+                            alt="Express Orders"
                         />
                         <CardContent className={styles.cardContent}>
                             <Typography gutterBottom variant="h5" component="div">
@@ -103,6 +104,8 @@ function ConcreteOrders() {
                             className={styles.customOrdersCardMedia} 
                             component="img"
                             height="170"
+                            image="/images/customOrders.png"
+                            alt="Custom Orders" 
                         />
                         <CardContent className={styles.cardContent}>
                             <Typography gutterBottom variant="h5" component="div">

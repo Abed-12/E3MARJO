@@ -58,7 +58,6 @@ function CompanyHome() {
             <div className={styles.companyHomeContainerCard}>
                 {/* First Card */}
                 <Card
-                    className={styles.companyHomeCard}
                     sx={{
                         width: {
                             xs: 250,  // for extra small screens
@@ -73,6 +72,8 @@ function CompanyHome() {
                             className={styles.cementCardMedia}
                             component="img"
                             height="170"
+                            image="/images/cement.jpg"
+                            alt="Cement Card"
                         />
                         <CardContent className={styles.cardContent}>
                             <Typography gutterBottom variant="h5" component="div">
@@ -101,6 +102,8 @@ function CompanyHome() {
                             className={styles.concreteCardMedia}
                             component="img"
                             height="170"
+                            image="/images/concrete.jpg"
+                            alt="Concrete Card"
                         />
                         <CardContent className={styles.cardContent}>
                             <Typography gutterBottom variant="h5" component="div">
