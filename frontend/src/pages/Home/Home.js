@@ -31,7 +31,7 @@ function HomePage ()
             
             <div className={styles.homeContainer}>
                 <div className={styles.homeContent}>
-                    <h1 className={styles.homeH1}>Building a Stronger Future with E3MARJO</h1>
+                    <h1 className={styles.homeH1}>Building a Stronger Future with <span>E3MARJO</span></h1>
                     <p className={styles.homeP}>We provide contractors and suppliers with a digital platform that facilitates easy cement and concrete procurement and supply while ensuring top-quality standards and excellent services. Whether you're looking for a reliable supply partner or aiming to expand your business reach, E3MARJO is your trusted choice.</p>
                     <p className={styles.homeP}>E3MARJO is available in the Jordan. Click here to register for access to the platform.</p>
                     <div className={styles.homeButton}>

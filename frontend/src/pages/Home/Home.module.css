@@ -20,6 +20,12 @@
     font-weight: 700;
 }
 
+.homeH1 span {
+    background: linear-gradient( #22190a, #ffa600);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
 .homeP {
     color: #666;
     line-height: 1.6;
