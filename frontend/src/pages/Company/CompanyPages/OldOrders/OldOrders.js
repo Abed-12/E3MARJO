@@ -195,9 +195,10 @@ function OldOrders() {
                                             </p>
                                             <p className={styles.oldOrdersData}>
                                                 <strong>Concrete strength:</strong>{" "}
-                                                {Object.entries(order.concreteStrength).map(([key]) => (
+                                                {Object.entries(order.concreteStrength).map(([key], index, array) => (
                                                     <span key={key}>
                                                         {key}
+                                                        {index < array.length - 1 && " - "}
                                                     </span>
                                                 ))}
                                             </p>

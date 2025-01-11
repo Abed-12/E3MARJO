@@ -69,6 +69,7 @@ SupplierRouter.delete("/delete/:id", ensureAuthenticated, async (req, res) => {
         {
             const supplierId = (req.params.id); 
             await SupplierModel.deleteOne({ supplierID: supplierId });
+            
             res.status(200).json({ message: "supplier  deleted successfully" });
         }
             catch (error) 
@@ -175,6 +176,7 @@ SupplierRouter.get('/order-data', ensureAuthenticated, async (req, res) => {
 
         // جلب بيانات المورد والشركة من قاعدة البيانات
         const companyIDs = dataOrders.map(item => item.companyID);
+        console.log(companyIDs)
         const dataSupplier = await SupplierModel.findById(id);
         const dataCompanies = await CompanyModel.find({_id: {$in: companyIDs}});
 
@@ -223,6 +225,7 @@ SupplierRouter.get('/order-data', ensureAuthenticated, async (req, res) => {
 
         res.json(result);
     } catch (error) {
+        console.error(error);
         res.status(500).json({message: "Internal server errror: " + error.message, success: false});
     }
 });

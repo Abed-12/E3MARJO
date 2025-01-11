@@ -86,7 +86,7 @@ function App() {
           - element: هو العنصر الذي سيتم عرضه عند الوصول إلى المسار
         */}
         {/* change this into home file  */}
-        <Route path="/" element={<HomePage/>} /> {/* supplier page انه عند مطابقة المسار سيتم تحويلك الى   */}
+        <Route path="/" element={<HomePage/>} />
         
         {/* Supplier */}
         <Route path="/supplier-login" element={<SupplierLogin />} /> 

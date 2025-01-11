@@ -216,6 +216,9 @@ function CustomOrders() {
                 const priceValue = parseFloat(newRows[index].breakingStrength.split(': ')[1]) || 0;
                 newRows[index].price = priceValue * quantity;
             }
+            if(quantity > 1000) {
+                handleError("Quantity cannot exceed 1000 m³")
+            }
         }
     
         setRows(newRows);
