@@ -24,16 +24,18 @@ CompanyRouter.post('/registration', formidableTransformer, registrationValidatio
 // fetch company data
 CompanyRouter.get('/companyData', ensureAuthenticated, async (req, res) => {
     try {
-        const companies = await CompanyModel.find({},
-        {  
-            _id:1,
-            companyName: 1,
-            email: 1,
-            companyID: 1,
-            companyPhone: 1,
-            commercialRegister: 1,
-            adminID: 1
-        }); 
+        const companies = await CompanyModel.find(
+            {status:"Active"},
+                {  
+                    _id:1,
+                    companyName: 1,
+                    email: 1,
+                    companyID: 1,
+                    companyPhone: 1,
+                    commercialRegister: 1,
+                    adminID: 1
+                }
+        ); 
         if (companies.length === 0){  return res.json({ error: "No data found" });        }
 
         const companyWithAdmin = await Promise.all(companies.map(async (data)=>{
@@ -65,8 +67,26 @@ CompanyRouter.get('/companyData', ensureAuthenticated, async (req, res) => {
 CompanyRouter.delete("/delete/:id", ensureAuthenticated, async (req, res) => {
     try 
         {
+            const adminId  = jwt.decode(req.headers.authorization)._id; // extract the id of admin who is accept the request
             const companyId = (req.params.id); 
-            await CompanyModel.deleteOne({ companyID: companyId });
+            const mongoID = await CompanyModel.findOne({companyID: companyId}, '_id').lean();                
+            await OrderModel.updateMany(
+                {companyID:mongoID._id},
+                { 
+                    $set: {
+                        status: "rejected",
+                        rejectionReason: "The company has been deleted"
+                    }
+                }            
+            )
+            await CompanyModel.updateOne({companyID:companyId},
+                {
+                    $set:{
+                            status: "inactive",
+                            adminID:adminId
+                        }
+                }    
+            );
             res.status(200).json({ message: "company  deleted successfully" });
         }
             catch (error) 
@@ -120,7 +140,7 @@ CompanyRouter.get('/data-supplier', ensureAuthenticated, async (req, res) => {
     try {
         const supplierProducts = req.query.supplierProducts.split(',');
 
-        const query = {};
+        const query = {status:"Active"};
         if (supplierProducts) {
             query.supplierProduct = supplierProducts
         }

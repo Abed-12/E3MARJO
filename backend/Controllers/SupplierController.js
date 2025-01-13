@@ -32,8 +32,10 @@ const registration = async (req, res) => {
         const checkSupplier = await SupplierModel.findOne({
             $or: [
                 {supplierName: { $regex: supplierName, $options: "i" }}, 
-                {supplierID}
-            ]
+                {supplierID},
+            ],
+            status: "Active"  // This should be outside the $or
+
         });
 
         if (checkRegister || checkSupplier) {
@@ -68,7 +70,13 @@ const registration = async (req, res) => {
 const login = async (req, res) => {
     try {
         const {supplierID, password} = req.body;
-        const supplier = await SupplierModel.findOne({supplierID: supplierID});
+        const supplier = await SupplierModel.findOne
+        (
+            {
+                supplierID: supplierID,
+                status:"Active"
+            }
+        );
         let errorMessage = 'Auth failed supplierID or password is wrong';
         if (!supplier) {
             return res.status(403)

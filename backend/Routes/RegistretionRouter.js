@@ -75,8 +75,37 @@ RegistrationRouter.patch("/approve/:id", ensureAuthenticated,  async (req, res) 
         {
             const userId = req.params.id; // get the id of the Registration
             const registrationUser = await RegisterModel.findOne({ID:userId}); // find the user by id
-
+            const companyExists = await CompanyModel.findOne({companyID:userId});
+            const SupplierExists = await SupplierModel.findOne({supplierID:userId});
             const adminId  = jwt.decode(req.headers.authorization)._id; // extract the id of admin who is accept the request
+        if(SupplierExists || companyExists)
+        {
+            if (SupplierExists) 
+            {
+                    await SupplierModel.updateOne({supplierID:userId},
+                        {
+                            $set:{
+                                    status: "Active",
+                                    adminID:adminId
+                                }
+                        }
+                );            
+            }
+            else
+                {
+                    await CompanyModel.updateOne({companyID:userId},
+                        {
+                            $set:{
+                                    status: "Active",
+                                    adminID:adminId
+                                }
+                        }
+                );        
+            }
+        }
+        else
+        {
+            
             if ( registrationUser.role =="company")
             {
                 const newCompany = new CompanyModel(
@@ -108,6 +137,7 @@ RegistrationRouter.patch("/approve/:id", ensureAuthenticated,  async (req, res) 
                 });
                 newSupplier.save();
             }
+        }
             const idForDelete = registrationUser._id.toString();
             await RegisterModel.deleteOne({_id:idForDelete});
             res.status(200).json({ message: ` approve successfully` });

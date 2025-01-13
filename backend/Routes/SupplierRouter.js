@@ -23,19 +23,21 @@ SupplierRouter.post('/registration', formidableTransformer, registrationValidati
 SupplierRouter.get('/supplierData', ensureAuthenticated, async (req, res) => {
     try 
     {
-        const suppliers = await SupplierModel.find({},
-            {
-                _id: 1,
-                supplierName:1,
-                email: 1,
-                supplierID:1,
-                supplierPhone:1,
-                supplierProduct:1,
-                price:1,
-                concreteStrength:1,
-                commercialRegister: 1,
-                adminID: 1,
-            });
+        const suppliers = await SupplierModel.find(
+            {status:"Active"},
+                {
+                    _id: 1,
+                    supplierName:1,
+                    email: 1,
+                    supplierID:1,
+                    supplierPhone:1,
+                    supplierProduct:1,
+                    price:1,
+                    concreteStrength:1,
+                    commercialRegister: 1,
+                    adminID: 1,
+                }
+        );
         if(suppliers.length===0){
             return res.json({ error: "No data found" });
         }
@@ -67,9 +69,27 @@ SupplierRouter.get('/supplierData', ensureAuthenticated, async (req, res) => {
 SupplierRouter.delete("/delete/:id", ensureAuthenticated, async (req, res) => {
     try 
         {
+            const adminId  = jwt.decode(req.headers.authorization)._id; // extract the id of admin who is accept the request
             const supplierId = (req.params.id); 
-            await SupplierModel.deleteOne({ supplierID: supplierId });
-            
+            const mongoID = await SupplierModel.findOne({supplierID: supplierId}, '_id').lean();                
+                await OrderModel.updateMany(
+                {supplierID:mongoID._id},
+                {
+                    $set: {
+                        status: "rejected",
+                        rejectionReason: "The supplier has been deleted"
+                    }
+                }            
+                )
+            await SupplierModel.updateMany({supplierID:supplierId},
+                {
+                    $set:{
+                            status: "inactive",
+                            adminID:adminId
+                        }
+                }
+        );
+
             res.status(200).json({ message: "supplier  deleted successfully" });
         }
             catch (error) 

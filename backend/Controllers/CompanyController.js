@@ -28,7 +28,8 @@ const registration = async (req, res) => {
             $or: [
                 { companyName: { $regex: companyName, $options: "i" } },
                 { companyID }
-            ]
+            ],
+            status:"Active"
         });
         
 
@@ -66,7 +67,13 @@ const registration = async (req, res) => {
 const login = async (req, res) => {
     try {
         const {companyID, password} = req.body;
-        const company = await CompanyModel.findOne({companyID: companyID});
+        const company = await CompanyModel.findOne
+        (
+            {
+                companyID: companyID,
+                status:"Active"
+            }
+        );
         let errorMessage = 'Auth failed companyID or password is wrong';
         if (!company) {
             return res.status(403)
