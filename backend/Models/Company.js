@@ -39,6 +39,10 @@ const CompanySchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    status :{
+        type:String,
+        default:"Active"
+    }
 });
 
 const CompanyModel = mongoose.model('company', CompanySchema);
