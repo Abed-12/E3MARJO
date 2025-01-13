@@ -96,7 +96,6 @@ function CementOrders() {
                 }
                 const response = await fetch(url, headers);
                 const result = await response.json();
-                console.log(result);
                 setDataSupplier(result); 
             } catch (err) {
                 handleError(err);

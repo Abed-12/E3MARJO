@@ -47,7 +47,6 @@ function UnderPreparingOrders() {
             } else if (!success) {
                 handleError(message);
             }
-            console.log(result);
             fetchDataOrder();
         } catch (error) {
             handleError('Error dropping order:', error);
@@ -56,7 +55,6 @@ function UnderPreparingOrders() {
 
     // Function to handle the filtering logic
     const handleFilter = async (filterData) => {
-        console.log(filterData.selectedStatus)
         try {
             const response = await fetch(`http://localhost:8080/auth/company/order-data?statuses=${filterData.selectedStatus}&type=${filterData.type}&supplierID=${filterData.supplierID}&fromDate=${filterData.fromDate}&toDate=${filterData.toDate}`, {
                 method: 'GET',

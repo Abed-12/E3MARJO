@@ -21,7 +21,6 @@ function RequestRegister() {
 
         getData();
     }, []); 
-    // console.log(pending); work (3) [{…}, {…}, {…}]
 
 const handleLogout = (e) =>
     {

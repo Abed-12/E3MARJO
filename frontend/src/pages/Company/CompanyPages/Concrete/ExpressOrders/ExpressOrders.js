@@ -122,9 +122,7 @@ function ExpressOrders() {
                 }
                 const response = await fetch(url, headers);
                 const result = await response.json();
-                console.log(result);
                 setDataSupplier(result); 
-                console.log(result)
             } catch (err) {
                 handleError(err);
             }

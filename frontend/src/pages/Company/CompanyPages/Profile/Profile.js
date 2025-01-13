@@ -46,7 +46,6 @@ function Profile() {
             }
         } catch (err) {
             handleError("Failed to send OTP");
-            console.log(err);
         }}
     const downloadCommercialRegisterPdf = async () => {
         try {

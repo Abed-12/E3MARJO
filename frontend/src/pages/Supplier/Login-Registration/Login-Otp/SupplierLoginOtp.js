@@ -17,10 +17,9 @@ function SupplierLoginOtp() {
     const handleChange = (e) =>
         {
             const { name, value } = e.target;
-        console.log(name, value);
-        const copyLoginOtpInfo = {...loginOtpInfo};
-        copyLoginOtpInfo[name] = value;
-        setLoginOtpInfo(copyLoginOtpInfo);
+            const copyLoginOtpInfo = {...loginOtpInfo};
+            copyLoginOtpInfo[name] = value;
+            setLoginOtpInfo(copyLoginOtpInfo);
         }
 
     const handleLogin = async (e) => {
@@ -40,7 +39,6 @@ function SupplierLoginOtp() {
                 body: JSON.stringify(loginOtpInfo)
             });
             const result = await response.json();
-            console.log(result);
             const { success, message, jwtToken, role, supplierProduct } = result;
             if (success) {
                 handleSuccess(message);

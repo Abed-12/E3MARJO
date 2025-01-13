@@ -50,7 +50,6 @@ function ExpressBill() {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        console.log(name, value);
         const copyExpressBillInfo = { ...expressBillInfo };
         copyExpressBillInfo[name] = value;
         setExpressBillInfo(copyExpressBillInfo);
@@ -126,7 +125,6 @@ function ExpressBill() {
             } else if (!success) {
                 handleError(message);
             }
-            console.log(result);
         } catch (error) {
             handleError(error);
         }
@@ -159,7 +157,6 @@ function ExpressBill() {
     }, []);  
 
     const fetchCompanyData = async () => {
-        console.log(expressBillInfo.concreteStrength)
         try {
             const url = `http://localhost:8080/auth/company/company-data`;
             const headers = {

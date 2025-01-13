@@ -48,10 +48,10 @@ function RefrshHandler({ setIsAuthenticated, setRole, setSupplierProduct }) {
       setRole(null);
       setSupplierProduct(null);
       // إذا لم يتم تسجيل الدخول، نقوم بتوجيه المستخدم إلى صفحة تسجيل الدخول
-      if (!['/supplier-login','/supplier-login/otp', '/company-login', '/company-login/otp', '/admin', '/supplier-registration', '/company-registration'].includes(location.pathname)) {
-        navigate('/', { replace: false }); 
-        // add worng path 
-      }
+      // if (!['/supplier-login','/supplier-login/otp', '/company-login', '/company-login/otp', '/admin', '/supplier-registration', '/company-registration'].includes(location.pathname)) {
+      //   navigate('/', { replace: false }); 
+      //   // add worng path 
+      // }
     }
   }, [location, navigate, setIsAuthenticated, setRole, setSupplierProduct]);
 

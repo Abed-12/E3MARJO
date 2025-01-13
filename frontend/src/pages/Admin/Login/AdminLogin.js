@@ -19,7 +19,6 @@ function AdminLogin() {
     // نقوم بحفظها user القيم التي يقوم بتدخيلها ال
     const handleChange = (e) => {
         const { name, value } = e.target;
-        console.log(name, value); // console شو بتدخل بعطيك على ال
         const copyLoginInfo = { ...loginInfo }; // نسخ معلومات تسجيل الدخول
         copyLoginInfo[name] = value; // تحديث قيمة معينة
         setLoginInfo(copyLoginInfo); // نقوم بتحديث الحالة باستخدام دالة
@@ -54,7 +53,6 @@ function AdminLogin() {
             } else if (!success) {
                 handleError(message);
             }
-            console.log(result);
         } catch (err) {
             handleError(err);
         }

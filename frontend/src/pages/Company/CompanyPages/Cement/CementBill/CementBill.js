@@ -124,7 +124,6 @@ function CementBill() {
             } else if (!success) {
                 handleError(message);
             }
-            console.log(result);
         } catch (error) {
             handleError(error);
         }

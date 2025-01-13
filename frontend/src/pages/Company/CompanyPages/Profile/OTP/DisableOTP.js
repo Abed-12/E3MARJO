@@ -52,7 +52,6 @@ function DisableOTP() {
             }
         } catch (err) {
             handleError("Failed to disable OTP");
-            console.log('Error details:', err);
         }
     }
 

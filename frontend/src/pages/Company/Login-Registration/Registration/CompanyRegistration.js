@@ -27,7 +27,6 @@ function CompanyRegistration() {
 
     const handleChange = (e) => {
         const {name, value} = e.target;
-        console.log(name, value);
         const copyRegistrationInfo = {...registrationInfo};
         copyRegistrationInfo[name] = value;
         setRegistrationInfo(copyRegistrationInfo);
@@ -84,7 +83,7 @@ function CompanyRegistration() {
             formData.append('body', JSON.stringify(registrationInfo));
 
             formData.append('commercialRegister', file);
-            console.log(Object.fromEntries(formData));
+            // console.log(Object.fromEntries(formData));
 
             const response = await fetch(url, {
                 method: "POST",
@@ -103,7 +102,6 @@ function CompanyRegistration() {
             } else if (!success) {
                 handleError(message);
             }
-            console.log(result);
         } catch (err) {
             handleError(err);
         }

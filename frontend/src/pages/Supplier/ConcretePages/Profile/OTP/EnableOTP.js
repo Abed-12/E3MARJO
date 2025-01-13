@@ -25,7 +25,6 @@ function EnableOTP() {
 
     async function cancelOTP (e)
     {
-        console.log("enter")
             handleSuccess("Cancle successfully");
             setTimeout(() => {
                 navigate('/supplier/concrete/profile');
@@ -64,7 +63,6 @@ function EnableOTP() {
             }
         } catch (err) {
             handleError("Failed to confirm OTP");
-            console.log('Error details:', err);
         }
     }
 

@@ -48,7 +48,6 @@ function UnderPreparingOrders() {
             } else if (!success) {
                 handleError(message);
             }
-            console.log(result);
             fetchOrderData();
         } catch (error) {
             handleError('Error dropping order:', error);

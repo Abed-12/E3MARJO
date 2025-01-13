@@ -37,7 +37,6 @@ function EditConcreteStrength() {
             const response = await fetch(url, headers);
             const result = await response.json();
             setSupplierData(result);
-            console.log(result)
         } catch (err) {
             handleError(err);
         }
@@ -173,7 +172,6 @@ function EditConcreteStrength() {
             } else if (!success) {
                 handleError(message);
             }
-            console.log(result);
         } catch (err) {
             handleError(err);
         }

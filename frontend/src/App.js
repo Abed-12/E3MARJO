@@ -70,7 +70,7 @@ import SupplierLoginOtp from "./pages/Supplier/Login-Registration/Login-Otp/Supp
 function App() {
   // لادارة التنقل بين الصفحات
   const [isAuthenticated, setIsAuthenticated] = useState(null); // ام لا authenticated تستخدم لتحديد اذا كان المستخدم تحقق ، false في البداية تكون الحالة
-  const [role, setRole] = useState(null);
+  const [role, setRole] = useState(undefined);
   const [supplierProduct, setSupplierProduct] = useState(null);
   
   return (

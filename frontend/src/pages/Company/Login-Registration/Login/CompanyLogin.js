@@ -19,7 +19,6 @@ function CompanyLogin() {
     // نقوم بحفظها user القيم التي يقوم بتدخيلها ال
     const handleChange = (e) => {
         const {name, value} = e.target;
-        console.log(name, value); // console شو بتدخل بعطيك على ال
         const copyLoginInfo = {...loginInfo}; // نسخ معلومات تسجيل الدخول
         copyLoginInfo[name] = value; // تحديث قيمة معينة
         setLoginInfo(copyLoginInfo); // نقوم بتحديث الحالة باستخدام دالة
@@ -43,7 +42,6 @@ function CompanyLogin() {
                 body: JSON.stringify(loginInfo) // وارسالها JSON string  الى loginInfo يتم تحويل  
             });
             const result = await response.json(); // وتخزينها في متغير JSON لتحويل استجابة الخادم ال
-            console.log(result);
             if (result.success) {
                 if (result.otpRequired) {
                     localStorage.setItem('userOtpId', result.userOtpId);

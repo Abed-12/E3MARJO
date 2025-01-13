@@ -17,7 +17,6 @@ function CompanyLoginOtp() {
 
     const handleChange = (e) => {
         const {name, value} = e.target;
-        console.log(name, value);
         const copyLoginOtpInfo = {...loginOtpInfo};
         copyLoginOtpInfo[name] = value;
         setLoginOtpInfo(copyLoginOtpInfo);
@@ -40,7 +39,6 @@ function CompanyLoginOtp() {
                 body: JSON.stringify(loginOtpInfo)
             });
             const result = await response.json();
-            console.log(result);
             const {success, message, jwtToken, role} = result;
             if (success) {
                 handleSuccess(message);

@@ -67,8 +67,6 @@ function AddAdmin() {
             } else if (!success) {
                 handleError(message);
             }
-
-            console.log(result);
         } catch (err) {
             handleError(`An error occurred: ${err.message}`);
         }

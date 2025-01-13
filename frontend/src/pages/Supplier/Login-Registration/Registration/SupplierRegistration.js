@@ -29,7 +29,6 @@ function SupplierRegistration() {
 
     const handleChange = async (e) => {
         const { name, value } = e.target;
-        console.log(name, value);
         const copyRegistrationInfo = { ...registrationInfo };
         copyRegistrationInfo[name] = value;
         setRegistrationInfo(copyRegistrationInfo);
@@ -90,14 +89,13 @@ function SupplierRegistration() {
             formData.append('body', JSON.stringify(registrationInfo));
 
             formData.append('commercialRegister', file);
-            console.log(Object.fromEntries(formData));
+            // console.log(Object.fromEntries(formData));
 
             const response = await fetch(url, {
                 method: "POST",
                 body: formData
             });
             const result = await response.json();
-            console.log(result);
             const { success, message, error } = result;
             if (success) {
                 handleSuccess(message);
@@ -110,7 +108,6 @@ function SupplierRegistration() {
             } else if (!success) {
                 handleError(message);
             }
-            console.log(result);
         } catch (err) {
             handleError(err);
         }
