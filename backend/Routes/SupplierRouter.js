@@ -176,7 +176,6 @@ SupplierRouter.get('/order-data', ensureAuthenticated, async (req, res) => {
 
         // جلب بيانات المورد والشركة من قاعدة البيانات
         const companyIDs = dataOrders.map(item => item.companyID);
-        console.log(companyIDs)
         const dataSupplier = await SupplierModel.findById(id);
         const dataCompanies = await CompanyModel.find({_id: {$in: companyIDs}});
 
