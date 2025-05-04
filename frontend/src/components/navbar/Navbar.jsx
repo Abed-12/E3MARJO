@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import {Link} from "react-router-dom";
 import styles from "./Navbar.module.css";
+import { FaPowerOff } from "react-icons/fa6";
 
 function Navbar(props) {
     const [isActive, setIsActive] = useState(false);
@@ -92,13 +93,16 @@ function Navbar(props) {
                         )}
                         {props.logout && (
                             <li className={styles.navItem}>
-                                <button className={`${styles.navLink} ${styles.logout}`} onClick={props.logout}>Logout
+                                <button className={`${styles.navLink} ${styles.logout}`} onClick={props.logout}>
+                                    <FaPowerOff className={styles.logoutIcon}/>
+                                    Logout
                                 </button>
                             </li>
                         )}
                         {props.Login && (
                             <li className={styles.navItem}>
-                                <button className={`${styles.navLink} ${styles.logout}`} onClick={props.Login}>Login
+                                <button className={`${styles.navLink} ${styles.logout}`} onClick={props.Login}>
+                                    Login
                                 </button>
                             </li>
                         )}

@@ -16,71 +16,11 @@
     margin-bottom: 1%;
 }
 
-.profileRow {
-    background-color: #ffffff9a;
-    padding: 20px 40px;  /* Adjusted padding for better spacing */
-    width: 80%;  /* Adjust width to make it more responsive */
-    max-width: 500px;  /* Set a max width for better control */
-    border-radius: 10px;
-    box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
-    text-align: left;  /* Ensure text aligns properly */
-}
-
-.profileRow p {
-    font-size: 18px;
-    margin: 8px 0;  /* Adjusted margin for better spacing */
-}
-
-.profileRow a {
-    text-decoration: none;
-}
-
-.profileRow a:hover {
-    text-decoration: underline;
-}
 .List{
     display: flex;
     justify-content: center;
     align-items: center;
 }
-
-
-
-.pendingButtonDrop{
-  background-color: #C40C0C;
-  width: 100%;
-  border: none;
-  font-size: 20px;
-  color: white;
-  border-radius: 5px;
-  padding: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.pendingButtonDrop:hover{
-  background-color: #ff0000fa;
-}
-
-.rejectDownloadButton{
-    background-color: #4CAF50; 
-    color: white; 
-    padding: 5px 5px;
-    font-size: 14px; 
-    border: none; 
-    border-radius: 5px; 
-    cursor: pointer; 
-    transition: background-color 0.3s ease; 
-}
-
-.rejectDownloadButton:hover{
-    background-color: #45a049; 
-}
-
-.rejectDownloadButton:active{
-    background-color: #3e8e41; 
-}
-
 
 .rejectLoader{
     display: flex;

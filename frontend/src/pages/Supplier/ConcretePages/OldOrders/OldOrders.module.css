@@ -14,37 +14,6 @@
     justify-items: center; /* يجعل العناصر في المنتصف أفقيًا */
 }
 
-.oldOrdersRow {
-    background-color: #ffffff9a;
-    border-radius: 10px;
-    box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
-    padding: 15px 20px;
-    width: 80%; /* لجعل العنصر متجاوبًا */
-    max-width: 640px; /* حد أقصى للعرض */
-    margin-bottom: 0.5%;
-
-}
-
-.oldOrdersDiv {
-    display: grid;
-    grid-template-columns: 1fr; /* افتراضيًا عمود واحد */
-}
-
-.oldOrdersData {
-    font-size: 17px;
-    margin-bottom: 8px;
-}
-
-.oldOrdersSupplierName, .oldOrdersType, .oldOrdersStatus{
-    font-size: 18pt;
-    margin-top: 0;
-}
-
-.oldOrdersSupplierName{
-    text-align: center;
-    margin-bottom: 15px;    
-}
-
 .oldOrdersH2 {
     text-align: center;
     font-size: 25pt;
@@ -91,9 +60,5 @@
 @media (min-width: 768px) {
     .oldOrdersContainer {
         grid-template-columns: repeat(1, 2fr); /* عمودان للشاشات الأكبر */
-    }
-
-    .oldOrdersDiv {
-        grid-template-columns: repeat(2, 1fr); /* تنظيم العناصر بعمودين */
     }
 }

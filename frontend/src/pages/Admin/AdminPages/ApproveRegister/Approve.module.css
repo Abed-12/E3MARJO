@@ -13,73 +13,37 @@
   align-items: center;
   min-height: 6vh;
   gap: 20px;  /* Adds spacing between each profile */
-  margin-bottom: 1%;
+  margin: 2% 0 0 0;
 }
 
-.profileRow {
-  background-color: #ffffff9a;
-  padding: 20px 40px;  /* Adjusted padding for better spacing */
-  width: 80%;  /* Adjust width to make it more responsive */
-  max-width: 500px;  /* Set a max width for better control */
-  border-radius: 10px;
-  box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
-  text-align: left;  /* Ensure text aligns properly */
+.toggleButton {
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
-.profileRow p {
-  font-size: 18px;
-  margin: 8px 0;  /* Adjusted margin for better spacing */
-}
-
-.profileRow a {
-  text-decoration: none;
-}
-
-.profileRow a:hover {
-  text-decoration: underline;
-}
-.List{
+.List {
   display: flex;
-  justify-content: center;
   align-items: center;
+  padding-right: 25px;
+  position: relative;
 }
 
-
-
-
-.pendingButtonDrop{
-background-color: #C40C0C;
-width: 100%;
-border: none;
-font-size: 20px;
-color: white;
-border-radius: 5px;
-padding: 8px;
-cursor: pointer;
-transition: background-color 0.3s ease;
+.arrowIcon {
+  position: absolute;
+  right: -4%;
+  background-color: #fff;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  transition: transform 0.3s, background-color 0.3s;
 }
 
-.pendingButtonDrop:hover{
-background-color: #ff0000fa;
-}
-
-.approveDownloadButton{
-  background-color: #4CAF50; 
-  color: white; 
-  padding: 5px 5px;
-  font-size: 14px; 
-  border: none; 
-  border-radius: 5px; 
-  cursor: pointer; 
-  transition: background-color 0.3s ease; 
-}
-
-.approveDownloadButton:hover{
-  background-color: #45a049; 
-}
-
-.approveDownloadButton:active{
-  background-color: #3e8e41; 
+/* Animate on hover */
+.toggleButton:hover .arrowIcon {
+  transform: translateX(5px);
+  color: #eeba5a;
+  border: 1px solid #eeba5a;
 }
 
 .profileLoader{

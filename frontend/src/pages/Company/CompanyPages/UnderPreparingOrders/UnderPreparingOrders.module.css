@@ -15,36 +15,6 @@
     justify-items: center; /* يجعل العناصر في المنتصف أفقيًا */
 }
 
-.underPreparingOrdersRow {
-    background-color: #ffffff9a;
-    border-radius: 10px;
-    box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
-    padding: 15px 20px;
-    width: 80%; /* لجعل العنصر متجاوبًا */
-    max-width: 640px; /* حد أقصى للعرض */
-    margin-bottom: 0.5%;
-}
-
-.underPreparingOrdersDiv {
-    display: grid;
-    grid-template-columns: 1fr; /* افتراضيًا عمود واحد */
-}
-
-.underPreparingOrdersData {
-    font-size: 17px;
-    margin-bottom: 8px;
-}
-
-.underPreparingOrdersSupplierName, .underPreparingOrdersType, .underPreparingOrdersStatus {
-    font-size: 18pt;
-    
-    margin-top: 0;
-}
-
-.underPreparingOrdersSupplierName {
-    margin-bottom: 15px;
-}
-
 .underPreparingOrdersH2 {
     text-align: center;
     font-size: 25pt;
@@ -64,27 +34,6 @@
     align-items: center; 
     font-size: 17px;
     justify-items: center;
-}
-
-.underPreparingOrdersDivButton{
-    text-align: center;
-}
-
-.underPreparingOrdersButtonDelivered{
-    background-color: #059212;
-    width: 25%;
-    border: none;
-    font-size: 20px;
-    color: white;
-    border-radius: 5px;
-    padding: 10px;
-    margin: 10px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.underPreparingOrdersButtonDelivered:hover{
-    background-color: #01c514;
 }
 
 /* HTML: <div class="loader"></div> */
@@ -112,9 +61,5 @@
 @media (min-width: 768px) {
     .underPreparingOrdersContainer {
         grid-template-columns: repeat(1, 2fr); /* عمودان للشاشات الأكبر */
-    }
-
-    .underPreparingOrdersDiv {
-        grid-template-columns: repeat(2, 1fr); /* تنظيم العناصر بعمودين */
     }
 }

@@ -14,79 +14,10 @@
     justify-items: center; /* يجعل العناصر في المنتصف أفقيًا */
 }
 
-.pendingOrdersRow {
-    background-color: #ffffff9a;
-    border-radius: 10px;
-    box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
-    padding: 15px 20px;
-    width: 80%; /* لجعل العنصر متجاوبًا */
-    max-width: 640px; /* حد أقصى للعرض */
-    margin-bottom: 0.5%;
-
-}
-
-.pendingOrdersDiv {
-    display: grid;
-    grid-template-columns: 1fr; /* افتراضيًا عمود واحد */
-}
-
-.pendingOrdersData {
-    font-size: 17px;
-    margin-bottom: 8px;
-}
-
-.pendingOrdersSupplierName, .pendingOrdersType, .pendingOrdersStatus{
-    font-size: 18pt;
-    margin-top: 0;
-}
-
-.pendingOrdersSupplierName {
-    text-align: center;
-    margin-bottom: 15px;
-}
-
 .pendingOrdersH2 {
     text-align: center;
     font-size: 25pt;
     margin-bottom: 1px;
-}
-
-.pendingOrdersDivButton{
-    text-align: center;
-}
-
-.pendingOrdersButtonReject{
-    background-color: #C40C0C;
-    width: 25%;
-    border: none;
-    font-size: 20px;
-    color: white;
-    border-radius: 5px;
-    padding: 10px;
-    margin: 10px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.pendingOrdersButtonReject:hover{
-    background-color: #ff0000fa;
-}
-
-.pendingOrdersButtonAccept{
-    background-color: #059212;
-    width: 25%;
-    border: none;
-    font-size: 20px;
-    color: white;
-    border-radius: 5px;
-    padding: 10px;
-    margin: 10px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.pendingOrdersButtonAccept:hover{
-    background-color: #01c514;
 }
 
 .pendingOrdersLoader{
@@ -102,74 +33,6 @@
     align-items: center; 
     font-size: 17px;
     justify-items: center;
-}
-
-.rejectModalDiv {
-    width: 95%;
-    padding: 15px;
-    border-radius: 8px;
-    text-align: center;
-    margin-top: -22px;
-}
-
-.rejectModalH3 {
-    font-size: 18px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 10px;
-}
-
-.rejectModalTextarea {
-    overflow-y: auto;
-    padding: 10px;
-    font-size: 18px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    outline: none;
-    width: 97%; /* Adjust to the parent container */
-    resize: none; /* Disable resizing for consistent design */
-    background-color: #ffffffcc; /* Slightly transparent background */
-    transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-}
-
-.rejectModalTextarea::placeholder {
-    color: #aaa;
-}
-
-.rejectModalTextarea:focus{
-    border-color: #666;
-    box-shadow: 0 0 5px rgba(102, 102, 102, 0.5);
-}
-
-.rejectModalButtonSubmit, .rejectModalButtonCancel {
-    width: 25%;
-    border: none;
-    font-size: 20px;
-    color: white;
-    border-radius: 5px;
-    padding: 10px;
-    margin: 10px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.rejectModalButtonSubmit {
-    background-color: #d9534f;
-    color: #fff;
-}
-
-.rejectModalButtonSubmit:hover {
-    background-color: #c9302c;
-}
-
-
-.rejectModalButtonCancel {
-    background-color: #aaa;
-    color: #fff;
-}
-
-.rejectModalButtonCancel:hover {
-    background-color: #333;
 }
 
 /* HTML: <div class="loader"></div> */
@@ -199,9 +62,5 @@
 @media (min-width: 768px) {
     .pendingOrdersContainer {
         grid-template-columns: repeat(1, 2fr); /* عمودان للشاشات الأكبر */
-    }
-
-    .pendingOrdersDiv {
-        grid-template-columns: repeat(2, 1fr); /* تنظيم العناصر بعمودين */
     }
 }

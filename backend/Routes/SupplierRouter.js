@@ -32,6 +32,7 @@ SupplierRouter.get('/supplierData', ensureAuthenticated, async (req, res) => {
                     supplierID:1,
                     supplierPhone:1,
                     supplierProduct:1,
+                    role: 1,
                     price:1,
                     concreteStrength:1,
                     commercialRegister: 1,
@@ -55,6 +56,7 @@ SupplierRouter.get('/supplierData', ensureAuthenticated, async (req, res) => {
                 concreteStrength: data.concreteStrength,
                 commercialRegister: data.commercialRegister,
                 supplierProduct: data.supplierProduct,
+                role: data.role,
                 adminName: admin ? admin.adminName : null,
             };
         }));
@@ -64,6 +66,52 @@ SupplierRouter.get('/supplierData', ensureAuthenticated, async (req, res) => {
         res.status(500).json({ error: "Failed to fetch data" });
     }
 });
+
+// fetch supplier data by id
+SupplierRouter.get('/supplierData/:id', ensureAuthenticated, async (req, res) => {
+    const supplierID = req.params.id;
+    try {
+        const data = await SupplierModel.findOne(
+            { _id: supplierID, status: "Active" },
+            {
+                _id: 1,
+                supplierName: 1,
+                email: 1,
+                supplierID: 1,
+                supplierPhone: 1,
+                supplierProduct: 1,
+                price: 1,
+                concreteStrength: 1,
+                commercialRegister: 1,
+                adminID: 1,
+            }
+        );
+
+        if (!data) {
+            return res.status(404).json({ error: "Supplier not found" });
+        }
+
+        const admin = await AdminModel.findById(data.adminID);
+
+        const supplierWithAdmin = {
+            _id: data._id,
+            supplierName: data.supplierName,
+            email: data.email,
+            supplierID: data.supplierID,
+            supplierPhone: data.supplierPhone,
+            price: data.price,
+            concreteStrength: data.concreteStrength,
+            commercialRegister: data.commercialRegister,
+            supplierProduct: data.supplierProduct,
+            adminName: admin ? admin.adminName : null,
+        };
+        res.json(supplierWithAdmin);
+
+    } catch (error) {
+        res.status(500).json({ error: "Failed to fetch supplier data" });
+    }
+});
+
 
 // delete supplier from collection 
 SupplierRouter.delete("/delete/:id", ensureAuthenticated, async (req, res) => {
@@ -246,6 +294,75 @@ SupplierRouter.get('/order-data', ensureAuthenticated, async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({message: "Internal server errror: " + error.message, success: false});
+    }
+});
+
+// Get order data by ID
+SupplierRouter.get('/order-data/:id', ensureAuthenticated, async (req, res) => {
+    try {
+        const orderID = req.params.id; // أخذ orderID من الرابط
+        if (!orderID) {
+            return res.status(400).json({ message: "Order ID is required", success: false });
+        }
+
+        const supplierID = jwt.decode(req.headers.authorization)._id; // استخراج supplierID من التوكن
+
+        // البحث عن الطلب بحيث يكون مرتبط بالمورد
+        const order = await OrderModel.findOne({ _id: orderID, supplierID: supplierID });
+        if (!order) {
+            return res.status(404).json({ message: "Order not found", success: false });
+        }
+
+        const supplier = await SupplierModel.findById(supplierID);
+        const company = await CompanyModel.findById(order.companyID);
+
+        let result;
+        if (order.type === 'cement') {
+            result = {
+                id: order._id,
+                type: order.type,
+                recipientName: order.recipientName,
+                recipientPhone: order.recipientPhone,
+                location: order.location,
+                deliveryTime: order.deliveryTime,
+                orderRequestTime: order.orderRequestTime,
+                status: order.status,
+                price: order.price,
+                rejectionReason: order.rejectionReason,
+                cementQuantity: order.cementQuantity,
+                cementNumberBags: order.cementNumberBags,
+                supplierName: supplier?.supplierName,
+                supplierPhone: supplier?.supplierPhone,
+                companyName: company?.companyName,
+                companyPhone: company?.companyPhone
+            };
+        } else if (order.type === 'concrete') {
+            result = {
+                id: order._id,
+                type: order.type,
+                recipientName: order.recipientName,
+                recipientPhone: order.recipientPhone,
+                location: order.location,
+                deliveryTime: order.deliveryTime,
+                orderRequestTime: order.orderRequestTime,
+                status: order.status,
+                price: order.price,
+                rejectionReason: order.rejectionReason,
+                concreteQuantity: order.concreteQuantity,
+                concreteStrength: order.concreteStrength,
+                concreteNote: order.concreteNote,
+                supplierName: supplier?.supplierName,
+                supplierPhone: supplier?.supplierPhone,
+                companyName: company?.companyName,
+                companyPhone: company?.companyPhone
+            };
+        }
+
+        res.json(result);
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Internal server error: " + error.message, success: false });
     }
 });
 

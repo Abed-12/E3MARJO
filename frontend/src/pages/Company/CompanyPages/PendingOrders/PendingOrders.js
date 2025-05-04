@@ -6,15 +6,11 @@ import styles from './PendingOrders.module.css';
 import Navbar from '../../../../components/navbar/Navbar';
 import Footer from '../../../../components/footer/Footer';
 import OrderFilter from '../../../../components/orderFilter/OrderFilter';
-import ConfirmationModal from '../../../../components/confirmationModal/ConfirmationModal';
-import moment from 'moment';
+import OrderTable from '../../../../components/orderTable/OrderTable';
 
 
 function PendingOrders() {
     const [filteredOrders, setFilteredOrders] = useState(null);
-    const [showModal, setShowModal] = useState(false); // State to control modal visibility
-    const [deleteOrder, setDeleteOrder] = useState(null); // Store the concrete strength to be deleted
-    
 
     const navigate = useNavigate();
 
@@ -26,40 +22,6 @@ function PendingOrders() {
             navigate('/company-login');
         }, 500)
     }    
-
-    // Delete message
-    const handleDelete = (orderId) => {
-        setDeleteOrder(orderId);
-        setShowModal(true); // Show the confirmation modal
-    };
-
-    const cancelDelete = () => {
-        setShowModal(false); // Close the modal without deletion
-    };
-    
-
-    const orderDelete= async (orderId) => {
-        try{
-            const response = await fetch(`http://localhost:8080/auth/company/order-delete/${orderId}`, {
-                method: 'DELETE',
-                headers: {
-                    'Authorization': localStorage.getItem('token'),
-                    'Content-Type': 'application/json'
-                },
-            });
-            const result = await response.json();
-            const { success, message } = result;
-            if (success) {
-                handleSuccess(message + "Order has been deleted");
-                setShowModal(false);
-            } else if (!success) {
-                handleError(message);
-            }
-            fetchOrderData();
-        } catch (error) {
-            handleError('Error dropping order:', error);
-        }
-    }
 
     // Function to handle the filtering logic
     const handleFilter = async (filterData) => {
@@ -129,147 +91,7 @@ function PendingOrders() {
             {filteredOrders ? (
                 <div className={styles.pendingOrdersContainer}>
                     {filteredOrders.length > 0 ? (
-                        filteredOrders.map((order, index) => (
-                            <div className={styles.pendingOrdersRow} key={index}>
-                                {order.type === 'cement' && (
-                                    <>
-                                        <div className={styles.pendingOrdersDiv}>
-                                            <p className={`${styles.pendingOrdersData} ${styles.pendingOrdersSupplierName}`}>
-                                                <strong>Supplier name:</strong> {order.supplierName}
-                                            </p>
-                                            <p className={`${styles.pendingOrdersData} ${styles.pendingOrdersSupplierName}`}>
-                                                <strong>Supplier phone:</strong> {order.supplierPhone}
-                                            </p>
-                                        </div>
-                                        <div className={styles.pendingOrdersDiv}>
-                                            <p className={`${styles.pendingOrdersData} ${styles.pendingOrdersStatus}`}>
-                                                <strong>Order status:</strong> {order.status}
-                                            </p>
-                                            <p className={`${styles.pendingOrdersData} ${styles.pendingOrdersType}`}>
-                                                <strong>Order type:</strong> {order.type}
-                                            </p>
-                                        </div>
-                                        <hr />
-                                        <div className={styles.pendingOrdersDiv}>
-                                            <p className={styles.pendingOrdersData}>
-                                                <strong>Company name:</strong> {order.companyName}
-                                            </p>
-                                            <p className={styles.pendingOrdersData}>
-                                                <strong>Company phone:</strong> {order.companyPhone}
-                                            </p>
-                                            <p className={styles.pendingOrdersData}>
-                                                <strong>Recipient's name:</strong> {order.recipientName}
-                                            </p>
-                                            <p className={styles.pendingOrdersData}>
-                                                <strong>Recipient's phone:</strong> {order.recipientPhone}
-                                            </p>
-                                            <p className={styles.pendingOrdersData}>
-                                                <strong>Delivery time:</strong> {moment(order.deliveryTime * 1000).format('D/MM/YYYY - h:mm a')}
-                                            </p>
-                                            <p className={styles.pendingOrdersData}>
-                                                <strong>Location:</strong> {order.location}
-                                            </p>
-                                        </div>
-                                        <div className={styles.pendingOrdersDiv}>
-                                            <p className={styles.pendingOrdersData}>
-                                                <strong>Cement quantity:</strong> {order.cementQuantity} ton
-                                            </p>
-                                            <p className={styles.pendingOrdersData}>
-                                                <strong>Number of cement bags:</strong> {order.cementNumberBags}
-                                            </p>
-                                            <p className={styles.pendingOrdersData}>
-                                                <strong>Cement price:</strong> {order.price} JD
-                                            </p>
-                                            <p className={styles.pendingOrdersData}>
-                                                <strong>Order request time:</strong> {moment(order.orderRequestTime * 1000).format('D/MM/YYYY - h:mm a')}
-                                            </p>
-                                        </div>
-                                        <div className={styles.pendingOrdersDivButton}>
-                                            <button
-                                                className={styles.pendingOrdersButtonDeleted}
-                                                onClick={() => handleDelete(order.id)}
-                                            >
-                                                Cancel
-                                            </button>
-                                        </div>
-                                    </>
-                                )}
-                                {order.type === 'concrete' && (
-                                    <>
-                                        <div className={styles.pendingOrdersDiv}>
-                                            <p className={`${styles.pendingOrdersData} ${styles.pendingOrdersSupplierName}`}>
-                                                <strong>Supplier name:</strong> {order.supplierName}
-                                            </p>
-                                            <p className={`${styles.pendingOrdersData} ${styles.pendingOrdersSupplierName}`}>
-                                                <strong>Supplier phone:</strong> {order.supplierPhone}
-                                            </p>
-                                        </div>
-                                        <div className={styles.pendingOrdersDiv}>
-                                            <p className={`${styles.pendingOrdersData} ${styles.pendingOrdersStatus}`}>
-                                                <strong>Order status:</strong> {order.status}
-                                            </p>
-                                            <p className={`${styles.pendingOrdersData} ${styles.pendingOrdersType}`}>
-                                                <strong>Order type:</strong> {order.type}
-                                            </p>
-                                        </div>
-                                        <hr />
-                                        <div className={styles.pendingOrdersDiv}>
-                                            <p className={styles.pendingOrdersData}>
-                                                <strong>Company name:</strong> {order.companyName}
-                                            </p>
-                                            <p className={styles.pendingOrdersData}>
-                                                <strong>Company phone:</strong> {order.companyPhone}
-                                            </p>
-                                            <p className={styles.pendingOrdersData}>
-                                                <strong>Recipient's name:</strong> {order.recipientName}
-                                            </p>
-                                            <p className={styles.pendingOrdersData}>
-                                                <strong>Recipient's phone:</strong> {order.recipientPhone}
-                                            </p>
-                                            <p className={styles.pendingOrdersData}>
-                                                <strong>Delivery time:</strong> {moment(order.deliveryTime * 1000).format('D/MM/YYYY - h:mm a')}
-                                            </p>
-                                            <p className={styles.pendingOrdersData}>
-                                                <strong>Location:</strong> {order.location}
-                                            </p>
-                                        </div>
-                                        <div className={styles.pendingOrdersDiv}>
-                                            <p className={styles.pendingOrdersData}>
-                                                <strong>Concrete quantity:</strong> {order.concreteQuantity} m³
-                                            </p>
-                                            <p className={styles.pendingOrdersData}>
-                                                <strong>Concrete strength:</strong>{" "}
-                                                {Object.entries(order.concreteStrength).map(([key], index, array) => (
-                                                    <span key={key}>
-                                                        {key}
-                                                        {index < array.length - 1 && " - "}
-                                                    </span>
-                                                ))}
-                                            </p>
-                                            <p className={styles.pendingOrdersData}>
-                                                <strong>Concrete price:</strong> {order.price} JD
-                                            </p>
-                                            <p className={styles.pendingOrdersData}>
-                                                <strong>Order request time:</strong> {moment(order.orderRequestTime * 1000).format('D/MM/YYYY - h:mm a')}
-                                            </p>
-                                            {order.concreteNote && (
-                                                <p className={styles.pendingOrdersData}>
-                                                    <strong>Note:</strong> {order.concreteNote}
-                                                </p>
-                                            )}
-                                        </div>
-                                        <div className={styles.pendingOrdersDivButton}>
-                                            <button
-                                                className={styles.pendingOrdersButtonDeleted}
-                                                onClick={() => handleDelete(order.id)}
-                                            >
-                                                Cancel
-                                            </button>
-                                        </div>
-                                    </>
-                                )}
-                            </div>
-                        ))
+                        <OrderTable filteredOrders={filteredOrders} />
                     ) : (
                         <p className={styles.pendingOrdersP}>No pending orders found</p>
                     )}
@@ -278,14 +100,6 @@ function PendingOrders() {
                 <div className={styles.pendingOrdersLoader}>
                     <div className={styles.loader}></div>
                 </div>
-            )}
-
-            {showModal && (
-                <ConfirmationModal
-                    message={`Are you sure you want to cancel order?`}
-                    onConfirm={() => orderDelete(deleteOrder)}
-                    onCancel={cancelDelete}
-                />
             )}
 
             <Footer 

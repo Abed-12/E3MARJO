@@ -16,31 +16,6 @@
     flex: 1;
 }
 
-.pendingOrdersRow {
-    background-color: #ffffff9a;
-    border-radius: 10px;
-    box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
-    padding: 15px 20px;
-    width: 80%; /* لجعل العنصر متجاوبًا */
-    max-width: 640px; /* حد أقصى للعرض */
-    margin-bottom: 0.5%;
-}
-
-.pendingOrdersDiv {
-    display: grid;
-    grid-template-columns: 1fr; /* افتراضيًا عمود واحد */
-}
-
-.pendingOrdersData {
-    font-size: 17px;
-    margin-bottom: 8px;
-}
-
-.pendingOrdersSupplierName, .pendingOrdersType, .pendingOrdersStatus {
-    font-size: 18pt;
-    margin-top: 0;
-}
-
 .pendingOrdersSupplierName{
     margin-bottom: 15px;
 }
@@ -49,28 +24,6 @@
     text-align: center;
     font-size: 25pt;
     margin-bottom: 1px;
-}
-
-.pendingOrdersDivButton{
-    text-align: center;
-}
-
-.pendingOrdersButtonDeleted{
-    background-color: #C40C0C;
-    width: 50%;
-    border: none;
-    font-size: 20px;
-    color: white;
-    border-radius: 5px;
-    padding: 10px;
-    margin: 10px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-
-}
-
-.pendingOrdersButtonDeleted:hover{
-    background-color: #ff0000fa;
 }
 
 .pendingOrdersLoader{
@@ -124,10 +77,6 @@
 @media (min-width: 768px) {
     .pendingOrdersContainer {
         grid-template-columns: repeat(1, 2fr); 
-    }
-
-    .pendingOrdersDiv {
-        grid-template-columns: repeat(2, 1fr); 
     }
 }
 

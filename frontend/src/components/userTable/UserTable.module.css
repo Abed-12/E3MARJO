@@ -1,0 +1,30 @@
+.role, .product{
+    text-transform: capitalize;
+}
+
+.btnView {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: background 0.3s ease;
+    background-color: #007bff60;
+}
+
+.btnView:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+@media (max-width: 1335px) {
+    .tableContainer {
+        width: 80%;
+    }
+}
+
+@media (max-width: 800px) {
+    .tableContainer {
+        width: 80%;    
+    }
+}

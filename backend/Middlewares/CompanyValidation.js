@@ -11,7 +11,7 @@ const registrationValidation = (req, res, next) => {
                 'string.min': 'Password must be at least 9 characters long.',
                 'string.max': 'Password cannot exceed 18 characters.',
                 'string.pattern.base': 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.',
-                'any.required': 'Password is required.',
+                'any.required': 'Passw().min(9).maxord is required.',
             }),
         confirmPassword: Joi.string().valid(Joi.ref('password')).required().messages(
             {'any.only': 'Passwords do not match'}),

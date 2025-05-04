@@ -1,0 +1,181 @@
+.notfoundContainer {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Cabin", sans-serif;
+}
+
+.notfoundContent {
+    max-width: 460px;
+    width: 100%;
+    text-align: center;
+    line-height: 1.4;
+}
+
+.notfoundDiamond {
+    position: relative;
+    width: 180px;
+    height: 180px;
+    margin: 0 auto 50px;
+}
+
+.diamondShape {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: #ffa200;
+    transform: rotate(45deg);
+    border: 5px dashed #000;
+    border-radius: 5px;
+}
+
+.diamondShape:before {
+    content: "";
+    position: absolute;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    top: -5px;
+    box-shadow: 0px 0px 0px 5px rgba(0, 0, 0, 0.1) inset;
+    border-radius: 5px;
+}
+
+.errorCode {
+    color: #000;
+    font-weight: 700;
+    margin: 0;
+    font-size: 90px;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    text-align: center;
+    height: 40px;
+    line-height: 40px;
+}
+
+.errorTitle {
+    font-size: 33px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 7px;
+    margin-bottom: 20px;
+}
+
+.errorMessage {
+    font-size: 16px;
+    color: #000;
+    font-weight: 400;
+    margin-bottom: 25px;
+}
+
+.homeButton {
+    display: inline-block;
+    padding: 12px 24px;
+    border-radius: 40px;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    background: linear-gradient(#22190a, #ffa600);
+    color: white;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 166, 0, 0.3);
+}
+
+.homeButton:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgb(255, 153, 0);
+}
+
+.homeButton:active {
+    transform: translateY(1px);
+    box-shadow: 0 6px 20px rgb(255, 153, 0);
+}
+
+/* HTML: <div class="loader"></div> */
+.notfoundLoader{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px; 
+}
+
+.loader {
+    width: fit-content;
+    font-size: 40px;
+    font-family: system-ui,sans-serif;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #0000;
+    -webkit-text-stroke: 1px #000;
+    background: 
+        linear-gradient(-60deg,#0000 45%,#000 0 55%,#0000 0) 
+        0/300% 100% no-repeat text;
+    animation: l3 2s linear infinite;
+}
+.loader:before {
+    content: "Loading";
+}
+@keyframes l3 {
+    0%{background-position: 100%}
+}
+
+/* responsive adjustments */
+@media (max-width: 768px) {
+    .notfoundDiamond {
+        width: 140px;
+        height: 140px;
+        margin-bottom: 40px;
+    }
+
+    .errorCode {
+        font-size: 70px;
+    }
+
+    .errorTitle {
+        font-size: 26px;
+        letter-spacing: 4px;
+    }
+
+    .errorMessage {
+        font-size: 14px;
+    }
+
+    .homeButton {
+        font-size: 14px;
+        padding: 10px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .notfoundDiamond {
+        width: 100px;
+        height: 100px;
+        margin-bottom: 30px;
+    }
+
+    .errorCode {
+        font-size: 50px;
+    }
+
+    .errorTitle {
+        font-size: 20px;
+        letter-spacing: 3px;
+    }
+
+    .errorMessage {
+        font-size: 13px;
+    }
+
+    .homeButton {
+        font-size: 13px;
+        padding: 8px 18px;
+    }
+}

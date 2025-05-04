@@ -145,7 +145,7 @@
     font-size: 1rem;
     background-color: #eeba5a;
     color: #fff;
-    width: 70px;
+    width: 76px;
     border: 1px solid #eeba5a;
     border-radius: 80px;
 }
@@ -153,6 +153,10 @@
 .logout:hover{
     background-color: transparent;
     border: none;
+}
+
+.logoutIcon {
+    margin: 0px 4px -3px 0px;
 }
 
 /* Media Queries for small screens */

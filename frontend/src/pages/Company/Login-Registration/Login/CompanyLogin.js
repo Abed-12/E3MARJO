@@ -53,7 +53,7 @@ function CompanyLogin() {
                     localStorage.setItem('role', role);
                     setTimeout(() => {
                         navigate('/company/home') // (function) سيتم تنفيذها بعد انتهاء الوقت
-                    }, 500) // الوقت الذي سيتم الانتظار فيه قبل تنفيذ الدالة، وهو 1000 مللي ثانية، أي 1 ثانية
+                    }, 500) // الوقت الذي سيتم الانتظار فيه قبل تنفيذ الدالة، وهو 500 مللي ثانية، أي 0.5 ثانية
                 }
             } else {
                 handleError(result.message);

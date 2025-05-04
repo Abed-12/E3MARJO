@@ -33,6 +33,7 @@ CompanyRouter.get('/companyData', ensureAuthenticated, async (req, res) => {
                     companyID: 1,
                     companyPhone: 1,
                     commercialRegister: 1,
+                    role: 1,
                     adminID: 1
                 }
         ); 
@@ -51,6 +52,7 @@ CompanyRouter.get('/companyData', ensureAuthenticated, async (req, res) => {
                 companyID:data.companyID,
                 companyPhone:data.companyPhone,
                 commercialRegister:data.commercialRegister,
+                role:data.role,
                 adminName: admin ? admin.adminName : null,
             
             }
@@ -62,6 +64,48 @@ CompanyRouter.get('/companyData', ensureAuthenticated, async (req, res) => {
         res.status(500).json({ error: "Failed to fetch data" });
     }
 }); 
+
+// fetch company data by id
+CompanyRouter.get('/companyData/:id', ensureAuthenticated, async (req, res) => {
+    const companyID = req.params.id;
+
+    try {
+        const data = await CompanyModel.findOne(
+            { _id: companyID, status: "Active" },
+            {
+                _id: 1,
+                companyName: 1,
+                email: 1,
+                companyID: 1,
+                companyPhone: 1,
+                commercialRegister: 1,
+                adminID: 1,
+            }
+        );
+
+        if (!data) {
+            return res.status(404).json({ error: "Company not found" });
+        }
+
+        const admin = await AdminModel.findById(data.adminID, { adminName: 1 });
+
+        const companyWithAdmin = {
+            _id: data._id,
+            companyName: data.companyName,
+            email: data.email,
+            companyID: data.companyID,
+            companyPhone: data.companyPhone,
+            commercialRegister: data.commercialRegister,
+            adminName: admin ? admin.adminName : null,
+        };
+
+        res.json(companyWithAdmin);
+
+    } catch (error) {
+        res.status(500).json({ error: "Failed to fetch company data" });
+    }
+});
+
 
 // delete company from collection 
 CompanyRouter.delete("/delete/:id", ensureAuthenticated, async (req, res) => {
@@ -302,6 +346,74 @@ CompanyRouter.get('/order-data', ensureAuthenticated, async (req, res) => {
         res.status(500).json({message: "Internal server errror: " + error.message, success: false});
     }
 });
+
+// Get order data by ID
+CompanyRouter.get('/order-data/:id', ensureAuthenticated, async (req, res) => {
+    try {
+        const orderID = req.params.id; // نأخذ id من الرابط
+        if (!orderID) {
+            return res.status(400).json({ message: "Order ID is required", success: false });
+        }
+
+        const companyID = jwt.decode(req.headers.authorization)._id; // استخراج companyID من التوكن
+
+        const order = await OrderModel.findOne({ _id: orderID, companyID: companyID });
+        if (!order) {
+            return res.status(404).json({ message: "Order not found", success: false });
+        }
+
+        const supplier = await SupplierModel.findById(order.supplierID);
+        const company = await CompanyModel.findById(companyID);
+
+        let result;
+        if (order.type === 'cement') {
+            result = {
+                id: order._id,
+                type: order.type,
+                recipientName: order.recipientName,
+                recipientPhone: order.recipientPhone,
+                location: order.location,
+                deliveryTime: order.deliveryTime,
+                orderRequestTime: order.orderRequestTime,
+                status: order.status,
+                price: order.price,
+                rejectionReason: order.rejectionReason,
+                cementQuantity: order.cementQuantity,
+                cementNumberBags: order.cementNumberBags,
+                supplierName: supplier?.supplierName,
+                supplierPhone: supplier?.supplierPhone,
+                companyName: company?.companyName,
+                companyPhone: company?.companyPhone
+            };
+        } else if (order.type === 'concrete') {
+            result = {
+                id: order._id,
+                type: order.type,
+                recipientName: order.recipientName,
+                recipientPhone: order.recipientPhone,
+                location: order.location,
+                deliveryTime: order.deliveryTime,
+                orderRequestTime: order.orderRequestTime,
+                status: order.status,
+                price: order.price,
+                rejectionReason: order.rejectionReason,
+                concreteQuantity: order.concreteQuantity,
+                concreteStrength: order.concreteStrength,
+                concreteNote: order.concreteNote,
+                supplierName: supplier?.supplierName,
+                supplierPhone: supplier?.supplierPhone,
+                companyName: company?.companyName,
+                companyPhone: company?.companyPhone
+            };
+        }
+
+        res.json(result);
+
+    } catch (error) {
+        res.status(500).json({ message: "Internal server error: " + error.message, success: false });
+    }
+});
+
 
 // Define a route to handle PATCH requests for updating a profile
 CompanyRouter.patch('/update-profile', updateValidation, ensureAuthenticated, async (req, res) => {

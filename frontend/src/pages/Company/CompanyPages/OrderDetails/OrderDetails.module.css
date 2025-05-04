@@ -1,0 +1,154 @@
+.orderBody{
+    background-color: #d1d1d1;
+    background-image: url("https://www.transparenttextures.com/patterns/45-degree-fabric-dark.png");
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.orderContainer {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 2fr; /* افتراضيًا عمود واحد للشاشات الصغيرة */
+    gap: 20px; /* مسافة بين الصفوف */
+    padding: 25px;
+    justify-items: center; /* يجعل العناصر في المنتصف أفقيًا */
+}
+
+.orderRow {
+    background-color: #ffffff9a;
+    border-radius: 10px;
+    box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
+    padding: 15px 20px;
+    width: 80%; /* لجعل العنصر متجاوبًا */
+    max-width: 640px; /* حد أقصى للعرض */
+    margin-bottom: 0.5%;
+}
+
+.orderDiv {
+    display: grid;
+    grid-template-columns: 1fr; /* افتراضيًا عمود واحد */
+}
+
+.orderData {
+    font-size: 17px;
+    margin-bottom: 8px;
+}
+
+.orderSupplierName, .orderType, .orderStatus {
+    font-size: 18pt;
+    margin-top: 0;
+}
+
+.orderSupplierName {
+    margin-bottom: 15px;
+}
+
+.orderH2 {
+    text-align: center;
+    font-size: 25pt;
+    margin-bottom: 1px;
+    text-transform: capitalize;
+}
+
+.orderDivButton{
+    text-align: center;
+}
+
+.orderButtonDeleted{
+    background-color: #C40C0C;
+    width: 25%;
+    border: none;
+    font-size: 20px;
+    color: white;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.orderButtonDeleted:hover{
+    background-color: #ff0000fa;
+}
+
+.orderButtonDelivered{
+    background-color: #059212;
+    width: 25%;
+    border: none;
+    font-size: 20px;
+    color: white;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.orderButtonDelivered:hover{
+    background-color: #01c514;
+} 
+
+.orderButtonBack {
+    background-color: #707070;
+    width: 25%;
+    border: none;
+    font-size: 20px;
+    color: white;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.orderButtonBack:hover {
+    background-color: #5a5a5a;
+}
+
+.orderLoader{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 45.7vh;
+    padding: 20px; 
+}
+
+.orderP{
+    display: flex;
+    align-items: center; 
+    font-size: 17px;
+    justify-items: center;
+}
+
+/* HTML: <div class="loader"></div> */
+.loader {
+    width: fit-content;
+    font-size: 40px;
+    font-family: system-ui,sans-serif;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #0000;
+    -webkit-text-stroke: 1px #000;
+    background: 
+        linear-gradient(-60deg,#0000 45%,#000 0 55%,#0000 0) 
+        0/300% 100% no-repeat text;
+    animation: l3 2s linear infinite;
+}
+.loader:before {
+    content: "Loading";
+}
+@keyframes l3 {
+    0%{background-position: 100%}
+}
+
+/* استعلام الوسائط للشاشات الأكبر */
+@media (min-width: 768px) {
+    .orderContainer {
+        grid-template-columns: repeat(1, 2fr); /* عمودان للشاشات الأكبر */
+    }
+
+    .orderDiv {
+        grid-template-columns: repeat(2, 1fr); /* تنظيم العناصر بعمودين */
+    }
+}

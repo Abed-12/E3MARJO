@@ -70,6 +70,61 @@ RegistrationRouter.get('/fetchRegistrationData', ensureAuthenticated, async (req
     }
 });
 
+// fetch register data by id 
+RegistrationRouter.get('/fetchRegistrationData/:id', ensureAuthenticated, async (req, res) => {
+    try {
+        const id = req.params.id;
+        const data = await RegisterModel.findById({_id: id}); // جلب البيانات حسب الـ id
+
+        if (!data) {
+            return res.status(404).json({ error: "No data found with this ID" });
+        }
+
+        let adminName = null;
+        if (data.adminID !== "none") {
+            const admin = await AdminModel.findById(data.adminID);
+            if (admin) {
+                adminName = admin.adminName;
+            }
+        }
+
+        let result;
+        if (data.role === "supplier") {
+            result = {
+                _id: data._id,
+                name: data.name,
+                email: data.email,
+                ID: data.ID,
+                phone: data.phone,
+                role: data.role,
+                status: data.status,
+                commercialRegister: data.commercialRegister,
+                supplierProduct: data.supplierProduct,
+                adminName: adminName
+            };
+        } else if (data.role === "company") {
+            result = {
+                _id: data._id,
+                name: data.name,
+                email: data.email,
+                ID: data.ID,
+                phone: data.phone,
+                role: data.role,
+                status: data.status,
+                commercialRegister: data.commercialRegister,
+                adminName: adminName
+            };
+        } else {
+            return res.status(400).json({ error: "Unknown role" });
+        }
+
+        res.json(result);
+
+    } catch (error) {
+        res.status(500).json({ error: "Failed to fetch data" });
+    }
+});
+
 RegistrationRouter.patch("/approve/:id", ensureAuthenticated,  async (req, res) => {
     try 
         {
