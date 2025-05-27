@@ -60,7 +60,6 @@ const UserTable = (props) => {
         {
             field: 'actions',
             headerName: 'Actions',
-            width: 100,
             headerAlign: 'center',
             align: 'center',
             disableColumnMenu: true,
@@ -105,7 +104,6 @@ const UserTable = (props) => {
         {
             field: 'actions',
             headerName: 'Actions',
-            width: 100,
             headerAlign: 'center',
             align: 'center',
             disableColumnMenu: true,
@@ -133,7 +131,6 @@ const UserTable = (props) => {
         {
             field: 'actions',
             headerName: 'Actions',
-            width: 100,
             headerAlign: 'center',
             align: 'center',
             flex: 1,
@@ -149,8 +146,9 @@ const UserTable = (props) => {
 
     return (
         <div className={styles.tableContainer}>
-            <Paper style={{ width: '100%'}}>
+            <Paper style={{ width: '100%', borderRadius: '20px', overflow: 'hidden' }}>
                 <DataGrid
+                    className={styles.dataGrid}
                     rows={
                         props.role === 'supplier' ? prepareRowsSupplier()
                             : props.role === 'company' ? prepareRowsCompany()

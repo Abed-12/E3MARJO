@@ -59,7 +59,6 @@ const OrderTable = (props) => {
         {
             field: 'actions',
             headerName: 'Actions',
-            width: 100,
             headerAlign: 'center',
             align: 'center',
             disableColumnMenu: true,
@@ -74,7 +73,7 @@ const OrderTable = (props) => {
 
     return (
         <div className={styles.tableContainer}>
-            <Paper style={{ maxWidth: '100%'}}>
+            <Paper style={{ maxWidth: '100%', borderRadius: '20px', overflow: 'hidden'}}>
                 <DataGrid
                     className={styles.dataGrid}
                     rows={prepareRows()}
@@ -84,7 +83,7 @@ const OrderTable = (props) => {
                     disableColumnResize
                     disableColumnSelector
                     disableRowSelectionOnClick
-                    disableVirtualization                    
+                    disableVirtualization
                 />
             </Paper>
         </div>
