@@ -1,14 +1,15 @@
 import { useNavigate } from 'react-router-dom';
-import { handleSuccess } from '../../../utils/utils';
+import { handleSuccess } from '../../../../utils/utils';
 import { ToastContainer } from 'react-toastify';
-import styles from './CompanyHome.module.css';
-import Navbar from '../../../components/navbar/Navbar';
-import Footer from '../../../components/footer/Footer';
+import styles from './WoodOrders.module.css';
+import Navbar from '../../../../components/navbar/Navbar';
+import Footer from '../../../../components/footer/Footer';
 import { Card, CardActionArea, CardMedia, CardContent, Typography } from '@mui/material';
 
-function CompanyHome() {
-    const navigate = useNavigate();
+function WoodOrders() {
 
+    const navigate = useNavigate();
+    
     const handleLogout = (e) => {
         localStorage.removeItem('token');
         localStorage.removeItem('role');
@@ -19,30 +20,23 @@ function CompanyHome() {
     }
 
     // for card
-    const handleConcrete = async (e) => {
+    const handleExpressOrders = (e) => {
         e.preventDefault();
         setTimeout(() => { 
-            navigate('/company/home/concrete-orders') // (function) سيتم تنفيذها بعد انتهاء الوقت
-        }, 500)
-    }
-    
-    // for card
-    const handleCement = (e) => {
-        e.preventDefault();
-        setTimeout(() => { 
-            navigate('/company/home/cement-orders') // (function) سيتم تنفيذها بعد انتهاء الوقت
+            navigate('/company/home/wood-orders/sell-orders') 
         }, 500)
     }
 
-    const handleWood = (e) => {
+    // for card
+    const handleCustomOrders = (e) => {
         e.preventDefault();
         setTimeout(() => { 
-            navigate('/company/home/wood-orders') // (function) سيتم تنفيذها بعد انتهاء الوقت
-        }, 500)
+            navigate('/company/home/wood-orders/rent-orders') 
+        }, 500) 
     }
 
     return(
-        <section className={styles.companyBody}>
+        <section className={styles.woodOrdersBody}>
             <Navbar 
                 one="Home"
                 pathOne="/company/home"
@@ -61,8 +55,9 @@ function CompanyHome() {
                 pathFive="/company/home/profile"
                 logout={handleLogout}
             />
-            
-            <div className={styles.companyHomeContainerCard}>
+
+            <div className={styles.woodOrdersContainerCard}>
+                
                 {/* First Card */}
                 <Card
                     sx={{
@@ -74,20 +69,20 @@ function CompanyHome() {
                         }
                     }}
                 >
-                    <CardActionArea onClick={handleCement}>
+                    <CardActionArea onClick={handleExpressOrders}>
                         <CardMedia
-                            className={styles.cementCardMedia}
+                            className={styles.woodOrdersCardMedia}
                             component="img"
                             height="170"
-                            image="/images/cement.jpg"
-                            alt="Cement Card"
+                            image="/images/expressOrders.png"
+                            alt="Express Orders"
                         />
                         <CardContent className={styles.cardContent}>
                             <Typography gutterBottom variant="h5" component="div">
-                                Cement
+                                Express Orders
                             </Typography>
                             <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                                Click to start ordering cement for your construction.
+                                Click to start express ordering Concrete for your construction
                             </Typography>
                         </CardContent>
                     </CardActionArea>
@@ -104,56 +99,26 @@ function CompanyHome() {
                         }
                     }}
                 >
-                    <CardActionArea onClick={handleConcrete}>
+                    <CardActionArea onClick={handleCustomOrders}>
                         <CardMedia
-                            className={styles.concreteCardMedia}
+                            className={styles.customOrdersCardMedia} 
                             component="img"
                             height="170"
-                            image="/images/concrete.jpg"
-                            alt="Concrete Card"
+                            image="/images/customOrders.png"
+                            alt="Custom Orders" 
                         />
                         <CardContent className={styles.cardContent}>
                             <Typography gutterBottom variant="h5" component="div">
-                                Concrete
+                                Custom Orders
                             </Typography>
                             <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                                Click to start ordering concrete for your construction.
-                            </Typography>
-                        </CardContent>
-                    </CardActionArea>
-                </Card>
-
-                {/* Third Card */}
-                <Card
-                    sx={{
-                        width: {
-                            xs: 250,  // for extra small screens
-                            sm: 250,  // for small screens
-                            md: 250,  // for medium screens
-                            lg: 345   // for large screens
-                        }
-                    }}
-                >
-                    <CardActionArea onClick={handleWood}>
-                        <CardMedia
-                            className={styles.concreteCardMedia}
-                            component="img"
-                            height="170"
-                            image="/images/wood.png"
-                            alt="Concrete Card"
-                        />
-                        <CardContent className={styles.cardContent}>
-                            <Typography gutterBottom variant="h5" component="div">
-                                Wood
-                            </Typography>
-                            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                                Click to start ordering wood for your  <br></br>construction.
+                                Click to start custom ordering Concrete for your construction
                             </Typography>
                         </CardContent>
                     </CardActionArea>
                 </Card>
             </div>
-
+            
             <Footer 
                 one="Home"
                 pathOne="/company/home"
@@ -176,4 +141,5 @@ function CompanyHome() {
         </section>
     );
 }
-export default CompanyHome;
+
+export default WoodOrders;

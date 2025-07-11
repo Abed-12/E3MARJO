@@ -1,0 +1,30 @@
+.woodOrdersBody{
+    background-color: #d1d1d1;
+    background-image: url("https://www.transparenttextures.com/patterns/45-degree-fabric-dark.png");
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Card */
+.woodOrdersContainerCard {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 62.2vh;
+    flex-direction: row;
+    gap: 10px;
+    flex-wrap: wrap; /* يجعل العناصر تتكيف مع أحجام الشاشات الأصغر */
+}
+
+.cardContent {
+    background-color: #7f7d7f;
+    text-align: center;
+}
+
+@media (max-width: 480px) {
+    .cardContent {
+        font-size: 14px; /* تصغير النص للشاشات الصغيرة */
+    }
+}

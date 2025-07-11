@@ -59,6 +59,8 @@ import CustomBill from './pages/Company/CompanyPages/Concrete/CustomOrders/Custo
 import ExpressOrders from './pages/Company/CompanyPages/Concrete/ExpressOrders/ExpressOrders';
 import ExpressBill from './pages/Company/CompanyPages/Concrete/ExpressOrders/ExpressBill/ExpressBill';
 
+//company-wood
+import WoodOrders from './pages/Company/CompanyPages/Wood/WoodOrders';
 // Admin
 import AdminLogin from "./pages/Admin/Login/AdminLogin";
 import RequestRegister from './pages/Admin/AdminPages/RequestRegister/request';
@@ -330,6 +332,13 @@ function App() {
                                         allowedRoles={['company']}
                                         element={<CustomBill />}
                                       />}/>
+        {/* Company-Wood */}
+        <Route path="/company/home/wood-orders" element={<PrivateRoute
+                                                isAuthenticated={isAuthenticated}
+                                                role={role}
+                                                allowedRoles={['company']}
+                                                element={<WoodOrders />}
+                                              />}/>
         
         {/* Admin */}
         <Route path="/admin" element={<AdminLogin />} /> 
